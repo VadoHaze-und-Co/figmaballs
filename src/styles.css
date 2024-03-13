@@ -48,13 +48,13 @@
 
 .input-field {
   border-radius: 6px;
-  border: 3px #707070 solid;
-  background-color: #707070;
+  border: 3px #404040 solid;
+  background-color: #404040;
   height: 20px;
   margin-left: 10px;
   margin-right: 10px;
   width: 100%;
-  box-shadow: black;
+  box-shadow: 2px 2px 5px #181818;
   font-size: 17px;
 }
 
@@ -68,14 +68,14 @@
 
 .big-input-field {
   border-radius: 6px;
-  border: 3px #707070 solid;
-  background-color: #707070;
+  border: 3px #404040 solid;
+  background-color: #404040;
   height: 160px;
   resize: none;
   margin-left: 10px;
   margin-right: 10px;
   width: 100%;
-  box-shadow: black;
+  box-shadow: 2px 2px 5px #181818;
   font-size: 17px;
 }
 
@@ -85,4 +85,22 @@
   margin: 20px 0 19px 0;
   background-color: #707070;
   width: 100%;
+}
+
+.button {
+  padding: 10px;
+  border-radius: 6px;
+  background-color: #404040;
+  transition: 0.5s;
+  box-shadow: 2px 2px 5px #181818;
+}
+
+.button:hover {
+  background-color: #707070;
+  transition: 0.5s;
+}
+
+.button:active {
+  background-color: #909090;
+  transition: 0.1s;
 }

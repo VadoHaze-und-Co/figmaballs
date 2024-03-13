@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import {DataService} from "../services/data-service";
-import {NgForOf} from "@angular/common";
+import {NgForOf, NgIf} from "@angular/common";
 import {FormsModule} from "@angular/forms";
 
 @Component({
@@ -8,7 +8,8 @@ import {FormsModule} from "@angular/forms";
   standalone: true,
   imports: [
     NgForOf,
-    FormsModule
+    FormsModule,
+    NgIf
   ],
   templateUrl: './add-ticket.component.html',
   styleUrl: './add-ticket.component.css'
@@ -34,15 +35,23 @@ export class AddTicketComponent {
     return result;
   }
 
-  public async fillFiles(event: any) {
-    this.files = event.target.files;
-    // event.target;
-    for (let file in this.files) {
-      console.log(file);
+  public fillFiles(event: any) {
+    for (let file of event.target.files) {
+      if (this.files.find(f => f.name == file.name) === undefined) {
+
+      }
     }
+    this.files = event.target.files;
   }
 
-  public deleteFile(file: File) {
-    // this.files = this.
+  public deleteFile(deleteFile: File) {
+    let files: File[] = [];
+    for (let file of this.files) {
+      if (file == deleteFile) {
+        continue;
+      }
+      files.push(file);
+    }
+    this.files = files;
   }
 }
