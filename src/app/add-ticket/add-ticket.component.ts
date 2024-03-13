@@ -37,7 +37,7 @@ export class AddTicketComponent {
   public async fillFiles(event: any) {
     this.files = event.target.files;
     // event.target;
-    for (let file in this.files) {
+    for (let file of this.files) {
       console.log(file);
     }
   }
