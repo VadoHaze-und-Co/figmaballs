@@ -1,0 +1,43 @@
+h2 {
+  color: #b0b0b0;
+  text-align: center;
+  margin-top: 20px;
+}
+
+.container {
+  align-items: center;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 50px;
+  padding-right: 50px;
+  max-width: 1500px;
+}
+
+table {
+  align-items: center;
+  margin-left: auto;
+  margin-right: auto;
+  border-collapse: separate;
+  border-spacing: 20px;
+}
+
+td {
+  width: auto;
+  padding-left:10px;
+  padding-right:10px;
+  background-color: #606060;
+  color: #b0b0b0;
+}
+
+.bigCell {
+  width: 450px;
+}
+
+.infoTextSpan {
+  font-size: 16px;
+}
+
+.infoText {
+  font-size: 32px;
+  text-align: center;
+}

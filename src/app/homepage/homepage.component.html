@@ -1,0 +1,63 @@
+<h2>Herzlich Willkommen!</h2>
+<div class="container">
+  <table>
+    <tr>
+      <td>
+        <span class="infoTextSpan" for="overdueTickets">Überfällige Tickets</span>
+        <div>
+          <p class="infoText" id="overdueTickets">20</p>
+        </div>
+      </td>
+      <td>
+        <span class="infoTextSpan" for="ticketsForToday">Tickets für Heute</span>
+        <div>
+          <p class="infoText" id="ticketsForToday">10</p>
+        </div>
+      </td>
+      <td>
+        <span class="infoTextSpan" for="openedTickets">Öffene Tickets</span>
+        <div>
+          <p class="infoText" id="openedTickets">12</p>
+        </div>
+      </td>
+      <td>
+        <span class="infoTextSpan" for="waitingScale">Warteschlange</span>
+        <div>
+          <p class="infoText" id="waitingScale">103</p>
+        </div>
+      </td>
+      <td>
+        <span class="infoTextSpan" for="noAssigned">Nicht zugewiesen</span>
+        <div>
+          <p class="infoText" id="noAssigned">24</p>
+
+        </div>
+      </td>
+      <td>
+        <span class="infoTextSpan" for="markedTickets">Markierte Tickets</span>
+        <div>
+          <p class="infoText" id="markedTickets">4</p>
+        </div>
+      </td>
+    </tr>
+  </table>
+  <table>
+    <tr>
+      <td class="bigCell">
+        <p class="infoText">Alle Tickets</p>
+        <div>
+          <canvas baseChart
+                  [labels]="doughnutChartLabels"
+                  [datasets]="doughnutChartDatasets"
+                  [options]="doughnutChartOptions"
+                  [legend]="true"
+                  [type]="'doughnut'" style="margin-bottom: 10px">
+          </canvas>
+        </div>
+      </td>
+      <td class="bigCell">
+        <p class="infoText">Alle Benutzern</p>
+      </td>
+    </tr>
+  </table>
+</div>
