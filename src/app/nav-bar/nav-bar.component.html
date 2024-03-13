@@ -6,7 +6,7 @@
 <ng-template #computer>
   <div class="nav-background-computer" [style.height]="dataService.height() * 0.05 - 1 + 'px'">
     <div style="float:left;">
-      <span class="material-icons mat-icon" [style.font-size]="dataService.height() * 0.05 + 'px'">home</span>
+      <span class="material-icons mat-icon" [style.font-size]="dataService.height() * 0.05 + 'px'" (click)="dataService.redirect('')">home</span>
     </div>
     <div style="float:right;">
       <span class="material-icons mat-icon" [style.font-size]="dataService.height() * 0.05 + 'px'">add</span>

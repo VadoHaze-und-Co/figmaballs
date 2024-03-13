@@ -39,8 +39,8 @@
       </td>
       <td style="text-align: left; vertical-align: top; display: inline-block;">
         <div *ngFor="let category of dataService.categories" style="float:left; width: 320px; transform: translate(6px, 0)">
-          <input [(ngModel)]="categories[category]" type="checkbox" class="check" id="{{category}}">
-          <label class="font-shadow check-label" for="{{category}}">{{category}}</label>
+          <input [(ngModel)]="categories[category]" type="checkbox" id="{{category}}">
+          <label class="font-shadow" for="{{category}}">{{category}}</label>
         </div>
       </td>
     </tr>
@@ -56,7 +56,7 @@
         <div style="transform: translate(10px, 0)">
           <div style="height: 10px"></div>
           <div>
-            <label for="files" class="button button-shadow">Datein auswählen</label>
+            <label for="files" class="button">Datein auswählen</label>
             <input id="files" style="visibility:hidden;" type="file" multiple (change)="fillFiles($event)">
           </div>
           <div style="height: 5px"></div>
@@ -79,12 +79,13 @@
       <td><div class="separator"></div></td>
     <tr>
       <td class="font-shadow" style="text-align: right; vertical-align: top; font-style: italic; padding-right: 10px;">
-        Anhang
       </td>
       <td style="text-align: left; vertical-align: top; display: inline-block;">
-
+        <div class="button-special" (click)="create()">
+          Ticket erstellen
+        </div>
       </td>
     </tr>
   </table>
-  <button (click)="getSelectedCategories()"></button>
+  <div style="height: 50px"></div>
 </div>

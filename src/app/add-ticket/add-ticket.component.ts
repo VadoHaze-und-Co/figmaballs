@@ -2,6 +2,9 @@ import { Component } from '@angular/core';
 import {DataService} from "../services/data-service";
 import {NgForOf, NgIf} from "@angular/common";
 import {FormsModule} from "@angular/forms";
+import {RestService} from "../services/rest-service";
+import {Ticket} from "../rest-objects/ticket";
+import {tick} from "@angular/core/testing";
 
 @Component({
   selector: 'app-add-ticket',
@@ -52,5 +55,16 @@ export class AddTicketComponent {
       files.push(file);
     }
     this.files = files;
+  }
+
+  public create() {
+    let ticket = new Ticket();
+    ticket.title = this.title;
+    ticket.description = this.description;
+    ticket.categories = [];
+    ticket.creationDate = new Date();
+    ticket.finishDate = new Date();
+    // this.dataService.restService.createTicket(ticket);
+    this.dataService.restService.loadEmployees();
   }
 }

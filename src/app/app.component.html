@@ -1,4 +1,13 @@
-<app-nav-bar style="width: 100%" />
-<div class="font" [style.height]="dataService.height() + 'px'" style="background-color: #000000dd; overflow: scroll scroll">
-  <app-add-ticket></app-add-ticket>
+<div [draggable]="false" (mousemove)="dataService.sideBarService.moveMouse($event)" (dragend)="dataService.sideBarService.up()" (mouseup)="dataService.sideBarService.up()">
+  <app-nav-bar style="width: 100%" />
+  <app-side-bar style="float:left;" [style.width]="this.dataService.sideBarService.sideBarWidth + 'px'"></app-side-bar>
+  <div class="font" [style.height]="dataService.height() + 'px'" [style.width]="dataService.width() + 'px'" style="float:left; background-color: #000000dd; overflow: scroll scroll">
+    <router-outlet style="user-select: none"></router-outlet>
+  </div>
+
+  <div style="width: .4%; float:right; height: 95%" [style.left]="this.dataService.sideBarService.sideBarWidth + 'px'" class="side-bar-resizer"
+        (dragstart)="dataService.sideBarService.down()" (drag)="dataService.sideBarService.moveMouse($event)" (mousedown)="dataService.sideBarService.down()"
+        (dblclick)="dataService.sideBarService.dblclick()">
+    <div class="side-bar-line"></div>
+  </div>
 </div>
