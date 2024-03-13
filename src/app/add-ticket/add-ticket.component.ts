@@ -37,11 +37,10 @@ export class AddTicketComponent {
 
   public fillFiles(event: any) {
     for (let file of event.target.files) {
-      if (this.files.find(f => f.name == file.name) === undefined) {
-
-      }
+      this.files = this.files.filter(f => f.name != file.name);
+      this.files.push(file);
     }
-    this.files = event.target.files;
+    this.files = this.files.sort((a, b) => a.name.localeCompare(b.name));
   }
 
   public deleteFile(deleteFile: File) {
