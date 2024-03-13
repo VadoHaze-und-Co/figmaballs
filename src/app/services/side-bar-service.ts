@@ -26,9 +26,14 @@ export class SideBarService {
     if (x == 0) {
       return;
     }
-    if (x < 150) {
+    let min = 200;
+    if ((x > min && x < min + 5) || (x < min && x > min - 5)) {
+      x = min;
+    }
+    if (x < min) {
       this.fix = true;
       x = 2;
+      this._sideBarWidth_ = min;
     }
     let width = window.innerWidth - 555;
     if (x > width) {
@@ -43,8 +48,8 @@ export class SideBarService {
     }
     event.cursor = 'col-resize';
     this.fix = false;
-    this.sideBarWidth = event.x;
     this._sideBarWidth_ = this._sideBarWidth;
+    this.sideBarWidth = event.x;
   }
 
   public dblclick() {

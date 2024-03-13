@@ -1,5 +1,5 @@
 <div class="font font-shadow" style="width: 100%; user-select: none;" [style.height]="dataService.height() * .95 + 'px'">
-  <div [style.width]="dataService.sideBarService.sideBarWidth + 'px'" style="background-color: #000000dd; height: 100%; float:left;">
+  <div [style.width]="dataService.sideBarService.sideBarWidth + 'px'" style="height: 100%; float:left;">
     <div style="height: 96%; top: 2%; left: .7em; width: 96%; position:relative;" *ngIf="!dataService.sideBarService.fix">
       <div *ngFor="let group of keys(groups)">
         <label>{{group}}</label>

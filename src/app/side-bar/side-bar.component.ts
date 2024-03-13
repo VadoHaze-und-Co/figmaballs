@@ -15,7 +15,8 @@ import {NgForOf, NgIf} from "@angular/common";
 export class SideBarComponent {
 
   public groups: {[key: string]: {[name: string]: {path: string}}} = {
-    'Ticket': {'Ticket erstellen': {path: 'ticket-create'}}
+    'Ticket':
+      {'Ticket erstellen': {path: 'ticket-create'}}
   };
 
   constructor(public dataService: DataService) {
