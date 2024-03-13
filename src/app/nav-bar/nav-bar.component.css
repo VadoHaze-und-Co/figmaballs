@@ -1,0 +1,10 @@
+.nav-background-computer {
+  width: 100%;
+  overflow: auto hidden;
+  background-color: #111177;
+  user-select: none;
+}
+
+.mat-icon {
+  cursor: pointer;
+}

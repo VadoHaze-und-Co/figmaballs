@@ -1,0 +1,69 @@
+<div>
+  <div style="height: 20px"></div>
+  <div class="head-line">
+    Ticket erstellen
+  </div>
+  <div style="height: 10px"></div>
+  <table [style.width]="dataService.width() - 120 + 'px'" style="margin-left: 50px; user-select: none;">
+    <tr>
+      <th style="text-align: right; width: 180px" >
+      </th>
+      <th style="text-align: left;" >
+      </th>
+    </tr>
+    <tr>
+      <td style="text-align: right; vertical-align: top; font-style: italic; padding-right: 10px;">
+        <div style="margin-top: 4px">Titel</div>
+      </td>
+      <td style="text-align: left; vertical-align: top">
+        <input [(ngModel)]="title" placeholder="Titel" class="input-field font">
+      </td>
+    </tr>
+    <tr style="height: 20px">
+    </tr>
+    <tr>
+      <td style="text-align: right; vertical-align: top; font-style: italic; padding-right: 10px;">
+        <div style="margin-top: 4px">Beschreibung</div>
+      </td>
+      <td style="text-align: left; vertical-align: top">
+        <textarea [(ngModel)]="description" placeholder="Beschreibung" class="big-input-field font"></textarea>
+      </td>
+    </tr>
+
+    <tr style="height: 20px">
+      <td></td>
+      <td><div class="separator"></div></td>
+    <tr>
+      <td style="text-align: right; vertical-align: top; font-style: italic; padding-right: 10px;">
+        Kategorien
+      </td>
+      <td style="text-align: left; vertical-align: top; display: inline-block;">
+        <div *ngFor="let category of dataService.categories" style="float:left; width: 320px; transform: translate(6px, 0)">
+          <input [(ngModel)]="categories[category]" type="checkbox" id="{{category}}">
+          <label for="{{category}}">{{category}}</label>
+        </div>
+      </td>
+    </tr>
+    <tr style="height: 20px">
+      <td></td>
+      <td><div class="separator"></div></td>
+    <tr>
+      <td style="text-align: right; vertical-align: top; font-style: italic; padding-right: 10px;">
+        Anhang
+      </td>
+      <td style="text-align: left; vertical-align: top; display: inline-block;">
+        <div style="transform: translate(10px, 0)">
+          <input type="file" multiple (change)="fillFiles($event)">
+          <div style="height: 5px"></div>
+          <div style="margin-top: 5px">
+            <div *ngFor="let file of files" style="float:left; width: 420px">
+              <span (click)="deleteFile(file)" class="material-icons mat-icon" style="font-size: 20px; transform: translate(0, 3px)">delete</span>
+              <label class="font">{{file.name}}</label>
+            </div>
+          </div>
+        </div>
+      </td>
+    </tr>
+  </table>
+  <button (click)="getSelectedCategories()"></button>
+</div>
