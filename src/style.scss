@@ -36,6 +36,18 @@
   background-color: #222222;
 }
 
+.background-color-hover {
+  background-color: #444444;
+}
+
+.background-color-active {
+  background-color: #666666;
+}
+
+.dark-ghost-font-color {
+  color: #555;
+}
+
 .ghost-font-color {
   color: #909090;
 }
@@ -121,10 +133,16 @@
   width: 100%;
 }
 
+.clickable {
+  pointer-events: all;
+}
+
 .button {
+  @extend .clickable;
   @extend .foreground-color;
+  user-select: none;
   cursor: pointer;
-  padding: 10px;
+  padding: .7em;
   border-radius: 6px;
   transition: 0.5s;
   box-shadow: 2px 2px 5px #00000044;
@@ -132,6 +150,7 @@
 
 .button:hover {
   @extend .foreground-color-hover;
+  box-shadow: 2px 2px 5px #00000044;
   transition: 0.5s;
 }
 
@@ -140,7 +159,30 @@
   transition: 0.2s;
 }
 
+.transparent-button {
+  @extend .clickable;
+  @extend .background-color;
+  @extend .dark-ghost-font-color;
+  user-select: none;
+  cursor: pointer;
+  padding: .2%;
+  border-radius: 6px;
+  transition: 0.5s;
+}
+
+.transparent-button:hover {
+  @extend .font-color;
+  @extend .background-color-hover;
+  transition: 0.5s;
+}
+
+.transparent-button:active {
+  @extend .background-color-active;
+  transition: 0.2s;
+}
+
 .button-special {
+  @extend .clickable;
   cursor: pointer;
   padding: 10px;
   border-radius: 6px;
@@ -179,10 +221,12 @@
 }
 
 [type="checkbox"] + label {
+  @extend .clickable;
   position: absolute;
 }
 
 [type="checkbox"] + label::before {
+  @extend .clickable;
   transition: .13s;
   width: .94em;
   height: .94em;
@@ -209,7 +253,7 @@
 
 [type="checkbox"]:checked:active+label::before {
   box-shadow: inset 0 0 0 .2em #c7c7c7;
-  background-color: #dc6b6b;
+  background-color: #b23333;
 }
 
 [type="checkbox"]:checked+label::before {
@@ -237,4 +281,9 @@
 .side-bar-resizer:hover .side-bar-line {
   width: 4px;
   @extend .foreground-color-hover;
+}
+
+.side-bar-button {
+  top: 50%;
+  position:absolute;
 }
