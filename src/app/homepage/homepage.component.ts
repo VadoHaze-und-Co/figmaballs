@@ -12,6 +12,7 @@ import { ChartConfiguration } from 'chart.js';
   styleUrl: './homepage.component.css'
 })
 export class HomepageComponent {
+  data : string[] = ["103","20","10","12","24"];
 // Doughnut
   public doughnutChartLabels: string[] = [ 'Warteschlange', "Überfällige Tickets", "Tickets für Heute", "offene Tickets", "Nicht zugewiesen" ];
   public doughnutChartDatasets: ChartConfiguration<'doughnut'>['data']['datasets'] = [
@@ -26,6 +27,7 @@ export class HomepageComponent {
         callbacks: {
           label: function(tooltipItem) {
             let label = this.dataPoints[tooltipItem.datasetIndex];
+            return label.dataset.data.toString();
           }
         }
       },
@@ -42,6 +44,5 @@ export class HomepageComponent {
   };
 
   constructor() {
-
   }
 }
