@@ -93,6 +93,7 @@
 }
 
 .input-field {
+  @extend .clickable;
   @extend .foreground-color;
   border-radius: 6px;
   border: 3px #404040 solid;
@@ -113,6 +114,7 @@
 }
 
 .big-input-field {
+  @extend .clickable;
   @extend .foreground-color;
   border-radius: 6px;
   border: 3px #404040 solid;

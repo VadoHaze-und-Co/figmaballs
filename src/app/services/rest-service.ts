@@ -16,7 +16,7 @@ export class RestService {
   private async httpRequest(url: string, method: string, func: (data: any) => void, body?: any) {
     let headers = new HttpHeaders()
       .set('Content-Type', 'application/json')
-      // .set('Accept', 'application/json')
+      .set('Accept', 'application/json')
       // .set('Access-Control-Allow-Origin', '*')
     let option = {body: body, headers: headers};
     this.http.request(method, url, option)
@@ -28,7 +28,7 @@ export class RestService {
   // LOAD
 
   public loadEmployees() {
-    this.httpRequest('http://localhost:8089/v3/api/figmaballs/ticket/getAll', 'GET', data => {
+    this.httpRequest('http://localhost:8089/tickets/', 'GET', data => {
       console.log(data)
     });
   }
