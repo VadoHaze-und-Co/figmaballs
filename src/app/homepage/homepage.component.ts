@@ -26,8 +26,13 @@ export class HomepageComponent {
         enabled: true,
         callbacks: {
           label: function(tooltipItem) {
-            let label = this.dataPoints[tooltipItem.datasetIndex];
-            return label.dataset.data.toString();
+            var dataPoint = this.dataPoints[tooltipItem.datasetIndex];
+            var total = dataPoint.dataset.data.reduce(function(previousValue, currentValue, currentIndex, array) {
+              return previousValue + currentValue;
+            });
+            var currentValue = dataPoint.dataset.data[tooltipItem.dataIndex]; // Use tooltipItem.index here
+            var percentage = Math.floor(((currentValue/total) * 100)+0.5);
+            return currentValue + " (" + percentage + "%)";
           }
         }
       },
