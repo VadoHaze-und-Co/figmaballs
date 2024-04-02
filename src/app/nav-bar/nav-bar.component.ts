@@ -20,4 +20,8 @@ export class NavBarComponent {
   public isMobile() {
     return this.deviceService.isMobile();
   }
+
+  public h() {
+    this.dataService.h();
+  }
 }

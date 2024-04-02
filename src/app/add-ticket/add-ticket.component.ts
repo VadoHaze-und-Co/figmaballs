@@ -25,14 +25,16 @@ export class AddTicketComponent {
   public files: File[] = [];
 
   constructor(public dataService: DataService) {
-    dataService.categories.forEach(category => this.categories[category] = false);
+    dataService.restService.loadCategories();
   }
 
   public getSelectedCategories() {
-    let result: string[] = [];
+    let ids: {[key: string]: number} = {};
+    this.dataService.categories.forEach(category => ids[category.name!] = category.id!);
+    let result: number[] = [];
     for (let name in this.categories) {
       if (this.categories[name]) {
-        result.push(name);
+        result.push(ids[name]);
       }
     }
     return result;
@@ -61,10 +63,10 @@ export class AddTicketComponent {
     let ticket = new Ticket();
     ticket.title = this.title;
     ticket.description = this.description;
-    ticket.categories = [];
-    ticket.creationDate = new Date();
-    ticket.finishDate = new Date();
-    // this.dataService.restService.createTicket(ticket);
-    this.dataService.restService.loadEmployees();
+    ticket.categories = this.getSelectedCategories();
+    // ticket.creationDate = new Date();
+    // ticket.finishDate = new Date();
+
+    this.dataService.restService.createTicket(ticket);
   }
 }

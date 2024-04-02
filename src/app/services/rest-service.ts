@@ -3,6 +3,8 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Ticket} from "../rest-objects/ticket";
 import {DataService} from "./data-service";
 import {Injectable} from "@angular/core";
+import {Category} from "../rest-objects/category";
+import {tick} from "@angular/core/testing";
 
 export class RestService {
 
@@ -16,34 +18,33 @@ export class RestService {
   private async httpRequest(url: string, method: string, func: (data: any) => void, body?: any) {
     let headers = new HttpHeaders()
       .set('Content-Type', 'application/json')
-      .set('Accept', 'application/json')
-      // .set('Access-Control-Allow-Origin', '*')
-    let option = {body: body, headers: headers};
+    let option = {body: JSON.stringify(body), headers: headers};
+    console.log(method + " " + url + ": " + JSON.stringify(body));
     this.http.request(method, url, option)
       .pipe(catchError(error => {
         return EMPTY;
-      })).subscribe(data => func(data));
+      })).subscribe(data => {
+      console.log("result: " + JSON.stringify(data));
+        func(data);
+    });
   }
 
   // LOAD
 
-  public loadEmployees() {
-    this.httpRequest('http://localhost:8089/tickets/', 'GET', data => {
-      console.log(data)
+  public loadCategories() {
+    this.httpRequest('http://localhost:8089/categories/', 'GET', data => {
+      (<Category[]>data).forEach(e => this.dataService.categories.push(new Category(e.id, e.name)));
     });
   }
 
   public createTicket(ticket: Ticket) {
-    let headers = new HttpHeaders()
-      .set('Content-Type', 'application/json')
-      .set('Accept', 'application/json')
-      .set('Access-Control-Allow-Origin', 'http://localhost:4200')
-      .set("Access-Control-Allow-Methods", "OPTIONS, POST, GET")
-      .set('Access-Control-Allow-Headers', 'Content-Type')
-      .set('Access-Control-Allow-Credentials', 'true')
-    console.log(ticket)
-    this.httpRequest('http://localhost:8089/v3/api/figmaballs/tickets/create', 'POST', data => {
-      console.log(data)
-    }, {body: ticket, headers: headers});
+    this.httpRequest('http://localhost:8089/tickets', 'POST', data => {
+    }, ticket);
+  }
+
+  public createCategory(category: Category) {
+    this.dataService.categories.push(category);
+    this.httpRequest('http://localhost:8089/categories', 'POST', data => {
+    }, {name: category.name!});
   }
 }

@@ -38,7 +38,7 @@
         <div class="font-shadow">Kategorien</div>
       </td>
       <td style="text-align: left; vertical-align: top; display: inline-block;">
-        <div *ngFor="let category of dataService.categories" style="float:left; width: 320px; transform: translate(6px, 0)">
+        <div *ngFor="let category of dataService.getCategories()" style="float:left; width: 320px; transform: translate(6px, 0)">
           <input [(ngModel)]="categories[category]" type="checkbox" id="{{category}}">
           <label class="font-shadow" for="{{category}}">{{category}}</label>
         </div>
