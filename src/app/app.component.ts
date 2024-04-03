@@ -1,15 +1,16 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import {NavBarComponent} from "./nav-bar/nav-bar.component";
 import {DataService} from "./services/data-service";
 import {AddTicketComponent} from "./add-ticket/add-ticket.component";
 import {SideBarComponent} from "./side-bar/side-bar.component";
 import {NgIf} from "@angular/common";
+import {HomepageComponent} from "./homepage/homepage.component";
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, NavBarComponent, AddTicketComponent, DataService, SideBarComponent, NgIf],
+  imports: [RouterOutlet, NavBarComponent, HomepageComponent, AddTicketComponent, DataService, SideBarComponent, NgIf],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
@@ -29,3 +30,5 @@ export class AppComponent {
     return '.2s';
   }
 }
+
+
