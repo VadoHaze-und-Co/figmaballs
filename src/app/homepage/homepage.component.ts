@@ -3,6 +3,7 @@ import {BaseChartDirective} from "ng2-charts";
 import {ChartConfiguration} from 'chart.js';
 import { Ticket } from "../rest-objects/ticket";
 import {NgForOf} from "@angular/common";
+import {DataService} from "../services/data-service";
 
 @Component({
   selector: 'app-homepage',
@@ -16,7 +17,11 @@ import {NgForOf} from "@angular/common";
 })
 export class HomepageComponent {
 // Doughnut}
-  public tickets: Ticket[] = this.getAllTickets();
+  public tickets: Ticket[];
+  protected totalTickets: number = 0;
+  protected openedTickets: number = 0;
+  protected todayTickets: number = 0;
+  protected nonAppendTickets: number = 0;
   public doughnutChartLabels: string[] = [ "Offene Tickets", "Überfällige Tickets", "Nicht zugewiesen", "Tickets für Heute", "Markierte Tickets" ];
   public doughnutChartDatasets: ChartConfiguration<'doughnut'>['data']['datasets'] = [
     { data: this.getDataFromBackend(), label: 'Tickets' }
@@ -51,7 +56,13 @@ export class HomepageComponent {
     }
   };
 
-  constructor() {
+  constructor(public dataService: DataService) {
+    dataService.restService.loadTickets();
+    this.tickets = this.dataService.tickets;
+    this.totalTickets = this.tickets.length;
+    this.openedTickets = this.totalTickets - this.tickets.sort(a => a.status = 0).length;
+    //this.nonAppendTickets = this.totalTickets - this.tickets.sort(a => a.app).length;
+    //this.todayTickets = this.totalTickets - this.tickets.sort(a => a.crea).length;
   }
 
   public percentageToString(percentage:number):string {

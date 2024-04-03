@@ -5,38 +5,38 @@
       <td>
         <span class="infoTextSpan" for="overdueTickets">Überfällige Tickets</span>
         <div>
-          <p class="infoText" id="overdueTickets">20</p>
+          <p class="infoText" id="overdueTickets">0</p>
         </div>
       </td>
       <td>
         <span class="infoTextSpan" for="ticketsForToday">Tickets für Heute</span>
         <div>
-          <p class="infoText" id="ticketsForToday">10</p>
+          <p class="infoText" id="ticketsForToday">{{ todayTickets }}</p>
         </div>
       </td>
       <td>
         <span class="infoTextSpan" for="openedTickets">Öffene Tickets</span>
         <div>
-          <p class="infoText" id="openedTickets">12</p>
+          <p class="infoText" id="openedTickets">{{openedTickets}}</p>
         </div>
       </td>
       <td>
         <span class="infoTextSpan" for="waitingScale">Warteschlange</span>
         <div>
-          <p class="infoText" id="waitingScale">103</p>
+          <p class="infoText" id="waitingScale">{{totalTickets}}</p>
         </div>
       </td>
       <td>
         <span class="infoTextSpan" for="noAssigned">Nicht zugewiesen</span>
         <div>
-          <p class="infoText" id="noAssigned">24</p>
+          <p class="infoText" id="noAssigned">{{ nonAppendTickets }}</p>
 
         </div>
       </td>
       <td>
         <span class="infoTextSpan" for="markedTickets">Markierte Tickets</span>
         <div>
-          <p class="infoText" id="markedTickets">4</p>
+          <p class="infoText" id="markedTickets">0</p>
         </div>
       </td>
     </tr>

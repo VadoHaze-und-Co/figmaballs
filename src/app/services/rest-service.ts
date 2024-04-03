@@ -37,6 +37,12 @@ export class RestService {
     });
   }
 
+  public loadTickets() {
+    this.httpRequest('http://localhost:8089/tickets', 'GET', data => {
+    (<Ticket[]>data).forEach(e => this.dataService.tickets.push(new Ticket(e.id, e.title, e.description, e.status, e.categories)));
+  });
+}
+
   public createTicket(ticket: Ticket) {
     this.httpRequest('http://localhost:8089/tickets', 'POST', data => {
     }, ticket);
@@ -47,4 +53,5 @@ export class RestService {
     this.httpRequest('http://localhost:8089/categories', 'POST', data => {
     }, {name: category.name!});
   }
+
 }
