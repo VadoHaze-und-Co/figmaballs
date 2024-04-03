@@ -1,1 +1,10 @@
-/* You can add global styles to this file, and also import other style files */
+@import "style.scss";
+
+div {
+  -webkit-user-drag: none;
+  -khtml-user-drag: none;
+  -moz-user-drag: none;
+  -o-user-drag: none;
+  user-drag: none;
+  pointer-events: all;
+}
