@@ -1,23 +1,17 @@
-<link rel="stylesheet" href="nav-bar.component.css">
+<link rel="stylesheet" href="../../../../KrizzFrontend/src/app/components/navbar/navbar.component.css">
+<ng-container *ngIf="isMobile(); then mobile else computer">
+</ng-container>
+<ng-template #mobile>s</ng-template>
 
-<nav>
-  <ng-container *ngIf="isMobile(); then mobile else computer">
-  </ng-container>
-  <ng-template #mobile>s</ng-template>
-
-  <ng-template #computer>
-    <div class="nav-background-computer" [style.height]="dataService.height() * 0.05 - 1 + 'px'">
-      <div style="float:left;">
-        <span class="dropbtn material-icons mat-icon" [style.font-size]="dataService.height() * 0.05 + 'px'">menu</span>
-      </div>
-      <div style="float:right;">
-        <span class="material-icons mat-icon" [style.font-size]="dataService.height() * 0.05 + 'px'">add</span>
-        <span class="material-icons mat-icon" [style.font-size]="dataService.height() * 0.05 + 'px'">search</span>
-        <span class="material-icons mat-icon" [style.font-size]="dataService.height() * 0.05 + 'px'">notifications</span>
-        <span class="material-icons mat-icon" [style.font-size]="dataService.height() * 0.05 + 'px'">account_circle</span>
-        <span class="material-icons mat-icon" [style.font-size]="dataService.height() * 0.05 + 'px'" hidden>delete</span>
-      </div>
+<ng-template #computer>
+  <div class="nav-background-computer" [style.height]="dataService.height() * 0.05 - 1 + 'px'">
+    <div style="float:left;">
+      <span class="material-icons mat-icon clickable" [style.font-size]="dataService.height() * 0.05 + 'px'" (click)="dataService.redirect('')">home</span>
     </div>
-    <div class="nav-background-computer" style="background-color: #333399" [style.height]="'1px'"></div>
-  </ng-template>
-</nav>
+    <div style="float:right;">
+      <span class="material-icons mat-icon clickable" [style.font-size]="dataService.height() * 0.05 + 'px'" (click)="h()">add</span>
+      <span class="material-icons mat-icon clickable" [style.font-size]="dataService.height() * 0.05 + 'px'">delete</span>
+    </div>
+  </div>
+  <div class="nav-background-computer" style="background-color: #333399" [style.height]="'1px'"></div>
+</ng-template>
