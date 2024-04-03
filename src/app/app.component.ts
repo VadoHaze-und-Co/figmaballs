@@ -5,11 +5,12 @@ import {DataService} from "./services/data-service";
 import {AddTicketComponent} from "./add-ticket/add-ticket.component";
 import {SideBarComponent} from "./side-bar/side-bar.component";
 import {NgIf} from "@angular/common";
+import {HomepageComponent} from "./homepage/homepage.component";
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, NavBarComponent, AddTicketComponent, DataService, SideBarComponent, NgIf],
+  imports: [RouterOutlet, NavBarComponent, AddTicketComponent, DataService, SideBarComponent, NgIf, HomepageComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
