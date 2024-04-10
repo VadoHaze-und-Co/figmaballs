@@ -47,4 +47,8 @@ export class DataService {
   public getCategories() {
     return this.categories.map(e => e.name!).sort();
   }
+
+  public getTickets() {
+    return this.tickets;
+  }
 }

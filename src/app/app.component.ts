@@ -6,11 +6,12 @@ import {AddTicketComponent} from "./add-ticket/add-ticket.component";
 import {SideBarComponent} from "./side-bar/side-bar.component";
 import {NgIf} from "@angular/common";
 import {HomepageComponent} from "./homepage/homepage.component";
+import {TicketDetailComponent} from "./ticket-detail/ticket-detail.component";
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, NavBarComponent, AddTicketComponent, DataService, SideBarComponent, NgIf, HomepageComponent],
+  imports: [RouterOutlet, NavBarComponent, AddTicketComponent, DataService, SideBarComponent, NgIf, HomepageComponent, TicketDetailComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

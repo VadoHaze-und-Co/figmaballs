@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import {BaseChartDirective} from "ng2-charts";
-import {ChartConfiguration} from 'chart.js';
-import { Ticket } from "../rest-objects/ticket";
+import {ChartConfiguration, Chart} from 'chart.js';
 import {NgForOf} from "@angular/common";
 import {DataService} from "../services/data-service";
+import {Ticket} from "../rest-objects/ticket";
 
 @Component({
   selector: 'app-homepage',
@@ -15,14 +15,11 @@ import {DataService} from "../services/data-service";
   templateUrl: './homepage.component.html',
   styleUrl: './homepage.component.css'
 })
+
 export class HomepageComponent {
 // Doughnut}
-  public tickets: Ticket[];
-  protected totalTickets: number = 0;
-  protected openedTickets: number = 0;
-  protected todayTickets: number = 0;
-  protected nonAppendTickets: number = 0;
-  public doughnutChartLabels: string[] = [ "Offene Tickets", "Überfällige Tickets", "Nicht zugewiesen", "Tickets für Heute", "Markierte Tickets" ];
+  public todayTickets: number = this.getTodayTickets(this.dataService.getTickets()).length;
+  public doughnutChartLabels: string[] = [ "Alle Tickets", "Offene Tickets", "Überfällige Tickets", "Nicht zugewiesen", "Tickets für Heute" ];
   public doughnutChartDatasets: ChartConfiguration<'doughnut'>['data']['datasets'] = [
     { data: this.getDataFromBackend(), label: 'Tickets' }
   ];
@@ -58,32 +55,39 @@ export class HomepageComponent {
 
   constructor(public dataService: DataService) {
     dataService.restService.loadTickets();
-    this.tickets = this.dataService.tickets;
-    this.totalTickets = this.tickets.length;
-    this.openedTickets = this.totalTickets - this.tickets.sort(a => a.status = 0).length;
-    //this.nonAppendTickets = this.totalTickets - this.tickets.sort(a => a.app).length;
-    //this.todayTickets = this.totalTickets - this.tickets.sort(a => a.crea).length;
-  }
-
-  public percentageToString(percentage:number):string {
-    return percentage + "%";
   }
 
   public getDataFromBackend() : number[] {
-    return [24, 20, 12, 10, 4];
+    var tickets = this.dataService.getTickets();
+    return [tickets.length, tickets.sort(a => a.status = 0).length, 0, 0, this.getTodayTickets(tickets).length];
   }
 
-  public getAllTickets(): Ticket[] {
-    var ticketOne = new Ticket();
-    ticketOne.title = "Sample first ticket";
+  public getOpenedTickets(): Ticket[] {
+    return this.dataService.getTickets().sort(t => t.status = 0);
+  }
 
-    var ticketTwo = new Ticket();
-    ticketOne.title = "Sample second ticket";
+  public getForgottenTickets(): Ticket[] {
+    let tickets = this.dataService.getTickets();
+    var forgottenTickets: Ticket[] = [];
+    for (let ticket of tickets) {
+      let date = ticket.creationDate?.setMonth(1);
+      if (date != undefined && date < Date.now()) {
+        forgottenTickets.push(ticket);
+      }
+    }
+    return forgottenTickets;
+  }
 
-    var ticketThree = new Ticket();
-    ticketOne.title = "Sample third ticket";
-
-    return [ticketOne, ticketTwo, ticketThree];
+  public getTodayTickets(tickets: Ticket[]): Ticket[] {
+    //var todayTickets: List<Ticket> = new List<Ticket>();
+    var todayTickets: Ticket[] = [];
+    for (let ticket of tickets) {
+      if (ticket.creationDate?.getDate() == Date.now()) {
+        todayTickets.push(ticket);
+      }
+    }
+    console.log(todayTickets.length);
+    return todayTickets;
   }
 
 }
