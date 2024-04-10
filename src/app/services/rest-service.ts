@@ -40,8 +40,14 @@ export class RestService {
   public loadTickets() {
     this.httpRequest('http://localhost:8089/tickets', 'GET', data => {
     (<Ticket[]>data).forEach(e => this.dataService.tickets.push(new Ticket(e.id, e.title, e.description, e.status, e.creationDate, e.categories)));
-  });
-}
+    });
+  }
+
+  public loadTicket(id:number){
+    this.httpRequest('http://localhost:8089/tickets/' + id, 'GET', data => {
+      new Ticket((<Ticket>data).id,(<Ticket>data).title,(<Ticket>data).description,(<Ticket>data).status,(<Ticket>data).creationDate);
+    });
+  }
 
   public createTicket(ticket: Ticket) {
     this.httpRequest('http://localhost:8089/tickets', 'POST', data => {
