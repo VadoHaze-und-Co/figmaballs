@@ -1,6 +1,15 @@
 import { Component } from '@angular/core';
 import {BaseChartDirective} from "ng2-charts";
-import {ChartConfiguration, Chart} from 'chart.js';
+import {
+  ArcElement,
+  CategoryScale,
+  Chart,
+  ChartConfiguration,
+  Colors,
+  DoughnutController,
+  Legend, SubTitle, Title,
+  Tooltip
+} from 'chart.js';
 import {NgForOf} from "@angular/common";
 import {DataService} from "../services/data-service";
 import {Ticket} from "../rest-objects/ticket";
@@ -18,7 +27,7 @@ import {Router} from "@angular/router";
 })
 
 export class HomepageComponent {
-// Doughnut}
+// Doughnut
   public tickets: Ticket[] = this.dataService.getTickets();
   public todayTickets: number = this.getTodayTickets(this.dataService.getTickets()).length;
   public doughnutChartLabels: string[] = [ "Alle Tickets", "Offene Tickets", "Überfällige Tickets", "Nicht zugewiesen", "Tickets für Heute" ];
@@ -57,11 +66,13 @@ export class HomepageComponent {
 
   constructor(public dataService: DataService, private router: Router) {
     dataService.restService.loadTickets();
+    Chart.register(DoughnutController, ArcElement, Tooltip, Legend, Colors);
   }
 
   public getDataFromBackend() : number[] {
     var tickets = this.dataService.getTickets();
-    return [tickets.length, tickets.sort(a => a.status = 0).length, 0, 0, this.getTodayTickets(tickets).length];
+    //return [tickets.length, 0/*tickets.sort(a => a.status = 0).length*/, 0, 0, 0];
+    return [100, 24, 12, 56, 27];
   }
 
   public getOpenedTickets(): Ticket[] {
