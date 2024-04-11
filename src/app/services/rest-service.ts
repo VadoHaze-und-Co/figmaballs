@@ -43,14 +43,12 @@ export class RestService {
     });
   }
 
-  public loadTicket(id: number | undefined): Ticket {
-    let ticket: Ticket = new Ticket();
-    if (id != undefined) {
-      this.httpRequest('http://localhost:8089/tickets/' + id, 'GET', data => {
-        ticket =  new Ticket((<Ticket>data).id,(<Ticket>data).title,(<Ticket>data).description,(<Ticket>data).status,(<Ticket>data).creationDate);
-      });
-    }
-    return ticket;
+  public async loadTicket(id: number): Promise<Ticket> {
+    return await firstValueFrom(
+      this.http.get<Ticket>(`http://localhost:8089/tickets/${id}`, {
+        headers: new HttpHeaders().set('Content-Type', 'application/json'),
+      })
+    );
   }
 
   public createTicket(ticket: Ticket) {

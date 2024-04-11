@@ -53,7 +53,18 @@ export class DataService {
     return this.tickets;
   }
 
-  public getTicket(id:number) {
-    return this.ticket;
+  public getTicketStatus(status: number | undefined): string {
+    switch (status) {
+      case 1:
+        return "In Arbeit";
+      case 2:
+        return "Wird getestet";
+      case 3:
+        return "Abgeschlossen";
+      case -1:
+        return "Abgesagt";
+      default:
+        return "Offen";
+    }
   }
 }

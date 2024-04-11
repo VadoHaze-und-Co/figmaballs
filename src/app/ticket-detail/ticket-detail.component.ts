@@ -31,8 +31,14 @@ export class TicketDetailComponent {
   ngOnInit(): void {
     this.getRequiredDataFromParams();
     if (this.id != undefined) {
-      this.ticket = this.dataService.restService.loadTicket(this.id);
+      this.getTicket(this.id);
     }
+  }
+  private getTicket(id: number) {
+    this.dataService
+      .restService.loadTicket(id)
+      .then((ticket) => (this.ticket = ticket))
+      .catch(() => (this.found = false));
   }
 
   private getRequiredDataFromParams() {
@@ -43,9 +49,7 @@ export class TicketDetailComponent {
       this.showSaveSuccess = routeQueries.get('saveSuccess') === 'true';
     }
   }
-  public getTicket(id: number) : Ticket | null {
-    return this.dataService.ticket;
-  }
+
   open(content: TemplateRef<any>) {
     this.modalService.open(content, { size: 'xl', centered: true, scrollable: true}).result.then(
       (result) => {
