@@ -62,4 +62,10 @@ export class RestService {
     }, {name: category.name!});
   }
 
+  public updateTicket(ticket: Ticket) {
+    return firstValueFrom(this.http.put(`http://localhost:8089/tickets/${ticket.id}`, ticket, {
+      headers: new HttpHeaders().set('Content-Type', 'application/json')
+    }));
+  }
+
 }
