@@ -1,8 +1,9 @@
-import {Component, inject, TemplateRef, ViewEncapsulation} from '@angular/core';
+import {Component, inject, TemplateRef} from '@angular/core';
 import {NgOptimizedImage} from "@angular/common";
 import {ModalDismissReasons, NgbModal, NgbTooltip} from "@ng-bootstrap/ng-bootstrap";
 import {DataService} from "../services/data-service";
 import {Ticket} from "../rest-objects/ticket";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'app-ticket-detail',
@@ -18,10 +19,29 @@ import {Ticket} from "../rest-objects/ticket";
 export class TicketDetailComponent {
   private modalService = inject(NgbModal);
   closeResult = '';
-  public ticket = this.dataService.getTicket(1);
+  public ticket: Ticket | undefined;
+  public id: number | undefined;
+  found = true;
+  showSaveSuccess = false;
 
-  constructor(public dataService: DataService) {
-    dataService.restService.loadTicket(1);
+  constructor(public dataService: DataService, private router: ActivatedRoute) {
+    this.ngOnInit();
+  }
+
+  ngOnInit(): void {
+    this.getRequiredDataFromParams();
+    if (this.id != undefined) {
+      this.ticket = this.dataService.restService.loadTicket(this.id);
+    }
+  }
+
+  private getRequiredDataFromParams() {
+    const routeParams = this.router.snapshot.paramMap;
+    this.id = Number(routeParams.get('id'));
+    const routeQueries = this.router.snapshot.queryParamMap;
+    if (routeQueries.has('saveSuccess')) {
+      this.showSaveSuccess = routeQueries.get('saveSuccess') === 'true';
+    }
   }
   public getTicket(id: number) : Ticket | null {
     return this.dataService.ticket;
@@ -52,11 +72,13 @@ export class TicketDetailComponent {
 
   }
 
-  editTicket(id:number) {
-
+  editTicket(id: number | undefined) {
+    /*if (id != undefined) {
+      this.router.navigateByUrl('/ticket/edit/' + id);
+    }*/
   }
 
-  closeTicket(id:number) {
+  closeTicket(id: number | undefined) {
 
   }
 
@@ -68,7 +90,7 @@ export class TicketDetailComponent {
 
   }
 
-  deleteTicket(id: number) {
+  deleteTicket(id: number | undefined) {
 
   }
 }

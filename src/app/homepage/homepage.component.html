@@ -1,6 +1,6 @@
 <h2>Herzlich Willkommen!</h2>
 <div class="container">
-  <table>
+  <table id="firstTable">
     <tr>
       <td>
         <span class="infoTextSpan" for="overdueTickets">Überfällige Tickets</span>
@@ -41,7 +41,7 @@
       </td>
     </tr>
   </table>
-  <table>
+  <table id="firstTable">
     <tr>
       <td class="bigCell">
         <p class="infoText">Alle Tickets</p>
@@ -62,5 +62,28 @@
         </svg>
       </td>
     </tr>
+  </table>
+</div>
+<hr>
+<div class="container">
+  <table class="table-bordered ticket-list">
+    <thead>
+      <tr>
+        <th scope="row">#Nr.</th>
+        <th scope="row" style="max-width: 250px">Title</th>
+        <th scope="row" style="max-width: 400px">Beschreibung</th>
+        <th scope="row">Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-container *ngFor="let ticket of tickets">
+        <tr (dblclick)="goToTicket(ticket.id)">
+          <td><b>#{{ticket.id}}</b></td>
+          <td>{{ticket.title}}</td>
+          <td>{{ticket.description}}</td>
+          <td>{{ticket.status}}</td>
+        </tr>
+      </ng-container>
+    </tbody>
   </table>
 </div>

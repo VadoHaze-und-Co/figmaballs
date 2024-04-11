@@ -4,6 +4,7 @@ import {ChartConfiguration, Chart} from 'chart.js';
 import {NgForOf} from "@angular/common";
 import {DataService} from "../services/data-service";
 import {Ticket} from "../rest-objects/ticket";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-homepage',
@@ -18,6 +19,7 @@ import {Ticket} from "../rest-objects/ticket";
 
 export class HomepageComponent {
 // Doughnut}
+  public tickets: Ticket[] = this.dataService.getTickets();
   public todayTickets: number = this.getTodayTickets(this.dataService.getTickets()).length;
   public doughnutChartLabels: string[] = [ "Alle Tickets", "Offene Tickets", "Überfällige Tickets", "Nicht zugewiesen", "Tickets für Heute" ];
   public doughnutChartDatasets: ChartConfiguration<'doughnut'>['data']['datasets'] = [
@@ -53,7 +55,7 @@ export class HomepageComponent {
     }
   };
 
-  constructor(public dataService: DataService) {
+  constructor(public dataService: DataService, private router: Router) {
     dataService.restService.loadTickets();
   }
 
@@ -68,7 +70,7 @@ export class HomepageComponent {
 
   public getForgottenTickets(): Ticket[] {
     let tickets = this.dataService.getTickets();
-    var forgottenTickets: Ticket[] = [];
+    const forgottenTickets: Ticket[] = [];
     for (let ticket of tickets) {
       let date = ticket.creationDate?.setMonth(1);
       if (date != undefined && date < Date.now()) {
@@ -76,6 +78,12 @@ export class HomepageComponent {
       }
     }
     return forgottenTickets;
+  }
+
+  public goToTicket(id: number | undefined) {
+    if (id != undefined) {
+      this.router.navigateByUrl('/ticket/' + id);
+    }
   }
 
   public getTodayTickets(tickets: Ticket[]): Ticket[] {

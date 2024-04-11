@@ -43,10 +43,14 @@ export class RestService {
     });
   }
 
-  public loadTicket(id:number){
-    this.httpRequest('http://localhost:8089/tickets/' + id, 'GET', data => {
-      new Ticket((<Ticket>data).id,(<Ticket>data).title,(<Ticket>data).description,(<Ticket>data).status,(<Ticket>data).creationDate);
-    });
+  public loadTicket(id: number | undefined): Ticket {
+    let ticket: Ticket = new Ticket();
+    if (id != undefined) {
+      this.httpRequest('http://localhost:8089/tickets/' + id, 'GET', data => {
+        ticket =  new Ticket((<Ticket>data).id,(<Ticket>data).title,(<Ticket>data).description,(<Ticket>data).status,(<Ticket>data).creationDate);
+      });
+    }
+    return ticket;
   }
 
   public createTicket(ticket: Ticket) {

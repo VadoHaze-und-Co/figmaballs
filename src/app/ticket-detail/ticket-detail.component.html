@@ -2,11 +2,11 @@
 <div class="sub-container">
   <div class="ticket-background">
     <div class="ticket-header">
-      <p class="card-title"><b>#{{ ticket.id }}</b> {{ ticket.title }}</p>
+      <p class="card-title"><b>#{{ ticket?.id }}</b> {{ ticket?.title }}</p>
     </div>
     <hr>
     <div class="ticket-body">
-      <p class="card-subtitle">{{ticket.description}}</p>
+      <p class="card-subtitle">{{ticket?.description}}</p>
       <p style="margin-top: 10px"><b>Anhang:</b></p>
       <ng-template #content let-modal>
         <div class="modal-header">
@@ -41,7 +41,7 @@
             <button class="btn-img" placement="top" ngbTooltip="Datei herunterladen" download="">
               <img
                 src="assets/gift-certificate-voucher-coupon-bon-card-din-design-template-4f8fac72fc618b330839a3f632dacc64.jpg"
-                width="100px" height="100px"/>
+                width="100px" height="100px" alt=""/>
             </button>
 
           </td>
@@ -72,9 +72,9 @@
     <hr>
     <div class="ticket-options">
       <div class="btn-group" role="group" aria-label="ticket options">
-        <button type="button" class="btn btn-success" disabled>Abschließen</button>
-        <button type="button" class="btn btn-warning">Bearbeiten</button>
-        <button type="button" class="btn btn-danger">Löschen</button>
+        <button type="button" class="btn btn-success" (click)="closeTicket(ticket?.id)" disabled>Abschließen</button>
+        <button type="button" class="btn btn-warning"(click)="editTicket(ticket?.id)">Bearbeiten</button>
+        <button type="button" class="btn btn-danger"(click)="deleteTicket(ticket?.id)">Löschen</button>
       </div>
     </div>
   </div>
