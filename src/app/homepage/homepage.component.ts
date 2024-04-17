@@ -1,9 +1,19 @@
 import { Component } from '@angular/core';
 import {BaseChartDirective} from "ng2-charts";
-import {ChartConfiguration} from 'chart.js';
-import { Ticket } from "../rest-objects/ticket";
+import {
+  ArcElement,
+  CategoryScale,
+  Chart,
+  ChartConfiguration,
+  Colors,
+  DoughnutController,
+  Legend, SubTitle, Title,
+  Tooltip
+} from 'chart.js';
 import {NgForOf} from "@angular/common";
 import {DataService} from "../services/data-service";
+import {Ticket} from "../rest-objects/ticket";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-homepage',
@@ -15,14 +25,12 @@ import {DataService} from "../services/data-service";
   templateUrl: './homepage.component.html',
   styleUrl: './homepage.component.css'
 })
+
 export class HomepageComponent {
-// Doughnut}
-  public tickets: Ticket[];
-  protected totalTickets: number = 0;
-  protected openedTickets: number = 0;
-  protected todayTickets: number = 0;
-  protected nonAppendTickets: number = 0;
-  public doughnutChartLabels: string[] = [ "Offene Tickets", "Überfällige Tickets", "Nicht zugewiesen", "Tickets für Heute", "Markierte Tickets" ];
+// Doughnut
+  public tickets: Ticket[] = this.dataService.getTickets();
+  public todayTickets: number = this.getTodayTickets(this.dataService.getTickets()).length;
+  public doughnutChartLabels: string[] = [ "Alle Tickets", "Offene Tickets", "Überfällige Tickets", "Nicht zugewiesen", "Tickets für Heute" ];
   public doughnutChartDatasets: ChartConfiguration<'doughnut'>['data']['datasets'] = [
     { data: this.getDataFromBackend(), label: 'Tickets' }
   ];
@@ -56,34 +64,53 @@ export class HomepageComponent {
     }
   };
 
-  constructor(public dataService: DataService) {
+  constructor(public dataService: DataService, private router: Router) {
     dataService.restService.loadTickets();
-    this.tickets = this.dataService.tickets;
-    this.totalTickets = this.tickets.length;
-    this.openedTickets = this.totalTickets - this.tickets.sort(a => a.status = 0).length;
-    //this.nonAppendTickets = this.totalTickets - this.tickets.sort(a => a.app).length;
-    //this.todayTickets = this.totalTickets - this.tickets.sort(a => a.crea).length;
-  }
-
-  public percentageToString(percentage:number):string {
-    return percentage + "%";
+    Chart.register(DoughnutController, ArcElement, Tooltip, Legend, Colors);
   }
 
   public getDataFromBackend() : number[] {
-    return [24, 20, 12, 10, 4];
+    var tickets = this.dataService.getTickets();
+    //return [tickets.length, 0/*tickets.sort(a => a.status = 0).length*/, 0, 0, 0];
+    return [100, 24, 12, 56, 27];
   }
 
-  public getAllTickets(): Ticket[] {
-    var ticketOne = new Ticket();
-    ticketOne.title = "Sample first ticket";
+  public getOpenedTickets(): Ticket[] {
+    return this.dataService.getTickets().sort(t => t.status = 0);
+  }
 
-    var ticketTwo = new Ticket();
-    ticketOne.title = "Sample second ticket";
+  public getForgottenTickets(): Ticket[] {
+    let tickets = this.dataService.getTickets();
+    const forgottenTickets: Ticket[] = [];
+    let month = 1000 * 60 * 60 * 24 * 28;
+    for (let ticket of tickets) {
+      if (ticket.creationDate! - month < Date.now()) {
+        forgottenTickets.push(ticket);
+      }
+    }
+    return forgottenTickets;
+  }
 
-    var ticketThree = new Ticket();
-    ticketOne.title = "Sample third ticket";
+  public goToTicket(id: number | undefined) {
+    if (id != undefined) {
+      this.router.navigateByUrl('/ticket/' + id);
+    }
+  }
 
-    return [ticketOne, ticketTwo, ticketThree];
+  public getTodayTickets(tickets: Ticket[]): Ticket[] {
+    //var todayTickets: List<Ticket> = new List<Ticket>();
+    var todayTickets: Ticket[] = [];
+    let now = new Date(Date.now());
+    for (let ticket of tickets) {
+      let date = new Date(ticket.creationDate!);
+      if (date.getFullYear() == now.getFullYear()
+        && date.getMonth() == now.getMonth()
+        && date.getDay() == now.getDay()) {
+        todayTickets.push(ticket);
+      }
+    }
+    console.log(todayTickets.length);
+    return todayTickets;
   }
 
 }
