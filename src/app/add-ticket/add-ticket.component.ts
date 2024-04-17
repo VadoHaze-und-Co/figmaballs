@@ -5,6 +5,8 @@ import {FormsModule} from "@angular/forms";
 import {RestService} from "../services/rest-service";
 import {Ticket} from "../rest-objects/ticket";
 import {tick} from "@angular/core/testing";
+import {Append} from "../rest-objects/append";
+import {forkJoin, Observable} from "rxjs";
 
 @Component({
   selector: 'app-add-ticket',
@@ -59,14 +61,27 @@ export class AddTicketComponent {
     this.files = files;
   }
 
-  public create() {
+  public async create() {
     let ticket = new Ticket();
     ticket.title = this.title;
     ticket.description = this.description;
     ticket.categories = this.getSelectedCategories();
-    // ticket.creationDate = new Date();
-    // ticket.finishDate = new Date();
+    ticket.creationDate = Date.now();
 
-    this.dataService.restService.createTicket(ticket);
+    let appends: Observable<Append>[] = [];
+    for (let file of this.files) {
+      appends.push(this.dataService.restService.createAppend(new Append(0, file.name, await file.text())));
+    }
+    if (appends.length == 0) {
+      ticket.appends = [];
+      this.dataService.restService.createTicket(ticket);
+    } else {
+      forkJoin(appends).subscribe(append => {
+        ticket.appends = append.map(e => e.id!);
+        this.dataService.restService.createTicket(ticket);
+      });
+    }
+
+    // ticket.finishDate = new Date();
   }
 }
