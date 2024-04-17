@@ -1,0 +1,101 @@
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+<div class="sub-container">
+  <button class="btn-img" (click)="dataService.redirect('homepage')" style="padding-bottom: 10px">
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#ddd" class="bi bi-arrow-left-circle" viewBox="0 0 16 16">
+      <path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8m15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-4.5-.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5z"/>
+    </svg>
+  </button>
+  <div class="ticket-background">
+    <div class="ticket-header">
+      <p class="card-title"><b>#{{ this.ticket?.id }}</b> {{ this.ticket?.title }}</p>
+    </div>
+    <hr>
+    <div class="ticket-body">
+      <p class="card-subtitle">{{this.ticket?.description}}</p>
+      <p style="margin-top: 10px"><b>Anhang:</b></p>
+      <ng-template #content let-modal>
+        <div class="modal-header">
+          <button type="button" class="btn-close" aria-label="Close"
+                  (click)="modal.dismiss('Cross click')"></button>
+        </div>
+        <div class="modal-body text-center">
+          <img ngSrc="assets/Lorem-Ipsum.jpg" height="460" width="815" alt="image 1"/>
+          <hr>
+          <img
+            ngSrc="assets/gift-certificate-voucher-coupon-bon-card-din-design-template-4f8fac72fc618b330839a3f632dacc64.jpg"
+            height="282" width="199"/>
+        </div>
+      </ng-template>
+      <table>
+        <tr>
+          <td>
+            <button class="btn-img" (click)="open(content)">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-zoom-in" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11M13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0"/>
+                <path d="M10.344 11.742q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1 6.5 6.5 0 0 1-1.398 1.4z"/>
+                <path fill-rule="evenodd" d="M6.5 3a.5.5 0 0 1 .5.5V6h2.5a.5.5 0 0 1 0 1H7v2.5a.5.5 0 0 1-1 0V7H3.5a.5.5 0 0 1 0-1H6V3.5a.5.5 0 0 1 .5-.5"/>
+              </svg>
+            </button>
+          </td>
+          <td>
+            <button class="btn-img" placement="top" ngbTooltip="Datei herunterladen" (click)="downloadFile()">
+              <img src="assets/Lorem-Ipsum.jpg" width="100px" height="100px"/>
+            </button>
+          </td>
+          <td>
+            <button class="btn-img" placement="top" ngbTooltip="Datei herunterladen" download="">
+              <img
+                src="assets/gift-certificate-voucher-coupon-bon-card-din-design-template-4f8fac72fc618b330839a3f632dacc64.jpg"
+                width="100px" height="100px" alt=""/>
+            </button>
+
+          </td>
+        </tr>
+      </table>
+    </div>
+    <hr>
+    <div class="ticket-footer row justify-content-start" style="margin: 10px">
+      <div class="col-2">
+        <p class="card-text">Status:</p>
+      </div>
+      <div ngbDropdown placement="end" class="dropend col-6">
+        <button class="btn-option" id="dropdownStatus" ngbDropdownToggle>
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list-task" viewBox="0 0 16 16" style="margin-right: 5px">
+            <path fill-rule="evenodd" d="M2 2.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5V3a.5.5 0 0 0-.5-.5zM3 3H2v1h1z"/>
+            <path d="M5 3.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5M5.5 7a.5.5 0 0 0 0 1h9a.5.5 0 0 0 0-1zm0 4a.5.5 0 0 0 0 1h9a.5.5 0 0 0 0-1z"/>
+            <path fill-rule="evenodd" d="M1.5 7a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5H2a.5.5 0 0 1-.5-.5zM2 7h1v1H2zm0 3.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm1 .5H2v1h1z"/>
+          </svg>
+          <b>{{ this.dataService.getTicketStatus(this.ticket?.status) }}</b>
+        </button>
+        <div ngbDropdownMenu aria-labelledby="dropdownStatus">
+          <button ngbDropdownItem *ngIf="this.ticket?.status != 0" (click)="setStatus(this.ticket?.id,0)">Offen</button>
+          <button ngbDropdownItem *ngIf="this.ticket?.status != 1" (click)="setStatus(this.ticket?.id,1)">In Arbeit</button>
+          <button ngbDropdownItem *ngIf="this.ticket?.status != 2" (click)="setStatus(this.ticket?.id,2)">Wird getestet</button>
+          <button ngbDropdownItem *ngIf="this.ticket?.status != 3" (click)="setStatus(this.ticket?.id,3)">Abgeschlossen</button>
+          <button ngbDropdownItem *ngIf="this.ticket?.status != -1" (click)="setStatus(this.ticket?.id,-1)">Abgesagt</button>
+        </div>
+      </div>
+    </div>
+    <div class="ticket-footer row justify-content-start" style="margin: 10px">
+      <p class="card-text">Zugewiesen an:
+        <button class="btn-option">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16" style="margin-right: 5px">
+            <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"/>
+          </svg>
+          <b>Max Mustermann</b>
+        </button>
+      </p>
+    </div>
+    <hr>
+    <div class="ticket-options">
+      <div class="btn-group" role="group" aria-label="ticket options">
+          <button *ngIf="this.ticket?.status == 0; else statusHigherThanZero" type="button" class="btn btn-success" (click)="closeTicket(ticket?.id)" disabled>Abschließen</button>
+        <ng-template #statusHigherThanZero>
+          <button type="button" class="btn btn-success" (click)="closeTicket(ticket?.id)">Abschließen</button>
+        </ng-template>
+        <button type="button" class="btn btn-warning"(click)="editTicket(ticket?.id)">Bearbeiten</button>
+        <button type="button" class="btn btn-danger"(click)="deleteTicket(ticket?.id)">Löschen</button>
+      </div>
+    </div>
+  </div>
+</div>

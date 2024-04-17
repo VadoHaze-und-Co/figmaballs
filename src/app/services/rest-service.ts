@@ -39,9 +39,17 @@ export class RestService {
 
   public loadTickets() {
     this.httpRequest('http://localhost:8089/tickets', 'GET', data => {
-    (<Ticket[]>data).forEach(e => this.dataService.tickets.push(new Ticket(e.id, e.title, e.description, e.status, e.categories)));
-  });
-}
+    (<Ticket[]>data).forEach(e => this.dataService.tickets.push(new Ticket(e.id, e.title, e.description, e.status, e.creationDate, e.categories)));
+    });
+  }
+
+  public async loadTicket(id: number): Promise<Ticket> {
+    return await firstValueFrom(
+      this.http.get<Ticket>(`http://localhost:8089/tickets/${id}`, {
+        headers: new HttpHeaders().set('Content-Type', 'application/json'),
+      })
+    );
+  }
 
   public createTicket(ticket: Ticket) {
     this.httpRequest('http://localhost:8089/tickets', 'POST', data => {
@@ -52,6 +60,12 @@ export class RestService {
     this.dataService.categories.push(category);
     this.httpRequest('http://localhost:8089/categories', 'POST', data => {
     }, {name: category.name!});
+  }
+
+  public updateTicket(ticket: Ticket) {
+    return firstValueFrom(this.http.put(`http://localhost:8089/tickets/${ticket.id}`, ticket, {
+      headers: new HttpHeaders().set('Content-Type', 'application/json')
+    }));
   }
 
 }
