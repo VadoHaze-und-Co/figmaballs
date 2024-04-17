@@ -1,30 +1,42 @@
 <div class="grid-container">
-    <div class="grid-item" style="grid-row: span 2;">1</div>
+
+
+
+
+
+
+
+
+    <div class="grid-item" style="grid-row: span 2;">
+      <img id="image-file" (click)="triggerClick()" src="assets/2606572_5907.svg" for="input-file" class="profilPlaceholder" alt="Profilbild" style="width: 10rem; height: 10rem; border-radius: 50%; margin: 0 auto; display: block; margin-top: 20px; margin-bottom: 20px;color: rgba(80,80,0,80)">
+      <input #inputFile type="file" (change)="handleFileInput($event.target)" accept="svgimage/jpeg, image/jpg, image/png, image/svg+xml" id="input-file" style="display: none">
+
+    </div>
     <div class="grid-item">
         <label class="label" for="benutzername">Benutzername</label>
-        <input type="text" id="benutzername" class="input"></div>
+        <input type="text" id="benutzername" class="input-field"></div>
     <div class="grid-item">
         <label class="label" for="vorname">Vorname</label>
-        <input type="text" id="vorname" class="input"></div>  
+        <input type="text" id="vorname" class="input-field"></div>
     <div class="grid-item">
         <label class="label" for="nachname">Nachname</label>
-        <input type="text" id="nachname" class="input"></div>
+        <input type="text" id="nachname" class="input-field"></div>
     <div class="grid-item">
         <label class="label" for="anschrift">Anschrift</label>
-        <input type="text" id="anschrift" class="input"></div>  
+        <input type="text" id="anschrift" class="input-field"></div>
     <div class="grid-item">
-        <label class="label" for="stadt">Stadt</label>        
-        <input type="text" id="stadt" class="input"></div>
+        <label class="label" for="stadt">Stadt</label>
+        <input type="text" id="stadt" class="input-field"></div>
     <div class="grid-item">
         <label class="label" for="plz">Postleitzahl</label>
-        <input type="text" id="plz" class="input"></div>
+        <input type="text" id="plz" class="input-field"></div>
     <div class="grid-item"></div>
     <div class="grid-item">
         <label class="label" for="email">Kontakt E-mail</label>
-        <input type="text" id="email" class="input"></div>
+        <input type="text" id="email" class="input-field"></div>
     <div class="grid-item">
         <label class="label" for="qualifikationen">Qualifikationen</label>
-        <select type="dropdown" id="qualifikationen" class="input"></select>
+        <select type="dropdown" id="qualifikationen" class="input-field"></select>
     </div>
     <div class="grid-item">
         <label class="label" for="isAdmin">Ist ein Admin?</label>
