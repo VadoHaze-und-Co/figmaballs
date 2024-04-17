@@ -1,7 +1,7 @@
 export class Append {
 
   constructor(public id?: number,
-              public title?: string,
-              public data?: string) {
+              public fileName?: string,
+              public content?: string) {
   }
 }
