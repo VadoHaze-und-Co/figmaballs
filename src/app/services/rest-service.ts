@@ -1,10 +1,11 @@
-import {catchError, EMPTY, firstValueFrom} from "rxjs";
+import {catchError, EMPTY, firstValueFrom, Observable} from "rxjs";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Ticket} from "../rest-objects/ticket";
 import {DataService} from "./data-service";
 import {Injectable} from "@angular/core";
 import {Category} from "../rest-objects/category";
 import {tick} from "@angular/core/testing";
+import {Append} from "../rest-objects/append";
 
 export class RestService {
 
@@ -15,17 +16,21 @@ export class RestService {
     }
   }
 
-  private async httpRequest(url: string, method: string, func: (data: any) => void, body?: any) {
+  private httpObservable(url: string, method: string, body?: any) {
     let headers = new HttpHeaders()
       .set('Content-Type', 'application/json')
     let option = {body: JSON.stringify(body), headers: headers};
     console.log(method + " " + url + ": " + JSON.stringify(body));
-    this.http.request(method, url, option)
+    return this.http.request(method, url, option)
       .pipe(catchError(error => {
         return EMPTY;
-      })).subscribe(data => {
+      }));
+  }
+
+  private async httpRequest(url: string, method: string, func: (data: any) => void, body?: any) {
+    this.httpObservable(url, method, body).subscribe(data => {
       console.log("result: " + JSON.stringify(data));
-        func(data);
+      func(data);
     });
   }
 
@@ -40,6 +45,10 @@ export class RestService {
   public createTicket(ticket: Ticket) {
     this.httpRequest('http://localhost:8089/tickets', 'POST', data => {
     }, ticket);
+  }
+
+  public createAppend(append: Append) {
+    return <Observable<Append>>this.httpObservable('http://localhost:8089/append', 'POST', append);
   }
 
   public createCategory(category: Category) {
