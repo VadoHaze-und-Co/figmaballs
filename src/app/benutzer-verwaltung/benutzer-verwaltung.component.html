@@ -8,8 +8,11 @@
 
 
     <div class="grid-item" style="grid-row: span 2;">
-      <img id="image-file" (click)="triggerClick()" src="assets/2606572_5907.svg" for="input-file" class="profilPlaceholder" alt="Profilbild" style="width: 10rem; height: 10rem; border-radius: 50%; margin: 0 auto; display: block; margin-top: 20px; margin-bottom: 20px;color: rgba(80,80,0,80)">
+      <img id="image-file" (click)="triggerClick()" src="assets/2606572_5907.svg" for="input-file" class="profilPlaceholder" alt="Profilbild" style="cursor: pointer; width: 10rem; height: 10rem; border-radius: 50%; margin: 0 auto; display: block; margin-top: 20px; margin-bottom: 20px;color: rgba(80,80,0,80)">
       <input #inputFile type="file" (change)="handleFileInput($event.target)" accept="svgimage/jpeg, image/jpg, image/png, image/svg+xml" id="input-file" style="display: none">
+      <button class="saveBtn" style="margin: 0 auto; display: block;">
+        <img src="assets/floppy-disk.png" (click)="saveUser()" alt="Button Image" style="height: 100%; width: 100%">
+      </button>
 
     </div>
     <div class="grid-item">
@@ -36,7 +39,17 @@
         <input type="text" id="email" class="input-field"></div>
     <div class="grid-item">
         <label class="label" for="qualifikationen">Qualifikationen</label>
-        <select type="dropdown" id="qualifikationen" class="input-field"></select>
+      <div class="dropdown" id="qualifikationen">
+        <button class="dropbtn">Qualifikationen</button>
+        <div class="dropdown-content">
+          <ul>
+            <li *ngFor="let qualifikation of qualifikationen">
+              <input type="checkbox" id="{{qualifikation}}" name="{{qualifikation}}" value="{{qualifikation}}">
+              <label for="{{qualifikation}}">{{qualifikation}}</label>
+            </li>
+          </ul>
+        </div>
+      </div>
     </div>
     <div class="grid-item">
         <label class="label" for="isAdmin">Ist ein Admin?</label>
