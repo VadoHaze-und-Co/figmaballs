@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="../../../../KrizzFrontend/src/app/components/navbar/navbar.component.css">
+<!--<link rel="stylesheet" href="../../../../KrizzFrontend/src/app/components/navbar/navbar.component.css">-->
 <ng-container *ngIf="isMobile(); then mobile else computer">
 </ng-container>
 <ng-template #mobile>s</ng-template>
@@ -6,7 +6,7 @@
 <ng-template #computer>
   <div class="nav-background-computer" [style.height]="dataService.height() * 0.05 - 1 + 'px'">
     <div style="float:left;">
-      <span class="material-icons mat-icon clickable" [style.font-size]="dataService.height() * 0.05 + 'px'" (click)="dataService.redirect('')">home</span>
+      <span class="material-icons mat-icon clickable" [style.font-size]="dataService.height() * 0.05 + 'px'" (click)="dataService.redirect('homepage')">home</span>
     </div>
     <div style="float:right;">
       <span class="material-icons mat-icon clickable" [style.font-size]="dataService.height() * 0.05 + 'px'" (click)="h()">add</span>
