@@ -82,9 +82,9 @@ export class HomepageComponent {
   public getForgottenTickets(): Ticket[] {
     let tickets = this.dataService.getTickets();
     const forgottenTickets: Ticket[] = [];
+    let month = 1000 * 60 * 60 * 24 * 28;
     for (let ticket of tickets) {
-      let date = ticket.creationDate?.setMonth(1);
-      if (date != undefined && date < Date.now()) {
+      if (ticket.creationDate! - month < Date.now()) {
         forgottenTickets.push(ticket);
       }
     }
@@ -100,8 +100,12 @@ export class HomepageComponent {
   public getTodayTickets(tickets: Ticket[]): Ticket[] {
     //var todayTickets: List<Ticket> = new List<Ticket>();
     var todayTickets: Ticket[] = [];
+    let now = new Date(Date.now());
     for (let ticket of tickets) {
-      if (ticket.creationDate?.getDate() == Date.now()) {
+      let date = new Date(ticket.creationDate!);
+      if (date.getFullYear() == now.getFullYear()
+        && date.getMonth() == now.getMonth()
+        && date.getDay() == now.getDay()) {
         todayTickets.push(ticket);
       }
     }
