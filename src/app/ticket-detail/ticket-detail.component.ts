@@ -11,6 +11,7 @@ import {
 import {DataService} from "../services/data-service";
 import {Ticket} from "../rest-objects/ticket";
 import {ActivatedRoute, Router, RouterLink} from "@angular/router";
+import {Append} from "../rest-objects/append";
 
 @Component({
   selector: 'app-ticket-detail',
@@ -34,6 +35,7 @@ export class TicketDetailComponent {
   closeResult = '';
   public ticket: Ticket | undefined;
   public id: number | undefined;
+  public appends: Append[] | undefined;
   found = true;
   showSaveSuccess = false;
 
@@ -118,5 +120,17 @@ export class TicketDetailComponent {
 
   deleteTicket(id: number | undefined) {
 
+  }
+
+  setPriority(id: number | undefined, priority: number) {
+    if (id != undefined) {
+      this.getTicket(id);
+      if (this.ticket != undefined) {
+        this.ticket.priority = priority;
+        this.id = this.ticket.id;
+        this.dataService.restService.updateTicket(this.ticket);
+      }
+    }
+    window.location.reload();
   }
 }

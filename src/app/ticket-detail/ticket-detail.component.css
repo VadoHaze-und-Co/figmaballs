@@ -41,6 +41,16 @@
   background-color: transparent;
 }
 
+.form-label {
+  font-size: 60%;
+  margin: auto;
+}
+
+.btn-priority {
+  border:none;
+  background: transparent;
+}
+
 .btn-option:hover {
   background-color: #555;
   color: #ddd;

@@ -69,6 +69,12 @@ export class HomepageComponent {
     Chart.register(DoughnutController, ArcElement, Tooltip, Legend, Colors);
   }
 
+  public goToTicket(id: number | undefined) {
+    if (id != undefined) {
+      this.router.navigateByUrl('/ticket/' + id);
+    }
+  }
+
   public getDataFromBackend() : number[] {
     var tickets = this.dataService.getTickets();
     //return [tickets.length, 0/*tickets.sort(a => a.status = 0).length*/, 0, 0, 0];
@@ -89,12 +95,6 @@ export class HomepageComponent {
       }
     }
     return forgottenTickets;
-  }
-
-  public goToTicket(id: number | undefined) {
-    if (id != undefined) {
-      this.router.navigateByUrl('/ticket/' + id);
-    }
   }
 
   public getTodayTickets(tickets: Ticket[]): Ticket[] {

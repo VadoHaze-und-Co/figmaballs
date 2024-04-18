@@ -6,8 +6,29 @@
     </svg>
   </button>
   <div class="ticket-background">
-    <div class="ticket-header">
-      <p class="card-title"><b>#{{ this.ticket?.id }}</b> {{ this.ticket?.title }}</p>
+    <div class="ticket-header row">
+      <p class="card-title col-10"><b>#{{ this.ticket?.id }}</b> {{ this.ticket?.title }}</p>
+      <div *ngIf="this.ticket?.status == 3; else finishedTicket1" class="col-2">
+        <label class="form-label" for="imagePriority">Priorität:</label>
+        <button id="imagePriority" style="border:none; background: transparent;" disabled>
+          <img src="assets/svg/{{this.ticket?.priority}}.svg"/>
+        </button>
+      </div>
+      <ng-template #finishedTicket1>
+        <div ngbDropdown placement="auto" class="dropup col-2">
+          <label class="form-label" for="dropdownPriority">Priorität:</label>
+          <button class="btn-priority" id="dropdownPriority" ngbDropdownToggle>
+            <img src="assets/svg/{{this.ticket?.priority}}.svg"/>
+          </button>
+          <div ngbDropdownMenu aria-labelledby="dropdownPriority">
+            <button ngbDropdownItem *ngIf="this.ticket?.priority != -2" (click)="setPriority(this.ticket?.id,-2)"><img src="assets/svg/-2.svg"></button>
+            <button ngbDropdownItem *ngIf="this.ticket?.priority != -1" (click)="setPriority(this.ticket?.id,-1)"><img src="assets/svg/-1.svg"></button>
+            <button ngbDropdownItem *ngIf="this.ticket?.priority != 0" (click)="setPriority(this.ticket?.id,0)"><img src="assets/svg/0.svg"></button>
+            <button ngbDropdownItem *ngIf="this.ticket?.priority != 1" (click)="setPriority(this.ticket?.id,1)"><img src="assets/svg/1.svg"></button>
+            <button ngbDropdownItem *ngIf="this.ticket?.priority != 2" (click)="setPriority(this.ticket?.id,2)"><img src="assets/svg/2.svg"></button>
+          </div>
+        </div>
+      </ng-template>
     </div>
     <hr>
     <div class="ticket-body">
@@ -17,13 +38,6 @@
         <div class="modal-header">
           <button type="button" class="btn-close" aria-label="Close"
                   (click)="modal.dismiss('Cross click')"></button>
-        </div>
-        <div class="modal-body text-center">
-          <img ngSrc="assets/Lorem-Ipsum.jpg" height="460" width="815" alt="image 1"/>
-          <hr>
-          <img
-            ngSrc="assets/gift-certificate-voucher-coupon-bon-card-din-design-template-4f8fac72fc618b330839a3f632dacc64.jpg"
-            height="282" width="199"/>
         </div>
       </ng-template>
       <table>
@@ -58,23 +72,28 @@
       <div class="col-2">
         <p class="card-text">Status:</p>
       </div>
-      <div ngbDropdown placement="end" class="dropend col-6">
-        <button class="btn-option" id="dropdownStatus" ngbDropdownToggle>
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list-task" viewBox="0 0 16 16" style="margin-right: 5px">
-            <path fill-rule="evenodd" d="M2 2.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5V3a.5.5 0 0 0-.5-.5zM3 3H2v1h1z"/>
-            <path d="M5 3.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5M5.5 7a.5.5 0 0 0 0 1h9a.5.5 0 0 0 0-1zm0 4a.5.5 0 0 0 0 1h9a.5.5 0 0 0 0-1z"/>
-            <path fill-rule="evenodd" d="M1.5 7a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5H2a.5.5 0 0 1-.5-.5zM2 7h1v1H2zm0 3.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm1 .5H2v1h1z"/>
-          </svg>
-          <b>{{ this.dataService.getTicketStatus(this.ticket?.status) }}</b>
-        </button>
-        <div ngbDropdownMenu aria-labelledby="dropdownStatus">
-          <button ngbDropdownItem *ngIf="this.ticket?.status != 0" (click)="setStatus(this.ticket?.id,0)">Offen</button>
-          <button ngbDropdownItem *ngIf="this.ticket?.status != 1" (click)="setStatus(this.ticket?.id,1)">In Arbeit</button>
-          <button ngbDropdownItem *ngIf="this.ticket?.status != 2" (click)="setStatus(this.ticket?.id,2)">Wird getestet</button>
-          <button ngbDropdownItem *ngIf="this.ticket?.status != 3" (click)="setStatus(this.ticket?.id,3)">Abgeschlossen</button>
-          <button ngbDropdownItem *ngIf="this.ticket?.status != -1" (click)="setStatus(this.ticket?.id,-1)">Abgesagt</button>
-        </div>
+      <div *ngIf="this.ticket?.status == 3; else finishedTicket2" class="col-6">
+        <b>{{ this.dataService.getTicketStatus(this.ticket?.status) }}</b>
       </div>
+      <ng-template #finishedTicket2>
+        <div ngbDropdown placement="end" class="dropend col-6">
+          <button class="btn-option" id="dropdownStatus" ngbDropdownToggle>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list-task" viewBox="0 0 16 16" style="margin-right: 5px">
+              <path fill-rule="evenodd" d="M2 2.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5V3a.5.5 0 0 0-.5-.5zM3 3H2v1h1z"/>
+              <path d="M5 3.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5M5.5 7a.5.5 0 0 0 0 1h9a.5.5 0 0 0 0-1zm0 4a.5.5 0 0 0 0 1h9a.5.5 0 0 0 0-1z"/>
+              <path fill-rule="evenodd" d="M1.5 7a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5H2a.5.5 0 0 1-.5-.5zM2 7h1v1H2zm0 3.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm1 .5H2v1h1z"/>
+            </svg>
+            <b>{{ this.dataService.getTicketStatus(this.ticket?.status) }}</b>
+          </button>
+          <div ngbDropdownMenu aria-labelledby="dropdownStatus">
+            <button ngbDropdownItem *ngIf="this.ticket?.status != 0" (click)="setStatus(this.ticket?.id,0)">Offen</button>
+            <button ngbDropdownItem *ngIf="this.ticket?.status != 1" (click)="setStatus(this.ticket?.id,1)">In Arbeit</button>
+            <button ngbDropdownItem *ngIf="this.ticket?.status != 2" (click)="setStatus(this.ticket?.id,2)">Wird getestet</button>
+            <button ngbDropdownItem *ngIf="this.ticket?.status != 3" (click)="setStatus(this.ticket?.id,3)">Abgeschlossen</button>
+            <button ngbDropdownItem *ngIf="this.ticket?.status != -1" (click)="setStatus(this.ticket?.id,-1)">Abgesagt</button>
+          </div>
+        </div>
+      </ng-template>
     </div>
     <div class="ticket-footer row justify-content-start" style="margin: 10px">
       <p class="card-text">Zugewiesen an:
@@ -89,13 +108,20 @@
     <hr>
     <div class="ticket-options">
       <div class="btn-group" role="group" aria-label="ticket options">
-          <button *ngIf="this.ticket?.status == 0; else statusHigherThanZero" type="button" class="btn btn-success" (click)="closeTicket(ticket?.id)" disabled>Abschließen</button>
+        <button *ngIf="this.ticket?.status == 0 || this.ticket?.status == 3; else statusHigherThanZero" type="button" class="btn btn-success" (click)="closeTicket(ticket?.id)" disabled>Abschließen</button>
         <ng-template #statusHigherThanZero>
           <button type="button" class="btn btn-success" (click)="closeTicket(ticket?.id)">Abschließen</button>
         </ng-template>
-        <button type="button" class="btn btn-warning"(click)="editTicket(ticket?.id)">Bearbeiten</button>
-        <button type="button" class="btn btn-danger"(click)="deleteTicket(ticket?.id)">Löschen</button>
+        <button *ngIf="this.ticket?.status == 3; else finishedTicket3" hidden="hidden"></button>
+        <ng-template #finishedTicket3>
+          <button type="button" class="btn btn-warning"(click)="editTicket(ticket?.id)">Bearbeiten</button>
+          <button type="button" class="btn btn-danger"(click)="deleteTicket(ticket?.id)">Löschen</button>
+        </ng-template>
       </div>
     </div>
   </div>
+</div>
+<hr>
+<div>
+  <p class="h4">Kommentare:</p>
 </div>
