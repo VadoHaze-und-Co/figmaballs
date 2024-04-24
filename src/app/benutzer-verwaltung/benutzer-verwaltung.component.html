@@ -1,0 +1,57 @@
+<div class="grid-container">
+
+
+
+
+
+
+
+
+    <div class="grid-item" style="grid-row: span 2;">
+      <img id="image-file" (click)="triggerClick()" src="assets/2606572_5907.svg" for="input-file" class="profilPlaceholder" alt="Profilbild" style="cursor: pointer; width: 10rem; height: 10rem; border-radius: 50%; margin: 0 auto; display: block; margin-top: 20px; margin-bottom: 20px;color: rgba(80,80,0,80)">
+      <input #inputFile type="file" (change)="handleFileInput($event.target)" accept="svgimage/jpeg, image/jpg, image/png, image/svg+xml" id="input-file" style="display: none">
+      <button class="saveBtn" style="margin: 0 auto; display: block;">
+        <img src="assets/floppy-disk.png" (click)="saveUser()" alt="Button Image" style="height: 100%; width: 100%">
+      </button>
+
+    </div>
+    <div class="grid-item">
+        <label class="label" for="benutzername">Benutzername</label>
+        <input type="text" id="benutzername" class="input-field"></div>
+    <div class="grid-item">
+        <label class="label" for="vorname">Vorname</label>
+        <input type="text" id="vorname" class="input-field"></div>
+    <div class="grid-item">
+        <label class="label" for="nachname">Nachname</label>
+        <input type="text" id="nachname" class="input-field"></div>
+    <div class="grid-item">
+        <label class="label" for="anschrift">Anschrift</label>
+        <input type="text" id="anschrift" class="input-field"></div>
+    <div class="grid-item">
+        <label class="label" for="stadt">Stadt</label>
+        <input type="text" id="stadt" class="input-field"></div>
+    <div class="grid-item">
+        <label class="label" for="plz">Postleitzahl</label>
+        <input type="text" id="plz" class="input-field"></div>
+    <div class="grid-item"></div>
+    <div class="grid-item">
+        <label class="label" for="email">Kontakt E-mail</label>
+        <input type="text" id="email" class="input-field"></div>
+    <div class="grid-item">
+        <label class="label" for="qualifikationen">Qualifikationen</label>
+      <div class="dropdown" id="qualifikationen">
+        <button class="dropbtn">Qualifikationen</button>
+        <div class="dropdown-content">
+          <ul>
+            <li *ngFor="let qualifikation of qualifikationen">
+              <input type="checkbox" id="{{qualifikation}}" name="{{qualifikation}}" value="{{qualifikation}}">
+              <label for="{{qualifikation}}">{{qualifikation}}</label>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="grid-item">
+        <label class="label" for="isAdmin">Ist ein Admin?</label>
+        <input type="checkbox" id="isAdmin" class="input"></div>
+  </div>
