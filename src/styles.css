@@ -1,91 +1,12 @@
-/* You can add global styles to this file, and also import other style files */
+@import "style.scss";
 
-
-
-
-::-webkit-scrollbar-track {
-  -webkit-box-shadow: inset 0 0 6px #00000033;
-  background-color: transparent;
-}
-
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-  background-color: transparent;
-}
-
-::-webkit-scrollbar-corner {
-  background-color: transparent;
-  -webkit-box-shadow: inset 0 0 6px #00000033;
-}
-
-::-webkit-scrollbar-thumb {
-  border-radius: 100px;
-  background-color: #00000066;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background-color: #000000cc;
-}
-
-.font {
-  font-family: "Tahoma", sans-serif;
-  text-shadow: black;
-  color: #b0b0b0;
-}
-
-.bold {
-  font-family: "Tahoma", sans-serif;
-  font-weight: bold;
-  text-shadow: black;
-  color: #b0b0b0;
-}
-
-.head-line {
-  margin-left: 40px;
-  font-size: 30px;
-}
-
-.input-field {
-  border-radius: 6px;
-  border: 3px #404040 solid;
-  background-color: #404040;
-  height: 20px;
-  margin-left: 10px;
-  margin-right: 10px;
-  width: 100%;
-  box-shadow: 2px 2px 5px #181818;
-  font-size: 17px;
-  color: #b0b0b0;
-}
-
-.input-field::placeholder {
-  color: #909090;
-}
-
-.big-input-field::placeholder {
-  color: #909090;
-}
-
-.big-input-field {
-  border-radius: 6px;
-  border: 3px #404040 solid;
-  background-color: #404040;
-  height: 160px;
-  resize: none;
-  margin-left: 10px;
-  margin-right: 10px;
-  width: 100%;
-  box-shadow: 2px 2px 5px #181818;
-  font-size: 17px;
-}
-
-.separator {
-  height: 1px;
-  box-shadow: black;
-  margin: 20px 0 19px 0;
-  background-color: #707070;
-  width: 100%;
+div {
+  -webkit-user-drag: none;
+  -khtml-user-drag: none;
+  -moz-user-drag: none;
+  -o-user-drag: none;
+  user-drag: none;
+  pointer-events: all;
 }
 
 .button {

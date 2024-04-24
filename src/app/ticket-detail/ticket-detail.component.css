@@ -1,0 +1,67 @@
+.sub-container {
+  margin: 50px auto auto;
+  width: 600px;
+  padding: 50px;
+  background-color: #666;
+  border-radius: 20px;
+}
+
+.ticket-background {
+  border-radius: 10px;
+  background-color: #ddd;
+  border: solid 2px;
+  color: #222;
+  padding: 10px;
+  height: 100%;
+}
+
+.ticket-header {
+  height: 10%;
+  font-size: 24px;
+  font-family: Calibri, serif;
+}
+
+.ticket-body {
+  height: 40%;
+  font-size: 16px;
+}
+
+.ticket-footer {
+  height: 20%;
+}
+
+.ticket-options {
+  height: 10%;
+}
+
+.btn-option {
+  height: 100%;
+  border-radius: 7px;
+  border: solid 0.5px;
+  background-color: transparent;
+}
+
+.form-label {
+  font-size: 60%;
+  margin: auto;
+}
+
+.btn-priority {
+  border:none;
+  background: transparent;
+}
+
+.btn-option:hover {
+  background-color: #555;
+  color: #ddd;
+}
+
+td {
+  padding: 0 5px 0;
+}
+
+.btn-img {
+  padding: 0;
+  border: none;
+  background: none;
+}

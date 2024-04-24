@@ -1,0 +1,12 @@
+<div class="font font-shadow" style="width: 100%; user-select: none;" [style.height]="dataService.height() * .95 + 'px'">
+  <div [style.width]="dataService.sideBarService.sideBarWidth + 'px'" style="height: 100%; float:left;">
+    <div style="height: 96%; top: 2%; left: .7em; width: 96%; position:relative;" *ngIf="!dataService.sideBarService._fix">
+      <div *ngFor="let group of keys(groups)">
+        <label>{{group}}</label>
+        <div *ngFor="let name of keys(groups[group])">
+          <label style="cursor:pointer; left: .9em; position:relative; transition: .2s;" class="link clickable" (click)="dataService.redirect(groups[group][name].path)">{{name}}</label>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
