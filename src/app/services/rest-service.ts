@@ -6,6 +6,7 @@ import {Injectable} from "@angular/core";
 import {Category} from "../rest-objects/category";
 import {tick} from "@angular/core/testing";
 import {Append} from "../rest-objects/append";
+import {log} from "@angular-devkit/build-angular/src/builders/ssr-dev-server";
 
 export class RestService {
 
@@ -19,12 +20,14 @@ export class RestService {
   private httpObservable(url: string, method: string, body?: any) {
     let headers = new HttpHeaders()
       .set('Content-Type', 'application/json')
+      .set('Type', 'application/octet-stream')
     let option = {body: JSON.stringify(body), headers: headers};
     console.log(method + " " + url + ": " + JSON.stringify(body));
-    return this.http.request(method, url, option)
+    let result = this.http.request(method, url, option)
       .pipe(catchError(error => {
         return EMPTY;
       }));
+    return result;
   }
 
   private async httpRequest(url: string, method: string, func: (data: any) => void, body?: any) {
@@ -63,6 +66,10 @@ export class RestService {
 
   public createAppend(append: Append) {
     return <Observable<Append>>this.httpObservable('http://localhost:8089/append', 'POST', append);
+  }
+
+  public async getAppend(id: number) {
+    return await firstValueFrom(<Observable<Append>>this.httpObservable(`http://localhost:8089/append/${id}`, 'GET'));
   }
 
   public createCategory(category: Category) {
