@@ -64,6 +64,12 @@ export class RestService {
     }, ticket);
   }
 
+  public deleteTicket(id: number) {
+    this.dataService.tickets = this.dataService.tickets.filter(e=>e.id != id);
+    this.httpRequest(`http://localhost:8089/tickets/${id}`, 'DELETE', data => {
+    });
+  }
+
   public createAppend(append: Append) {
     return <Observable<Append>>this.httpObservable('http://localhost:8089/append', 'POST', append);
   }

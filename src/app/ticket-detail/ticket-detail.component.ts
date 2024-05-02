@@ -135,7 +135,8 @@ export class TicketDetailComponent {
   }
 
   deleteTicket(id: number | undefined) {
-
+    this.dataService.restService.deleteTicket(id!);
+    window.location.href = "";
   }
 
   setPriority(id: number | undefined, priority: number) {
