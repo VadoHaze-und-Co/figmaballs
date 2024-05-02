@@ -19,8 +19,32 @@
   </style>
 </head>
 <body>
-<h1>Support-Ticketliste</h1>
-<div class="ticket">
+<div class="container">
+  <h1>Support-Ticketliste</h1>
+  <table class="table-bordered ticket-list">
+    <thead>
+    <tr>
+      <th scope="row">#Nr.</th>
+      <th scope="row" style="max-width: 250px">Titel</th>
+      <th scope="row">Status</th>
+      <th scope="row">Priorität</th>
+      <th scope="row" style="max-width: 400px">Beschreibung</th>
+    </tr>
+    </thead>
+    <tbody>
+    <ng-container *ngFor="let ticket of tickets">
+      <tr (dblclick)="goToTicket(ticket.id)">
+        <td><b>#{{ticket.id}}</b></td>
+        <td>{{ticket.title}}</td>
+        <td>{{ticket.status}}</td>
+        <td>{{ticket.priority}}</td>
+        <td>{{ticket.description}}</td>
+      </tr>
+    </ng-container>
+    </tbody>
+  </table>
+</div>
+<!--<div class="ticket">
   <h2>Ticket #001: Problem mit dem Drucker</h2>
   <p>Status: Offen</p>
   <p>Priorität: Hoch</p>
@@ -37,6 +61,6 @@
   <p>Status: Geschlossen</p>
   <p>Priorität: Niedrig</p>
   <p>Beschreibung: Installation des neuesten Software-Updates</p>
-</div>
+</div>-->
 </body>
 
