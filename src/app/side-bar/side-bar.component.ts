@@ -16,7 +16,9 @@ export class SideBarComponent {
 
   public groups: {[key: string]: {[name: string]: {path: string}}} = {
     'Ticket':
-      {'Ticket erstellen': {path: 'ticket-create'}}
+      {'Ticket erstellen': {path: 'ticket-create'}},
+    'Benutzer':
+      {'Benutzerverwaltung': {path: 'users'}}
   };
 
   constructor(public dataService: DataService) {

@@ -39,10 +39,24 @@
         <input type="text" id="email" class="input-field"></div>
     <div class="grid-item">
         <label class="label" for="qualifikationen">Qualifikationen</label>
-      <div class="dropdown" id="qualifikationen">
+      <div class="row">
+        <div class="col">
+          <div ngbDropdown class="d-inline-block" id="qualifikationen">
+            <button class="dropbtn" id="dropdownQuali" ngbDropdownToggle>Qualifikationen</button>
+            <ul ngbDropdownMenu aria-labelledby="dropdownQuali">
+              <li *ngFor="let qualifikation of qualifikationen" style="margin-left: 5%">
+                <input type="checkbox" id="{{qualifikation}}" name="{{qualifikation}}" value="{{qualifikation}}">
+                <label for="{{qualifikation}}">{{qualifikation}}</label>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+      <!--<div class="dropdown" id="qualifikationen">
         <button class="dropbtn">Qualifikationen</button>
-        <div class="dropdown-content">
-          <ul>
+        <div class="dropdown-content drop">
+          <ul class="dropdown-menu">
             <li *ngFor="let qualifikation of qualifikationen">
               <input type="checkbox" id="{{qualifikation}}" name="{{qualifikation}}" value="{{qualifikation}}">
               <label for="{{qualifikation}}">{{qualifikation}}</label>
@@ -50,8 +64,12 @@
           </ul>
         </div>
       </div>
-    </div>
+    </div>-->
     <div class="grid-item">
-        <label class="label" for="isAdmin">Ist ein Admin?</label>
-        <input type="checkbox" id="isAdmin" class="input"></div>
+      <label class="label" for="isAdmin">Ist ein Admin?</label>
+      <div id="isAdmin" style="margin-top: git%">
+        <input type="checkbox" id="adminCheckbox">
+        <label for="adminCheckbox"></label>
+      </div>
+    </div>
   </div>

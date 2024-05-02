@@ -1,11 +1,12 @@
 import { NgForOf } from '@angular/common';
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import {NgbDropdown, NgbDropdownMenu, NgbDropdownToggle} from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
   selector: 'app-benutzer-verwaltung',
   standalone: true,
-  imports: [FormsModule, NgForOf],
+  imports: [FormsModule, NgForOf, NgbDropdownMenu, NgbDropdown, NgbDropdownToggle],
   templateUrl: './benutzer-verwaltung.component.html',
   styleUrl: './benutzer-verwaltung.component.css'
 })
