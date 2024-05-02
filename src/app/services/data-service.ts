@@ -53,6 +53,10 @@ export class DataService {
     return this.tickets;
   }
 
+  public getTicketById(id: number) {
+    return this.tickets[id];
+  }
+
   public getTicketStatus(status: number | undefined): string {
     switch (status) {
       case 1:

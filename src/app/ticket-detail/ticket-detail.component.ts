@@ -1,5 +1,5 @@
 import {Component, inject, TemplateRef} from '@angular/core';
-import {NgIf, NgOptimizedImage} from "@angular/common";
+import {NgForOf, NgIf, NgOptimizedImage} from "@angular/common";
 import {
   ModalDismissReasons,
   NgbDropdown, NgbDropdownItem,
@@ -24,7 +24,8 @@ import {Append} from "../rest-objects/append";
     NgbDropdownToggle,
     NgbDropdownMenu,
     NgbDropdownItem,
-    RouterLink
+    RouterLink,
+    NgForOf
   ],
   templateUrl: './ticket-detail.component.html',
   styleUrl: './ticket-detail.component.css'
@@ -34,8 +35,8 @@ export class TicketDetailComponent {
   private modalService = inject(NgbModal);
   closeResult = '';
   public ticket: Ticket | undefined;
+  public appends: Append[] = [];
   public id: number | undefined;
-  public appends: Append[] | undefined;
   found = true;
   showSaveSuccess = false;
 
@@ -52,8 +53,18 @@ export class TicketDetailComponent {
   private getTicket(id: number) {
     this.dataService
       .restService.loadTicket(id)
-      .then((ticket) => (this.ticket = ticket))
+      .then((ticket) => {
+        (this.ticket = ticket);
+        this.loadAppends();
+      })
       .catch(() => (this.found = false));
+  }
+
+  public async loadAppends() {
+    this.appends = [];
+    for (let id of this.ticket!.appends!) {
+      this.appends.push(await this.dataService.restService.getAppend(id));
+    }
   }
 
   private getRequiredDataFromParams() {
@@ -87,8 +98,13 @@ export class TicketDetailComponent {
     }
   }
 
-  downloadFile() {
-
+  downloadFile(append: Append) {
+    const blob = new Blob([append.content!], { type: 'application/octet-stream' });
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = append.fileName! + "." + append.fileType!;
+    link.click();
   }
 
   editTicket(id: number | undefined) {
