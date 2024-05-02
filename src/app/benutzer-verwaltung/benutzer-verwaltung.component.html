@@ -1,12 +1,4 @@
 <div class="grid-container">
-
-
-
-
-
-
-
-
     <div class="grid-item" style="grid-row: span 2;">
       <img id="image-file" (click)="triggerClick()" src="assets/2606572_5907.svg" for="input-file" class="profilPlaceholder" alt="Profilbild" style="cursor: pointer; width: 10rem; height: 10rem; border-radius: 50%; margin: 0 auto; display: block; margin-top: 20px; margin-bottom: 20px;color: rgba(80,80,0,80)">
       <input #inputFile type="file" (change)="handleFileInput($event.target)" accept="svgimage/jpeg, image/jpg, image/png, image/svg+xml" id="input-file" style="display: none">
@@ -17,26 +9,26 @@
     </div>
     <div class="grid-item">
         <label class="label" for="benutzername">Benutzername</label>
-        <input type="text" id="benutzername" class="input-field"></div>
+        <input type="text" [(ngModel)]="user.benutzername" id="benutzername" class="input-field"></div>
     <div class="grid-item">
         <label class="label" for="vorname">Vorname</label>
-        <input type="text" id="vorname" class="input-field"></div>
+        <input type="text" [(ngModel)]="user.vorname" id="vorname" class="input-field"></div>
     <div class="grid-item">
         <label class="label" for="nachname">Nachname</label>
-        <input type="text" id="nachname" class="input-field"></div>
+        <input type="text" [(ngModel)]="user.nachname" id="nachname" class="input-field"></div>
     <div class="grid-item">
         <label class="label" for="anschrift">Anschrift</label>
-        <input type="text" id="anschrift" class="input-field"></div>
+        <input type="text" [(ngModel)]="user.anschrift" id="anschrift" class="input-field"></div>
     <div class="grid-item">
         <label class="label" for="stadt">Stadt</label>
-        <input type="text" id="stadt" class="input-field"></div>
+        <input type="text" [(ngModel)]="user.stadt" id="stadt" class="input-field"></div>
     <div class="grid-item">
         <label class="label" for="plz">Postleitzahl</label>
-        <input type="text" id="plz" class="input-field"></div>
+        <input type="text" [(ngModel)]="user.plz" id="plz" class="input-field"></div>
     <div class="grid-item"></div>
     <div class="grid-item">
         <label class="label" for="email">Kontakt E-mail</label>
-        <input type="text" id="email" class="input-field"></div>
+        <input type="text" [(ngModel)]="user.email" id="email" class="input-field"></div>
     <div class="grid-item">
         <label class="label" for="qualifikationen">Qualifikationen</label>
       <div class="row">
@@ -67,9 +59,35 @@
     </div>-->
     <div class="grid-item">
       <label class="label" for="isAdmin">Ist ein Admin?</label>
-      <div id="isAdmin" style="margin-top: git%">
+      <div id="isAdmin" style="margin-top: git">
         <input type="checkbox" id="adminCheckbox">
         <label for="adminCheckbox"></label>
       </div>
     </div>
   </div>
+  <table class="tabelle">
+    <thead>
+        <tr>
+            <th>Vorname</th>
+            <th>Nachname</th>
+            <th>Anschrift</th>
+            <th>Stadt</th>
+            <th>Postleitzahl</th>
+            <th>Kontakt E-mail</th>
+            <th>Qualifikationen</th>
+            <th>Ist ein Admin?</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let user of users" (click)="selectUser(user)">
+            <td class="zelle">{{user.vorname}}</td>
+            <td class="zelle">{{user.nachname}}</td>
+            <td class="zelle">{{user.anschrift}}</td>
+            <td class="zelle">{{user.stadt}}</td>
+            <td class="zelle">{{user.plz}}</td>
+            <td class="zelle">{{user.email}}</td>
+            <td class="zelle">{{user.qualifikation}}</td>
+            <td class="zelle">{{user.isAdmin ? 'Ja' : 'Nein'}}</td>
+        </tr>
+    </tbody>
+</table>

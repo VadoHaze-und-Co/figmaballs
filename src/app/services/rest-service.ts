@@ -6,6 +6,7 @@ import {Injectable} from "@angular/core";
 import {Category} from "../rest-objects/category";
 import {tick} from "@angular/core/testing";
 import {Append} from "../rest-objects/append";
+import { User } from "../rest-objects/user";
 
 export class RestService {
 
@@ -61,6 +62,11 @@ export class RestService {
     }, ticket);
   }
 
+  public createUser(user: User) {
+    this.httpRequest('http://localhost:8089/users', 'POST', data => {
+    }, user);
+  }
+
   public createAppend(append: Append) {
     return <Observable<Append>>this.httpObservable('http://localhost:8089/append', 'POST', append);
   }
@@ -76,5 +82,6 @@ export class RestService {
       headers: new HttpHeaders().set('Content-Type', 'application/json')
     }));
   }
+  
 
 }

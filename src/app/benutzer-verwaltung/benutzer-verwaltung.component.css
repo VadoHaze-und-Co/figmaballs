@@ -70,3 +70,10 @@
     font-size: 10px;
     color: rgb(176, 176, 176);
   }
+  .zelle{
+    border: 1px solid black;
+    width: 15rem;
+  }
+  .tabelle{
+    margin-left: 2rem;
+  }
