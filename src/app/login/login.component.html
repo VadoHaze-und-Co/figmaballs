@@ -9,6 +9,7 @@
       <label for="password">Passwort:</label>
       <input type="password" id="password" name="password" >
     </div>
+    <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
     <button type="submit" (click)="login()">Einloggen</button>
   </form>
 
