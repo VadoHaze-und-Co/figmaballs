@@ -98,7 +98,15 @@ export class TicketDetailComponent {
   }
 
   closeTicket(id: number | undefined) {
-
+    if (id != undefined) {
+      this.getTicket(id);
+      if (this.ticket != undefined) {
+        this.ticket.status = 3;
+        this.ticket.finishDate = Date.now();
+        this.dataService.restService.updateTicket(this.ticket);
+      }
+    }
+    window.location.reload();
   }
 
   setAssignation(id:number,userId:number) {

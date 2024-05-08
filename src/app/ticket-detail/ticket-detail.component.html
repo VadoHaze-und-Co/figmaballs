@@ -11,21 +11,21 @@
       <div *ngIf="this.ticket?.status == 3; else finishedTicket1" class="col-2">
         <label class="form-label" for="imagePriority">Priorität:</label>
         <button id="imagePriority" style="border:none; background: transparent;" disabled>
-          <img src="assets/svg/{{this.ticket?.priority}}.svg"/>
+          <img src="assets/svg/{{this.ticket?.priority}}.svg" alt="{{this.dataService.priorityToString(this.ticket?.priority)}}"/>
         </button>
       </div>
       <ng-template #finishedTicket1>
         <div ngbDropdown placement="auto" class="dropup col-2">
           <label class="form-label" for="dropdownPriority">Priorität:</label>
           <button class="btn-priority" id="dropdownPriority" ngbDropdownToggle>
-            <img src="assets/svg/{{this.ticket?.priority}}.svg"/>
+            <img src="assets/svg/{{this.ticket?.priority}}.svg" alt="{{this.dataService.priorityToString(this.ticket?.priority)}}"/>
           </button>
           <div ngbDropdownMenu aria-labelledby="dropdownPriority">
-            <button ngbDropdownItem *ngIf="this.ticket?.priority != -2" (click)="setPriority(this.ticket?.id,-2)"><img src="assets/svg/-2.svg"></button>
-            <button ngbDropdownItem *ngIf="this.ticket?.priority != -1" (click)="setPriority(this.ticket?.id,-1)"><img src="assets/svg/-1.svg"></button>
-            <button ngbDropdownItem *ngIf="this.ticket?.priority != 0" (click)="setPriority(this.ticket?.id,0)"><img src="assets/svg/0.svg"></button>
-            <button ngbDropdownItem *ngIf="this.ticket?.priority != 1" (click)="setPriority(this.ticket?.id,1)"><img src="assets/svg/1.svg"></button>
-            <button ngbDropdownItem *ngIf="this.ticket?.priority != 2" (click)="setPriority(this.ticket?.id,2)"><img src="assets/svg/2.svg"></button>
+            <button ngbDropdownItem *ngIf="this.ticket?.priority != -2" (click)="setPriority(this.ticket?.id,-2)"><img src="assets/svg/-2.svg" alt="niedrigste Priorität"></button>
+            <button ngbDropdownItem *ngIf="this.ticket?.priority != -1" (click)="setPriority(this.ticket?.id,-1)"><img src="assets/svg/-1.svg" alt="niedriger Priorität"></button>
+            <button ngbDropdownItem *ngIf="this.ticket?.priority != 0" (click)="setPriority(this.ticket?.id,0)"><img src="assets/svg/0.svg" alt="normal Priorität"></button>
+            <button ngbDropdownItem *ngIf="this.ticket?.priority != 1" (click)="setPriority(this.ticket?.id,1)"><img src="assets/svg/1.svg" alt="höher Priorität"></button>
+            <button ngbDropdownItem *ngIf="this.ticket?.priority != 2" (click)="setPriority(this.ticket?.id,2)"><img src="assets/svg/2.svg" alt="höchste Priorität"></button>
           </div>
         </div>
       </ng-template>
@@ -53,14 +53,14 @@
           </td>
           <td>
             <button class="btn-img" placement="top" ngbTooltip="Datei herunterladen" (click)="downloadFile()">
-              <img src="assets/Lorem-Ipsum.jpg" width="100px" height="100px"/>
+              <img src="assets/Lorem-Ipsum.jpg" width="100px" height="100px" alt="beispiel 1"/>
             </button>
           </td>
           <td>
             <button class="btn-img" placement="top" ngbTooltip="Datei herunterladen" download="">
               <img
                 src="assets/gift-certificate-voucher-coupon-bon-card-din-design-template-4f8fac72fc618b330839a3f632dacc64.jpg"
-                width="100px" height="100px" alt=""/>
+                width="100px" height="100px" alt="beispiel 2"/>
             </button>
 
           </td>
@@ -72,7 +72,7 @@
       <div class="col-2">
         <p class="card-text">Status:</p>
       </div>
-      <div *ngIf="this.ticket?.status == 3; else finishedTicket2" class="col-6">
+      <div *ngIf="this.ticket?.status == 3 || this.ticket?.status == -1; else finishedTicket2" class="col-6">
         <b>{{ this.dataService.getTicketStatus(this.ticket?.status) }}</b>
       </div>
       <ng-template #finishedTicket2>
@@ -89,7 +89,6 @@
             <button ngbDropdownItem *ngIf="this.ticket?.status != 0" (click)="setStatus(this.ticket?.id,0)">Offen</button>
             <button ngbDropdownItem *ngIf="this.ticket?.status != 1" (click)="setStatus(this.ticket?.id,1)">In Arbeit</button>
             <button ngbDropdownItem *ngIf="this.ticket?.status != 2" (click)="setStatus(this.ticket?.id,2)">Wird getestet</button>
-            <button ngbDropdownItem *ngIf="this.ticket?.status != 3" (click)="setStatus(this.ticket?.id,3)">Abgeschlossen</button>
             <button ngbDropdownItem *ngIf="this.ticket?.status != -1" (click)="setStatus(this.ticket?.id,-1)">Abgesagt</button>
           </div>
         </div>
@@ -108,8 +107,8 @@
     <hr>
     <div class="ticket-options">
       <div class="btn-group" role="group" aria-label="ticket options">
-        <button *ngIf="this.ticket?.status == 0 || this.ticket?.status == 3; else statusHigherThanZero" type="button" class="btn btn-success" (click)="closeTicket(ticket?.id)" disabled>Abschließen</button>
-        <ng-template #statusHigherThanZero>
+        <button *ngIf="this.ticket?.status == 0 || this.ticket?.status == 3 || this.ticket?.status == -1; else statusOnWork" type="button" class="btn btn-success" disabled>Abschließen</button>
+        <ng-template #statusOnWork>
           <button type="button" class="btn btn-success" (click)="closeTicket(ticket?.id)">Abschließen</button>
         </ng-template>
         <button *ngIf="this.ticket?.status == 3; else finishedTicket3" hidden="hidden"></button>

@@ -5,8 +5,8 @@ import {TicketDetailComponent} from "./ticket-detail/ticket-detail.component";
 import {LoginComponent} from "./login/login.component";
 
 export const routes: Routes = [
-  { path: 'Login', component: LoginComponent },
-  { path: '', redirectTo: '/homepage', pathMatch: 'full'},
+  { path: '', redirectTo: '/login', pathMatch: 'full'},
+  { path: 'login', component: LoginComponent },
   { path: 'homepage', component: HomepageComponent },
   { path: 'tickets', component: HomepageComponent},
   { path: 'ticket/:id', component: TicketDetailComponent},
