@@ -1,5 +1,5 @@
 import {Component, inject, TemplateRef} from '@angular/core';
-import {NgIf, NgOptimizedImage} from "@angular/common";
+import {DatePipe, formatDate, NgForOf, NgIf, NgOptimizedImage} from "@angular/common";
 import {
   ModalDismissReasons,
   NgbDropdown, NgbDropdownItem,
@@ -12,6 +12,9 @@ import {DataService} from "../services/data-service";
 import {Ticket} from "../rest-objects/ticket";
 import {ActivatedRoute, Router, RouterLink} from "@angular/router";
 import {Append} from "../rest-objects/append";
+import {TicketComment} from "../rest-objects/ticket_comment";
+import _default from "chart.js/dist/core/core.interaction";
+import {User} from "../rest-objects/user";
 
 @Component({
   selector: 'app-ticket-detail',
@@ -24,7 +27,9 @@ import {Append} from "../rest-objects/append";
     NgbDropdownToggle,
     NgbDropdownMenu,
     NgbDropdownItem,
-    RouterLink
+    RouterLink,
+    NgForOf,
+    DatePipe
   ],
   templateUrl: './ticket-detail.component.html',
   styleUrl: './ticket-detail.component.css'
@@ -34,6 +39,8 @@ export class TicketDetailComponent {
   private modalService = inject(NgbModal);
   closeResult = '';
   public ticket: Ticket | undefined;
+  public users = this.dataService.getUsers();
+  public comments: TicketComment[] = [];
   public id: number | undefined;
   public appends: Append[] | undefined;
   found = true;
@@ -48,7 +55,13 @@ export class TicketDetailComponent {
     if (this.id != undefined) {
       this.getTicket(this.id);
     }
+    this.dataService.restService.loadComments();
+    if (this.id != undefined) {
+      const ticketId = this.id;
+      this.comments = this.dataService.getComments().sort(a => a.ticketId = ticketId);
+    }
   }
+
   private getTicket(id: number) {
     this.dataService
       .restService.loadTicket(id)
@@ -85,6 +98,10 @@ export class TicketDetailComponent {
       default:
         return `with: ${reason}`;
     }
+  }
+
+  private getCommentsFromTicket() {
+
   }
 
   downloadFile() {
@@ -132,5 +149,9 @@ export class TicketDetailComponent {
       }
     }
     window.location.reload();
+  }
+
+  getUser(id?: Number): User {
+    return <User>this.users.find(user => user.id === id);
   }
 }

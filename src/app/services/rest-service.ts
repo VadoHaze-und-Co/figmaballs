@@ -6,6 +6,8 @@ import {Injectable} from "@angular/core";
 import {Category} from "../rest-objects/category";
 import {tick} from "@angular/core/testing";
 import {Append} from "../rest-objects/append";
+import {TicketComment} from "../rest-objects/ticket_comment";
+import {User} from "../rest-objects/user";
 
 export class RestService {
 
@@ -48,6 +50,18 @@ export class RestService {
     });
   }
 
+  public loadUsers() {
+    this.httpRequest('http://localhost:8089/users', 'GET', data => {
+      (<User[]>data).forEach(e => this.dataService.users.push(new User(e.id, e.userName, e.firstName, e.lastName, e.emailAddress, e.address, e.postcode, e.city, e.admin, e.userGroups, e.comments)));
+    });
+  }
+
+  public loadComments() {
+    this.httpRequest('http://localhost:8089/comments', 'GET', data => {
+      (<TicketComment[]>data).forEach(e => this.dataService.comments.push(new TicketComment(e.id, e.ticketId, e.userId, e.comment, e.commentDate, e.edited)));
+    });
+  }
+
   public async loadTicket(id: number): Promise<Ticket> {
     return await firstValueFrom(
       this.http.get<Ticket>(`http://localhost:8089/tickets/${id}`, {
@@ -56,9 +70,35 @@ export class RestService {
     );
   }
 
+  public async loadUser(id: number): Promise<User> {
+    return await firstValueFrom(
+      this.http.get<User>(`http://localhost:8089/users/${id}`, {
+        headers: new HttpHeaders().set('Content-Type', 'application/json'),
+      })
+    );
+  }
+
+  public async loadComment(id: number): Promise<TicketComment> {
+    return await firstValueFrom(
+      this.http.get<TicketComment>(`http://localhost:8089/comments/${id}`, {
+        headers: new HttpHeaders().set('Content-Type', 'application/json'),
+      })
+    );
+  }
+
   public createTicket(ticket: Ticket) {
     this.httpRequest('http://localhost:8089/tickets', 'POST', data => {
     }, ticket);
+  }
+
+  public createUser(user: User) {
+    this.httpRequest('http://localhost:8089/users', 'POST', data => {
+    }, user);
+  }
+
+  public createComment(comment: TicketComment) {
+    this.httpRequest('http://localhost:8089/comments', 'POST', data => {
+    }, comment);
   }
 
   public createAppend(append: Append) {
@@ -73,6 +113,21 @@ export class RestService {
 
   public updateTicket(ticket: Ticket) {
     return firstValueFrom(this.http.put(`http://localhost:8089/tickets/${ticket.id}`, ticket, {
+      headers: new HttpHeaders().set('Content-Type', 'application/json')
+    }));
+  }
+
+  public updateUser(user: User) {
+    return firstValueFrom(this.http.put(`http://localhost:8089/users/${user.id}`, user, {
+      headers: new HttpHeaders().set('Content-Type', 'application/json')
+    }));
+  }
+
+  public updateComment(comment: TicketComment) {
+    if (!comment.edited) {
+      comment.edited = true;
+    }
+    return firstValueFrom(this.http.put(`http://localhost:8089/comments/${comment.id}`, comment, {
       headers: new HttpHeaders().set('Content-Type', 'application/json')
     }));
   }

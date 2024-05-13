@@ -6,6 +6,14 @@
   border-radius: 20px;
 }
 
+.comment-container {
+  margin: 50px 10% auto;
+  width: 80%;
+  padding: 50px;
+  background-color: #666;
+  border-radius: 20px;
+}
+
 .ticket-background {
   border-radius: 10px;
   background-color: #ddd;
