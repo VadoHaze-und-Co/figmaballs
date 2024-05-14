@@ -73,3 +73,9 @@ td {
   border: none;
   background: none;
 }
+
+.commentField {
+  height: 10%;
+  overflow: scroll;
+  max-width: 95%;
+}

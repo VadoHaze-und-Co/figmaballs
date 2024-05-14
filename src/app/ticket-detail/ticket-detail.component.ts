@@ -13,8 +13,8 @@ import {Ticket} from "../rest-objects/ticket";
 import {ActivatedRoute, Router, RouterLink} from "@angular/router";
 import {Append} from "../rest-objects/append";
 import {TicketComment} from "../rest-objects/ticket_comment";
-import _default from "chart.js/dist/core/core.interaction";
 import {User} from "../rest-objects/user";
+import {FormBuilder, FormsModule} from "@angular/forms";
 
 @Component({
   selector: 'app-ticket-detail',
@@ -29,7 +29,8 @@ import {User} from "../rest-objects/user";
     NgbDropdownItem,
     RouterLink,
     NgForOf,
-    DatePipe
+    DatePipe,
+    FormsModule
   ],
   templateUrl: './ticket-detail.component.html',
   styleUrl: './ticket-detail.component.css'
@@ -40,26 +41,17 @@ export class TicketDetailComponent {
   closeResult = '';
   public ticket: Ticket | undefined;
   public users = this.dataService.getUsers();
-  public comments: TicketComment[] = [];
   public id: number | undefined;
   public appends: Append[] | undefined;
+  public comments: TicketComment[] = this.dataService.getComments();
   found = true;
   showSaveSuccess = false;
+  public commentText: string | undefined;
 
   constructor(public dataService: DataService, private router: ActivatedRoute, private route: Router) {
-    this.ngOnInit();
-  }
-
-  ngOnInit(): void {
     this.getRequiredDataFromParams();
-    if (this.id != undefined) {
-      this.getTicket(this.id);
-    }
+    this.getTicket(this.id!);
     this.dataService.restService.loadComments();
-    if (this.id != undefined) {
-      const ticketId = this.id;
-      this.comments = this.dataService.getComments().sort(a => a.ticketId = ticketId);
-    }
   }
 
   private getTicket(id: number) {
@@ -76,6 +68,19 @@ export class TicketDetailComponent {
     if (routeQueries.has('saveSuccess')) {
       this.showSaveSuccess = routeQueries.get('saveSuccess') === 'true';
     }
+  }
+
+  addComment() {
+    if (this.commentText !== undefined) {
+      const entity: TicketComment = new TicketComment();
+      entity.comment = this.commentText;
+      entity.ticketId = this.id;
+      entity.userId = 1;
+      entity.edited = false;
+      entity.commentDate = Date.now();
+      this.dataService.restService.createComment(entity);
+    }
+    window.location.reload();
   }
 
   open(content: TemplateRef<any>) {
@@ -100,10 +105,6 @@ export class TicketDetailComponent {
     }
   }
 
-  private getCommentsFromTicket() {
-
-  }
-
   downloadFile() {
 
   }
@@ -115,10 +116,6 @@ export class TicketDetailComponent {
   }
 
   closeTicket(id: number | undefined) {
-
-  }
-
-  setAssignation(id:number,userId:number) {
 
   }
 
@@ -149,9 +146,5 @@ export class TicketDetailComponent {
       }
     }
     window.location.reload();
-  }
-
-  getUser(id?: Number): User {
-    return <User>this.users.find(user => user.id === id);
   }
 }

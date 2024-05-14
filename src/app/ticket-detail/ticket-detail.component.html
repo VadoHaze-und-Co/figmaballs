@@ -125,21 +125,30 @@
 <div class="comment-container">
   <p class="h4">Kommentare:</p>
   <ng-container *ngFor="let comment of comments">
-    <div class="col-md-8 ticket-background" style="margin-top: 2%; margin-bottom: 2%">
-      <div class="media g-mb-30 media-comment">
-        <!--img class="d-flex g-width-50 g-height-50 rounded-circle g-mt-3 g-mr-15" src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Image Description"-->
-        <div class="media-body u-shadow-v18 g-bg-secondary g-pa-30">
-          <div class="g-mb-15">
-            <h5 class="h5 g-color-gray-dark-v1 mb-0"><b>{{ getUser(comment.userId).firstName }}</b></h5>
-          </div>
 
-          <p>{{comment.comment}}</p>
+    <div *ngIf="comment.ticketId != undefined && comment.ticketId == this.id">
+      <div class="col-md-8 ticket-background" style="margin-top: 2%; margin-bottom: 2%">
+        <div class="media g-mb-30 media-comment">
+          <!--img class="d-flex g-width-50 g-height-50 rounded-circle g-mt-3 g-mr-15" src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Image Description"-->
+          <div class="media-body u-shadow-v18 g-bg-secondary g-pa-30">
+            <div class="g-mb-15">
+              <h5 class="h5 g-color-gray-dark-v1 mb-0"><b></b></h5>
+            </div>
 
-          <div *ngIf="comment.commentDate != undefined">
-            <span class="g-color-gray-dark-v4 g-font-size-12" style="font-style: italic">{{ comment.commentDate | date:'dd.MM.yyyy HH:mm:ss' }}</span>
+            <p>{{comment.comment}}</p>
+
+            <div *ngIf="comment.commentDate != undefined">
+              <span class="g-color-gray-dark-v4 g-font-size-12" style="font-style: italic">{{ comment.commentDate | date:'dd.MM.yyyy HH:mm:ss' }}</span>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </ng-container>
+  <div class="ticket-background">
+      <div class="input-group mb-3">
+        <textarea [ngModel]="commentText" type="text" class="form-control commentField" placeholder="Kommentar" aria-label="Kommentar" aria-describedby="button-addon2"></textarea>
+        <button class="btn btn-outline-secondary" id="button-addon2" (click)="addComment()">Button</button>
+      </div>
+  </div>
 </div>
