@@ -1,4 +1,4 @@
-import {Component, inject, TemplateRef} from '@angular/core';
+import {Component, ElementRef, inject, TemplateRef, ViewChild} from '@angular/core';
 import {DatePipe, formatDate, NgForOf, NgIf, NgOptimizedImage} from "@angular/common";
 import {
   ModalDismissReasons,
@@ -47,10 +47,15 @@ export class TicketDetailComponent {
   found = true;
   showSaveSuccess = false;
   public commentText: string | undefined;
+  public user: User = new User();
+  @ViewChild('editableComment') editableComment: ElementRef | undefined;
+  @ViewChild('nonEditableComment') nonEditableComment: ElementRef | undefined;
+  //commentUsers: Map<number,string> = new Map<number, string>();
 
   constructor(public dataService: DataService, private router: ActivatedRoute, private route: Router) {
     this.getRequiredDataFromParams();
     this.getTicket(this.id!);
+    this.dataService.restService.loadUsers();
     this.dataService.restService.loadComments();
   }
 
@@ -70,8 +75,9 @@ export class TicketDetailComponent {
     }
   }
 
-  addComment() {
+  addComment(edit: boolean) {
     if (this.commentText !== undefined) {
+      console.log("Comment: " + this.commentText)
       const entity: TicketComment = new TicketComment();
       entity.comment = this.commentText;
       entity.ticketId = this.id;
@@ -105,8 +111,22 @@ export class TicketDetailComponent {
     }
   }
 
+  getUser(userId: number): User {
+    return this.users.find(u => u.id == userId)!;
+  }
+
   downloadFile() {
 
+  }
+
+  editComment(commentId: number) {
+    this.nonEditableComment!.nativeElement.hidden = true;
+    this.editableComment!.nativeElement.hidden = false;
+  }
+
+  deleteComment(commentId: number) {
+    this.dataService.restService.deleteComment(this.comments.find(c => c.id == commentId)!);
+    window.location.reload();
   }
 
   editTicket(id: number | undefined) {
@@ -147,4 +167,6 @@ export class TicketDetailComponent {
     }
     window.location.reload();
   }
+
+  protected readonly User = User;
 }

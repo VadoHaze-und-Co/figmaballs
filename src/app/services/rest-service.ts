@@ -138,4 +138,8 @@ export class RestService {
     }));
   }
 
+  public deleteComment(comment: TicketComment) {
+    this.httpRequest(`http://localhost:8089/comments/${comment.id}`, "DELETE", data => {comment});
+  }
+
 }
