@@ -5,7 +5,6 @@ import { User } from '../rest-objects/user';
 import { DataService } from '../services/data-service';
 import {NgbDropdown, NgbDropdownMenu, NgbDropdownToggle} from "@ng-bootstrap/ng-bootstrap";
 
-
 @Component({
   selector: 'app-benutzer-verwaltung',
   standalone: true,
@@ -16,20 +15,21 @@ import {NgbDropdown, NgbDropdownMenu, NgbDropdownToggle} from "@ng-bootstrap/ng-
 export class BenutzerVerwaltungComponent {
   qualifikationen = ['Qualifikation 1', 'Qualifikation 2', 'Qualifikation 3'];
   @ViewChild('inputFile') inputFile: ElementRef | undefined;
+  public selectedQualifikationen = [];
   triggerClick() {
     // @ts-ignore
     this.inputFile.nativeElement.click();
   }
 
   constructor(public dataService: DataService) {
-   // dataService.restService.loadUsers();    
+    dataService.restService.getUsers();
   }
 
   ngOnInit() {
-    this.createUser();
+    //this.createUser();
 }
 
-createUser() {
+/*createUser() {
     let testUser = new User();
     testUser.vorname = 'Test';
     testUser.nachname = 'Benutzer';
@@ -50,9 +50,8 @@ createUser() {
     testUser2.isAdmin = true;
 
     this.users.push(testUser, testUser2);
-}
-  
-  public users: User[] = [];
+}*/
+
   public user: User = new User();
 
   handleFileInput(files: EventTarget | null) {
@@ -63,10 +62,11 @@ createUser() {
     reader.onload = (event: any) => {
       // @ts-ignore
       document.getElementById('image-file').src = event.target.result;
-      this.user.bild = event.target.result;
+      this.user.profilpicture = event.target.result;
     }
     // @ts-ignore
     reader.readAsDataURL(file);
+
   }
   getSelectedQualifikationen(): string[] {
     const checkboxes = document.querySelectorAll('.dropdownQuali input[type="checkbox"]:checked');
@@ -75,7 +75,7 @@ createUser() {
     return selectedQualifikationen;
   }
 
-  saveUser() {
+  /*saveUser() {
     this.user.benutzername = (<HTMLInputElement>document.getElementById('benutzername')).value;
     this.user.vorname = (<HTMLInputElement>document.getElementById('vorname')).value;
     this.user.nachname = (<HTMLInputElement>document.getElementById('nachname')).value;
@@ -86,10 +86,29 @@ createUser() {
     this.user.qualifikation =this.getSelectedQualifikationen()
     this.user.isAdmin = (<HTMLInputElement>document.getElementById('adminCheckbox')).checked;
     this.dataService.restService.createUser(this.user);
-  }
+  }*/
 
   selectUser(user: User) {
     this.user = user;
+    // @ts-ignore
+    document.getElementById('image-file').src = user.profilpicture;
     console.log(this.user);
   }
+  onCheckboxChange(event: any, qualifikation: string) {
+    if (event.target.checked) {
+      // @ts-ignore
+      this.selectedQualifikationen.push(qualifikation);
+    } else {
+      // @ts-ignore
+      const index = this.selectedQualifikationen.indexOf(qualifikation);
+      if (index !== -1) {
+        this.selectedQualifikationen.splice(index, 1);
+      }
+    }
+    this.user.qualifikation = this.selectedQualifikationen;
+  }
+  saveUser() {
+    this.dataService.restService.updateUser(this.user);
+  }
+
 }

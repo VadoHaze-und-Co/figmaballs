@@ -62,6 +62,18 @@ export class RestService {
     }, ticket);
   }
 
+  public getUsers() {
+    this.httpRequest('http://localhost:8089/users', 'GET', data => {
+      (<User[]>data).forEach(e => this.dataService.users.push(new User(e.id,e.userName, e.firstName, e.lastName, e.emailAddress, e.address, e.postcode, e.city,e.profilpicture,e.qualifikation, e.admin)));
+    });
+  }
+
+  public updateUser(user: User) {
+    return firstValueFrom(this.http.put(`http://localhost:8089/users/${user.id}`, user, {
+      headers: new HttpHeaders().set('Content-Type', 'application/json')
+    }));
+  }
+
   public createUser(user: User) {
     this.httpRequest('http://localhost:8089/users', 'POST', data => {
     }, user);
@@ -82,6 +94,6 @@ export class RestService {
       headers: new HttpHeaders().set('Content-Type', 'application/json')
     }));
   }
-  
+
 
 }
