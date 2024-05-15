@@ -104,7 +104,7 @@ export class RestService {
     this.httpRequest('http://localhost:8089/users', 'POST', data => {
     }, user);
   }
-
+  
   public createComment(comment: TicketComment) {
     this.httpRequest('http://localhost:8089/comments', 'POST', data => {
     }, comment);
@@ -134,6 +134,7 @@ export class RestService {
       headers: new HttpHeaders().set('Content-Type', 'application/json')
     }));
   }
+  
 
   public updateUser(user: User) {
     return firstValueFrom(this.http.put(`http://localhost:8089/users/${user.id}`, user, {
