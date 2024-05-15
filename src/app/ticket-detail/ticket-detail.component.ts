@@ -1,5 +1,5 @@
-import {Component, inject, TemplateRef} from '@angular/core';
-import {NgForOf, NgIf, NgOptimizedImage} from "@angular/common";
+import {Component, ElementRef, inject, TemplateRef, ViewChild} from '@angular/core';
+import {DatePipe, formatDate, NgForOf, NgIf, NgOptimizedImage} from "@angular/common";
 import {
   ModalDismissReasons,
   NgbDropdown, NgbDropdownItem,
@@ -12,6 +12,9 @@ import {DataService} from "../services/data-service";
 import {Ticket} from "../rest-objects/ticket";
 import {ActivatedRoute, Router, RouterLink} from "@angular/router";
 import {Append} from "../rest-objects/append";
+import {TicketComment} from "../rest-objects/ticket_comment";
+import {User} from "../rest-objects/user";
+import {FormBuilder, FormsModule} from "@angular/forms";
 
 @Component({
   selector: 'app-ticket-detail',
@@ -25,7 +28,9 @@ import {Append} from "../rest-objects/append";
     NgbDropdownMenu,
     NgbDropdownItem,
     RouterLink,
-    NgForOf
+    NgForOf,
+    DatePipe,
+    FormsModule
   ],
   templateUrl: './ticket-detail.component.html',
   styleUrl: './ticket-detail.component.css'
@@ -35,21 +40,25 @@ export class TicketDetailComponent {
   private modalService = inject(NgbModal);
   closeResult = '';
   public ticket: Ticket | undefined;
-  public appends: Append[] = [];
+  public users = this.dataService.getUsers();
   public id: number | undefined;
+  public appends: Append[] | undefined;
+  public comments: TicketComment[] = this.dataService.getComments();
   found = true;
   showSaveSuccess = false;
+  public commentText: string | undefined;
+  public user: User = new User();
+  @ViewChild('editableComment') editableComment: ElementRef | undefined;
+  @ViewChild('nonEditableComment') nonEditableComment: ElementRef | undefined;
+  //commentUsers: Map<number,string> = new Map<number, string>();
 
   constructor(public dataService: DataService, private router: ActivatedRoute, private route: Router) {
-    this.ngOnInit();
+    this.getRequiredDataFromParams();
+    this.getTicket(this.id!);
+    this.dataService.restService.loadUsers();
+    this.dataService.restService.loadComments();
   }
 
-  ngOnInit(): void {
-    this.getRequiredDataFromParams();
-    if (this.id != undefined) {
-      this.getTicket(this.id);
-    }
-  }
   private getTicket(id: number) {
     this.dataService
       .restService.loadTicket(id)
@@ -76,6 +85,20 @@ export class TicketDetailComponent {
     }
   }
 
+  addComment(edit: boolean) {
+    if (this.commentText !== undefined) {
+      console.log("Comment: " + this.commentText)
+      const entity: TicketComment = new TicketComment();
+      entity.comment = this.commentText;
+      entity.ticketId = this.id;
+      entity.userId = 1;
+      entity.edited = false;
+      entity.commentDate = Date.now();
+      this.dataService.restService.createComment(entity);
+    }
+    window.location.reload();
+  }
+
   open(content: TemplateRef<any>) {
     this.modalService.open(content, { size: 'xl', centered: true, scrollable: true}).result.then(
       (result) => {
@@ -98,6 +121,10 @@ export class TicketDetailComponent {
     }
   }
 
+  getUser(userId: number): User {
+    return this.users.find(u => u.id == userId)!;
+  }
+  
   downloadFile(append: Append) {
     const blob = new Blob([append.content!], { type: 'application/octet-stream' });
     const url = window.URL.createObjectURL(blob);
@@ -107,6 +134,16 @@ export class TicketDetailComponent {
     link.click();
   }
 
+  editComment(commentId: number) {
+    this.nonEditableComment!.nativeElement.hidden = true;
+    this.editableComment!.nativeElement.hidden = false;
+  }
+
+  deleteComment(commentId: number) {
+    this.dataService.restService.deleteComment(this.comments.find(c => c.id == commentId)!);
+    window.location.reload();
+  }
+
   editTicket(id: number | undefined) {
     /*if (id != undefined) {
       this.router.navigateByUrl('/ticket/edit/' + id);
@@ -114,10 +151,6 @@ export class TicketDetailComponent {
   }
 
   closeTicket(id: number | undefined) {
-
-  }
-
-  setAssignation(id:number,userId:number) {
 
   }
 
@@ -150,4 +183,6 @@ export class TicketDetailComponent {
     }
     window.location.reload();
   }
+
+  protected readonly User = User;
 }

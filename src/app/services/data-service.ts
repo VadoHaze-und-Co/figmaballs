@@ -4,6 +4,8 @@ import {Category} from "../rest-objects/category";
 import {RestService} from "./rest-service";
 import {HttpClient, HttpClientModule} from "@angular/common/http";
 import {SideBarService} from "./side-bar-service";
+import {TicketComment} from "../rest-objects/ticket_comment";
+import {User} from "../rest-objects/user";
 
 @NgModule({
   imports: [HttpClientModule],
@@ -18,6 +20,10 @@ export class DataService {
 
   public categoriesDefault: string[] = ["Vertrieb", "Marketing", "Finanzen", "Personalwesen", "Kundendienst", "Forschung und Entwicklung", "Produktion", "Einkauf", "Qualitätskontrolle", "IT (Informationstechnologie)", "Recht", "Logistik", "Geschäftsentwicklung", "Öffentlichkeitsarbeit", "Projektmanagement", "Facility Management", "Compliance", "Risikomanagement", "Humanressourcen", "Beschaffung", "Buchhaltung", "Verwaltung", "Technischer Support", "Design und Kreativität", "Werbung", "Produktmanagement", "Lagerhaltung", "Datenschutz", "Umweltmanagement", "Schulung und Entwicklung", "Unternehmenskommunikation", "Interne Revision", "Geschäftsanalyse", "Gesundheit und Sicherheit", "Vertragsmanagement", "Informationssicherheit", "Softwareentwicklung", "Hardwareentwicklung", "Unternehmensstrategie", "Wissensmanagement", "Verkaufsförderung", "Kundenbeziehungsmanagement", "Produktionsplanung", "Lieferkettenmanagement", "Innovationsmanagement", "Kundenbindung", "Geschäftspartnerschaften", "F & E-Beratung", "Geschäftsprozessoptimierung", "Projektsteuerung und -überwachung"];
   public categories: Category[] = [];
+
+  public users: User[] = [];
+
+  public comments: TicketComment[] = [];
 
   public restService;
   public sideBarService;
@@ -52,9 +58,13 @@ export class DataService {
   public getTickets() {
     return this.tickets;
   }
+  
+  public getUsers() {
+    return this.users;
+  }
 
-  public getTicketById(id: number) {
-    return this.tickets[id];
+  public getComments() {
+    return this.comments;
   }
 
   public getTicketStatus(status: number | undefined): string {
