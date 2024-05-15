@@ -9,26 +9,26 @@
     </div>
     <div class="grid-item">
         <label class="label" for="benutzername">Benutzername</label>
-        <input type="text" [(ngModel)]="user.benutzername" id="benutzername" class="input-field"></div>
+        <input type="text" [(ngModel)]="user.userName" id="benutzername" class="input-field"></div>
     <div class="grid-item">
         <label class="label" for="vorname">Vorname</label>
-        <input type="text" [(ngModel)]="user.vorname" id="vorname" class="input-field"></div>
+        <input type="text" [(ngModel)]="user.firstName" id="vorname" class="input-field"></div>
     <div class="grid-item">
         <label class="label" for="nachname">Nachname</label>
-        <input type="text" [(ngModel)]="user.nachname" id="nachname" class="input-field"></div>
+        <input type="text" [(ngModel)]="user.lastName" id="nachname" class="input-field"></div>
     <div class="grid-item">
         <label class="label" for="anschrift">Anschrift</label>
-        <input type="text" [(ngModel)]="user.anschrift" id="anschrift" class="input-field"></div>
+        <input type="text" [(ngModel)]="user.address" id="anschrift" class="input-field"></div>
     <div class="grid-item">
         <label class="label" for="stadt">Stadt</label>
-        <input type="text" [(ngModel)]="user.stadt" id="stadt" class="input-field"></div>
+        <input type="text" [(ngModel)]="user.city" id="stadt" class="input-field"></div>
     <div class="grid-item">
         <label class="label" for="plz">Postleitzahl</label>
-        <input type="text" [(ngModel)]="user.plz" id="plz" class="input-field"></div>
+        <input type="text" [(ngModel)]="user.postcode" id="plz" class="input-field"></div>
     <div class="grid-item"></div>
     <div class="grid-item">
         <label class="label" for="email">Kontakt E-mail</label>
-        <input type="text" [(ngModel)]="user.email" id="email" class="input-field"></div>
+        <input type="text" [(ngModel)]="user.emailAddress" id="email" class="input-field"></div>
     <div class="grid-item">
         <label class="label" for="qualifikationen">Qualifikationen</label>
       <div class="row">
@@ -59,7 +59,7 @@
     </div>-->
     <div class="grid-item">
       <label class="label" for="isAdmin">Ist ein Admin?</label>
-      <div id="isAdmin" style="margin-top: git">
+      <div id="isAdmin" style="margin-top: 1%">
         <input type="checkbox" id="adminCheckbox">
         <label for="adminCheckbox"></label>
       </div>
@@ -80,14 +80,13 @@
     </thead>
     <tbody>
         <tr *ngFor="let user of users" (click)="selectUser(user)">
-            <td class="zelle">{{user.vorname}}</td>
-            <td class="zelle">{{user.nachname}}</td>
-            <td class="zelle">{{user.anschrift}}</td>
-            <td class="zelle">{{user.stadt}}</td>
-            <td class="zelle">{{user.plz}}</td>
-            <td class="zelle">{{user.email}}</td>
-            <td class="zelle">{{user.qualifikation}}</td>
-            <td class="zelle">{{user.isAdmin ? 'Ja' : 'Nein'}}</td>
+            <td class="zelle">{{user.firstName}}</td>
+            <td class="zelle">{{user.lastName}}</td>
+            <td class="zelle">{{user.address}}</td>
+            <td class="zelle">{{user.city}}</td>
+            <td class="zelle">{{user.postcode}}</td>
+            <td class="zelle">{{user.emailAddress}}</td>
+            <td class="zelle">{{user.admin ? 'Ja' : 'Nein'}}</td>
         </tr>
     </tbody>
 </table>
