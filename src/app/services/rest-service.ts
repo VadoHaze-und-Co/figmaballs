@@ -2,14 +2,12 @@ import {catchError, EMPTY, firstValueFrom, Observable} from "rxjs";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Ticket} from "../rest-objects/ticket";
 import {DataService} from "./data-service";
-import {Injectable} from "@angular/core";
 import {Category} from "../rest-objects/category";
-import {tick} from "@angular/core/testing";
 import {Append} from "../rest-objects/append";
 import {Login} from "../rest-objects/login";
 import {TicketComment} from "../rest-objects/ticket_comment";
 import {User} from "../rest-objects/user";
-import {log} from "@angular-devkit/build-angular/src/builders/ssr-dev-server";
+import {Log} from "../rest-objects/log";
 
 export class RestService {
 
@@ -105,7 +103,7 @@ export class RestService {
     this.httpRequest('http://localhost:8089/users', 'POST', data => {
     }, user);
   }
-  
+
   public createComment(comment: TicketComment) {
     this.httpRequest('http://localhost:8089/comments', 'POST', data => {
     }, comment);
@@ -135,7 +133,7 @@ export class RestService {
       headers: new HttpHeaders().set('Content-Type', 'application/json')
     }));
   }
-  
+
 
   public updateUser(user: User) {
     return firstValueFrom(this.http.put(`http://localhost:8089/users/${user.id}`, user, {
@@ -162,4 +160,14 @@ export class RestService {
     return true;
   }
 
+  public createLog(log: Log) {
+    this.httpRequest('http://localhost:8089/log', 'POST', data => {
+    }, log);
+  }
+
+  public getLogs(page: number, amount: number, result: Log[]) {
+    this.httpRequest(`http://localhost:8089/log/` + page + "/" + amount, 'GET', data => {
+      (<Log[]>data).forEach(e=> result.push(new Log(e.user, e.object, e.action, e.message, e.timestamp)));
+    });
+  }
 }
