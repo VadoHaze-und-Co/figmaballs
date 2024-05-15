@@ -10,18 +10,21 @@ import {
   Legend, SubTitle, Title,
   Tooltip
 } from 'chart.js';
-import {NgForOf} from "@angular/common";
+import {NgForOf, NgIf} from "@angular/common";
 import {DataService} from "../services/data-service";
 import {Ticket} from "../rest-objects/ticket";
 import {Router} from "@angular/router";
+import {NgbDropdownItem} from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
   selector: 'app-homepage',
   standalone: true,
-  imports: [
-    BaseChartDirective,
-    NgForOf
-  ],
+    imports: [
+        BaseChartDirective,
+        NgForOf,
+        NgIf,
+        NgbDropdownItem
+    ],
   templateUrl: './homepage.component.html',
   styleUrl: './homepage.component.css'
 })
