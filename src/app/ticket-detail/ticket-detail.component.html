@@ -11,7 +11,7 @@
       <div *ngIf="this.ticket?.status == 3; else finishedTicket1" class="col-2">
         <label class="form-label" for="imagePriority">Priorität:</label>
         <button id="imagePriority" style="border:none; background: transparent;" disabled>
-          <img src="assets/svg/{{this.ticket?.priority}}.svg"/>
+          <img src="assets/svg/{{this.ticket?.priority}}.svg" alt="{{this.dataService.priorityToString(this.ticket?.priority)}}"/>
         </button>
       </div>
       <ng-template #finishedTicket1>
@@ -66,7 +66,7 @@
       <div class="col-2">
         <p class="card-text">Status:</p>
       </div>
-      <div *ngIf="this.ticket?.status == 3; else finishedTicket2" class="col-6">
+      <div *ngIf="this.ticket?.status == 3 || this.ticket?.status == -1; else finishedTicket2" class="col-6">
         <b>{{ this.dataService.getTicketStatus(this.ticket?.status) }}</b>
       </div>
       <ng-template #finishedTicket2>
@@ -83,7 +83,6 @@
             <button ngbDropdownItem *ngIf="this.ticket?.status != 0" (click)="setStatus(this.ticket?.id,0)">Offen</button>
             <button ngbDropdownItem *ngIf="this.ticket?.status != 1" (click)="setStatus(this.ticket?.id,1)">In Arbeit</button>
             <button ngbDropdownItem *ngIf="this.ticket?.status != 2" (click)="setStatus(this.ticket?.id,2)">Wird getestet</button>
-            <button ngbDropdownItem *ngIf="this.ticket?.status != 3" (click)="setStatus(this.ticket?.id,3)">Abgeschlossen</button>
             <button ngbDropdownItem *ngIf="this.ticket?.status != -1" (click)="setStatus(this.ticket?.id,-1)">Abgesagt</button>
           </div>
         </div>
@@ -102,8 +101,8 @@
     <hr>
     <div class="ticket-options">
       <div class="btn-group" role="group" aria-label="ticket options">
-        <button *ngIf="this.ticket?.status == 0 || this.ticket?.status == 3; else statusHigherThanZero" type="button" class="btn btn-success" (click)="closeTicket(ticket?.id)" disabled>Abschließen</button>
-        <ng-template #statusHigherThanZero>
+        <button *ngIf="this.ticket?.status == 0 || this.ticket?.status == 3 || this.ticket?.status == -1; else statusOnWork" type="button" class="btn btn-success" disabled>Abschließen</button>
+        <ng-template #statusOnWork>
           <button type="button" class="btn btn-success" (click)="closeTicket(ticket?.id)">Abschließen</button>
         </ng-template>
         <button *ngIf="this.ticket?.status == 3; else finishedTicket3" hidden="hidden"></button>

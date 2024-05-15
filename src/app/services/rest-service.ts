@@ -6,6 +6,7 @@ import {Injectable} from "@angular/core";
 import {Category} from "../rest-objects/category";
 import {tick} from "@angular/core/testing";
 import {Append} from "../rest-objects/append";
+import {Login} from "../rest-objects/login";
 import {TicketComment} from "../rest-objects/ticket_comment";
 import {User} from "../rest-objects/user";
 import {log} from "@angular-devkit/build-angular/src/builders/ssr-dev-server";
@@ -49,7 +50,7 @@ export class RestService {
 
   public loadTickets() {
     this.httpRequest('http://localhost:8089/tickets', 'GET', data => {
-    (<Ticket[]>data).forEach(e => this.dataService.tickets.push(new Ticket(e.id, e.title, e.description, e.status, e.priority, e.creationDate, e.categories)));
+    (<Ticket[]>data).forEach(e => this.dataService.tickets.push(new Ticket(e.id, e.title, e.description, e.status, e.priority, e.creationDate, e.finishDate, e.categories)));
     });
   }
 
@@ -153,6 +154,12 @@ export class RestService {
 
   public deleteComment(comment: TicketComment) {
     this.httpRequest(`http://localhost:8089/comments/${comment.id}`, "DELETE", data => {comment});
+  }
+
+  public login(login: Login): boolean {
+    this.httpRequest('http://localhost:8089/login', 'POST', data => {
+    }, login);
+    return true;
   }
 
 }

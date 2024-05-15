@@ -81,4 +81,19 @@ export class DataService {
         return "Offen";
     }
   }
+
+  public priorityToString(priority: number | undefined): string {
+    switch (priority) {
+      case -2:
+        return "niedrigste Priorität";
+      case -1:
+        return "niedriger Priorität";
+      case 1:
+        return "höher Priorität";
+      case 2:
+        return "höchste Priorität";
+      default:
+        return "Normal";
+    }
+  }
 }
