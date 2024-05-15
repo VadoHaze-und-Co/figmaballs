@@ -8,3 +8,21 @@ div {
   user-drag: none;
   pointer-events: all;
 }
+
+.button {
+  padding: 10px;
+  border-radius: 6px;
+  background-color: #404040;
+  transition: 0.5s;
+  box-shadow: 2px 2px 5px #181818;
+}
+
+.button:hover {
+  background-color: #707070;
+  transition: 0.5s;
+}
+
+.button:active {
+  background-color: #909090;
+  transition: 0.1s;
+}

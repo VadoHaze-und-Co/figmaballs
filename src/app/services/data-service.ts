@@ -58,7 +58,7 @@ export class DataService {
   public getTickets() {
     return this.tickets;
   }
-
+  
   public getUsers() {
     return this.users;
   }

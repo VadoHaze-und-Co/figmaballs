@@ -62,8 +62,18 @@ export class TicketDetailComponent {
   private getTicket(id: number) {
     this.dataService
       .restService.loadTicket(id)
-      .then((ticket) => (this.ticket = ticket))
+      .then((ticket) => {
+        (this.ticket = ticket);
+        this.loadAppends();
+      })
       .catch(() => (this.found = false));
+  }
+
+  public async loadAppends() {
+    this.appends = [];
+    for (let id of this.ticket!.appends!) {
+      this.appends.push(await this.dataService.restService.getAppend(id));
+    }
   }
 
   private getRequiredDataFromParams() {
@@ -114,9 +124,14 @@ export class TicketDetailComponent {
   getUser(userId: number): User {
     return this.users.find(u => u.id == userId)!;
   }
-
-  downloadFile() {
-
+  
+  downloadFile(append: Append) {
+    const blob = new Blob([append.content!], { type: 'application/octet-stream' });
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = append.fileName! + "." + append.fileType!;
+    link.click();
   }
 
   editComment(commentId: number) {
@@ -153,7 +168,8 @@ export class TicketDetailComponent {
   }
 
   deleteTicket(id: number | undefined) {
-
+    this.dataService.restService.deleteTicket(id!);
+    window.location.href = "";
   }
 
   setPriority(id: number | undefined, priority: number) {
