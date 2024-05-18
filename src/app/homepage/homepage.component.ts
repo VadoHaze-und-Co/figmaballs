@@ -34,12 +34,12 @@ export class HomepageComponent {
 // Doughnut
   public tickets: Ticket[] = this.dataService.getTickets();
   public datasetsForChart: number[] = [1,1,1,1]
-  public doughnutChartLabels: string[] = [
+  /*public doughnutChartLabels: string[] = [
     this.getOpenedTickets(this.tickets).length + " Offene Tickets",
     this.getWorkingTickets(this.tickets).length + " Tickets in Arbeit",
     this.getFinishedTickets(this.tickets).length + " Abgeschlossene Tickets",
     this.getOverdueTickets(this.tickets).length + " Überfällige Tickets"
-  ];
+  ];*/
 
   // Die scheiße datasets lässt nicht die Werte auslesen, muss ich mal in der html umsetzen.      - Ali
   /*public doughnutChartDatasets: ChartConfiguration<'doughnut'>['data']['datasets'] = [
