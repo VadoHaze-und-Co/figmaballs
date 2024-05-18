@@ -8,6 +8,7 @@ export class Ticket {
               public creationDate?: number,
               public finishDate?: number,
               public appends?: number[],
-              public categories?: number[]) {
+              public categories?: number[],
+              public comments?: number[]) {
   }
 }
