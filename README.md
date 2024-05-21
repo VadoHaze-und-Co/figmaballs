@@ -6,7 +6,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 Nr | username        | password
 1. | maxmustermann   | Max.Musti11
-2. | mariamusterfrau | Mari.Musti22
+2. | mariamusterfrau | Mari+Musti22
 3. | abcdefgh        | Abcd#efgh33
 4. | reinert-zufall  | Reini/Zufi44
 
