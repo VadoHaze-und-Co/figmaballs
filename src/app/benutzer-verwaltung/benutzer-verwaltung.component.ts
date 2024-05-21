@@ -14,6 +14,7 @@ import {NgbDropdown, NgbDropdownMenu, NgbDropdownToggle} from "@ng-bootstrap/ng-
   styleUrl: './benutzer-verwaltung.component.css'
 })
 export class BenutzerVerwaltungComponent {
+  public users: User[] = this.dataService.getUsers()
   qualifikationen = ['Qualifikation 1', 'Qualifikation 2', 'Qualifikation 3'];
   @ViewChild('inputFile') inputFile: ElementRef | undefined;
   triggerClick() {
@@ -22,14 +23,14 @@ export class BenutzerVerwaltungComponent {
   }
 
   constructor(public dataService: DataService) {
-   // dataService.restService.loadUsers();    
+   dataService.restService.loadUsers();
   }
 
   ngOnInit() {
-    this.createUser();
+    //this.createUser();
 }
 
-createUser() {
+/*createUser() {
     let testUser = new User();
     testUser.vorname = 'Test';
     testUser.nachname = 'Benutzer';
@@ -47,12 +48,10 @@ createUser() {
     testUser2.plz = '12346';
     testUser2.email = 'test@benutzer2.de';
     testUser2.qualifikation = ['Qualifikation 2', 'Qualifikation 3'];
-    testUser2.isAdmin = true;
+    testUser2.admin = true;
 
     this.users.push(testUser, testUser2);
-}
-  
-  public users: User[] = [];
+}*/
   public user: User = new User();
 
   handleFileInput(files: EventTarget | null) {
@@ -63,7 +62,7 @@ createUser() {
     reader.onload = (event: any) => {
       // @ts-ignore
       document.getElementById('image-file').src = event.target.result;
-      this.user.bild = event.target.result;
+      //this.user.bild = event.target.result;
     }
     // @ts-ignore
     reader.readAsDataURL(file);
@@ -76,15 +75,15 @@ createUser() {
   }
 
   saveUser() {
-    this.user.benutzername = (<HTMLInputElement>document.getElementById('benutzername')).value;
-    this.user.vorname = (<HTMLInputElement>document.getElementById('vorname')).value;
-    this.user.nachname = (<HTMLInputElement>document.getElementById('nachname')).value;
-    this.user.anschrift = (<HTMLInputElement>document.getElementById('anschrift')).value;
-    this.user.stadt = (<HTMLInputElement>document.getElementById('stadt')).value;
-    this.user.plz = (<HTMLInputElement>document.getElementById('plz')).value;
-    this.user.email = (<HTMLInputElement>document.getElementById('email')).value;
-    this.user.qualifikation =this.getSelectedQualifikationen()
-    this.user.isAdmin = (<HTMLInputElement>document.getElementById('adminCheckbox')).checked;
+    this.user.userName = (<HTMLInputElement>document.getElementById('benutzername')).value;
+    this.user.firstName = (<HTMLInputElement>document.getElementById('vorname')).value;
+    this.user.lastName = (<HTMLInputElement>document.getElementById('nachname')).value;
+    this.user.address= (<HTMLInputElement>document.getElementById('anschrift')).value;
+    this.user.city = (<HTMLInputElement>document.getElementById('stadt')).value;
+    this.user.postcode = (<HTMLInputElement>document.getElementById('plz')).value;
+    this.user.emailAddress = (<HTMLInputElement>document.getElementById('email')).value;
+    //this.user.qualifikation =this.getSelectedQualifikationen()
+    this.user.admin = (<HTMLInputElement>document.getElementById('adminCheckbox')).checked;
     this.dataService.restService.createUser(this.user);
   }
 

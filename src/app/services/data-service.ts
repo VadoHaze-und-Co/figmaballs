@@ -58,7 +58,7 @@ export class DataService {
   public getTickets() {
     return this.tickets;
   }
-  
+
   public getUsers() {
     return this.users;
   }
@@ -95,5 +95,10 @@ export class DataService {
       default:
         return "Normal";
     }
+  }
+
+  public getCommentCountFromTicket(ticketId: number) {
+    this.restService.loadComments();
+    //this.comments.sort(comment => comment.ticketId == ticketId);
   }
 }

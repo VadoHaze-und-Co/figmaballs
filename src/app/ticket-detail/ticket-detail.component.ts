@@ -124,7 +124,7 @@ export class TicketDetailComponent {
   getUser(userId: number): User {
     return this.users.find(u => u.id == userId)!;
   }
-  
+
   downloadFile(append: Append) {
     const blob = new Blob([append.content!], { type: 'application/octet-stream' });
     const url = window.URL.createObjectURL(blob);
@@ -193,4 +193,17 @@ export class TicketDetailComponent {
   }
 
   protected readonly User = User;
+  protected readonly Date = Date;
+
+  reopenTicket(id: number | undefined) {
+    if (id) {
+      this.getTicket(id);
+      if (this.ticket != undefined) {
+        this.ticket.status = 1;
+        this.ticket.finishDate = undefined;
+        this.dataService.restService.updateTicket(this.ticket);
+      }
+    }
+    window.location.reload();
+  }
 }

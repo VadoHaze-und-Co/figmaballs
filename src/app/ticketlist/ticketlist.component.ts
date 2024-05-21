@@ -2,13 +2,14 @@ import { Component } from '@angular/core';
 import {DataService} from "../services/data-service";
 import {Router} from "@angular/router";
 import {Ticket} from "../rest-objects/ticket";
-import {NgForOf} from "@angular/common";
+import {NgForOf, NgIf} from "@angular/common";
 
 @Component({
   selector: 'app-ticketlist',
   standalone: true,
   imports: [
-    NgForOf
+    NgForOf,
+    NgIf
   ],
   templateUrl: './ticketlist.component.html',
   styleUrl: './ticketlist.component.css'
