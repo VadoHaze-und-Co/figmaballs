@@ -2,18 +2,17 @@ import {catchError, EMPTY, firstValueFrom, Observable} from "rxjs";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Ticket} from "../rest-objects/ticket";
 import {DataService} from "./data-service";
-import {Injectable} from "@angular/core";
 import {Category} from "../rest-objects/category";
-import {tick} from "@angular/core/testing";
 import {Append} from "../rest-objects/append";
 import {Login} from "../rest-objects/login";
 import {TicketComment} from "../rest-objects/ticket_comment";
 import {User} from "../rest-objects/user";
-import {log} from "@angular-devkit/build-angular/src/builders/ssr-dev-server";
+import {Account} from "../rest-objects/account";
+import {CookieService} from "ngx-cookie-service";
 
 export class RestService {
 
-  constructor(private http: HttpClient, public dataService: DataService) {
+  constructor(private http: HttpClient, public dataService: DataService, private cookieService: CookieService) {
     let token = localStorage.getItem("token");
     if (token === null || token == "") {
       return;
@@ -25,17 +24,16 @@ export class RestService {
       .set('Content-Type', 'application/json')
       .set('Type', 'application/octet-stream')
     let option = {body: JSON.stringify(body), headers: headers};
-    console.log(method + " " + url + ": " + JSON.stringify(body));
-    let result = this.http.request(method, url, option)
+    //console.log(method + " " + url + ": " + JSON.stringify(body));
+    return this.http.request(method, url, option)
       .pipe(catchError(error => {
         return EMPTY;
       }));
-    return result;
   }
 
   private async httpRequest(url: string, method: string, func: (data: any) => void, body?: any) {
     this.httpObservable(url, method, body).subscribe(data => {
-      console.log("result: " + JSON.stringify(data));
+      //console.log("result: " + JSON.stringify(data));
       func(data);
     });
   }
@@ -147,13 +145,24 @@ export class RestService {
   }
 
   public deleteComment(comment: TicketComment) {
-    this.httpRequest(`http://localhost:8089/comments/${comment.id}`, "DELETE", data => {comment});
+    this.httpRequest(`http://localhost:8089/comments/${comment.id}`, "DELETE", data => {
+      comment
+     }).then(r => r);
   }
 
-  public login(login: Login): boolean {
+  // LOGIN & LOGOUT
+
+  public login(login: Login) {
     this.httpRequest('http://localhost:8089/login', 'POST', data => {
-    }, login);
-    return true;
+      let account = (<Account>data);
+      this.cookieService.set('account.id',`${account.id}`);
+      this.cookieService.set('account.userId',`${account.userId}`);
+    }, login).catch(err => this.cookieService.set('err',err));
+  }
+
+  public logout() {
+    this.cookieService.delete('account.id');
+    this.cookieService.delete('account.userId');
   }
 
 }
