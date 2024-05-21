@@ -6,6 +6,9 @@ import {HttpClient, HttpClientModule} from "@angular/common/http";
 import {SideBarService} from "./side-bar-service";
 import {TicketComment} from "../rest-objects/ticket_comment";
 import {User} from "../rest-objects/user";
+import {Account} from "../rest-objects/account";
+import {AppComponent} from "../app.component";
+import {CookieService} from "ngx-cookie-service";
 
 @NgModule({
   imports: [HttpClientModule],
@@ -15,6 +18,7 @@ import {User} from "../rest-objects/user";
 export class DataService {
 
   // Running data
+
   public tickets: Ticket[] = [];
   public ticket: Ticket = new Ticket();
 
@@ -28,8 +32,8 @@ export class DataService {
   public restService;
   public sideBarService;
 
-  constructor(public http: HttpClient) {
-    this.restService = new RestService(http, this);
+  constructor(public http: HttpClient, private cookieService: CookieService) {
+    this.restService = new RestService(http, this, cookieService);
     this.sideBarService = new SideBarService(this);
   }
 
@@ -45,6 +49,22 @@ export class DataService {
 
   public height() {
     return window.innerHeight;
+  }
+
+  public getAccountId(): number {
+    if (this.cookieService.check('account.id')) {
+      return parseInt(this.cookieService.get('account.id'));
+    } else {
+      return 0;
+    }
+  }
+
+  public getAccountUserId(): number {
+    if (this.cookieService.check('account.userId')) {
+      return parseInt(this.cookieService.get('account.userId'));
+    } else {
+      return 0;
+    }
   }
 
   public redirect(path: string) {

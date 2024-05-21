@@ -82,6 +82,7 @@ export class HomepageComponent {
   constructor(public dataService: DataService, private router: Router) {
     dataService.restService.loadTickets();
     Chart.register(DoughnutController, ArcElement, Tooltip, Legend, Colors);
+    //console.log('Account id: ' + this.dataService.getAccountId());
   }
 
   public goToTicket(id: number | undefined) {
