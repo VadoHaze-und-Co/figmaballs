@@ -1,24 +1,4 @@
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ticket Liste</title>
-  <style>
-    /* Stil für die Ticketliste */
-    .ticket {
-      border: 1px solid #2b2b2b;
-      border-radius: 5px;
-      padding: 10px;
-      margin-bottom: 10px;
-    }
-    .ticket h2 {
-      margin-top: 0;
-    }
-    .ticket p {
-      margin-bottom: 5px;
-    }
-  </style>
-</head>
-<body>
+
 <div class="container">
   <h1>Support-Ticketliste</h1>
   <table class="table-bordered ticket-list">
@@ -29,6 +9,7 @@
       <th scope="row">Status</th>
       <th scope="row">Priorität</th>
       <th scope="row" style="max-width: 400px">Beschreibung</th>
+      <th scope="row">Anzahl Kommentare</th>
     </tr>
     </thead>
     <tbody>
@@ -36,32 +17,14 @@
       <tr (dblclick)="goToTicket(ticket.id)">
         <td><b>#{{ticket.id}}</b></td>
         <td>{{ticket.title}}</td>
-        <td>{{ticket.status}}</td>
-        <td>{{ticket.priority}}</td>
+        <td style="text-align: center;">{{ this.dataService.getTicketStatus(this.ticket?.status) }}</td>
+        <td style="text-align: center;"><img src="assets/svg/{{this.ticket?.priority!}}.svg"/></td>
         <td>{{ticket.description}}</td>
+        <td></td>
       </tr>
     </ng-container>
     </tbody>
   </table>
 </div>
-<!--<div class="ticket">
-  <h2>Ticket #001: Problem mit dem Drucker</h2>
-  <p>Status: Offen</p>
-  <p>Priorität: Hoch</p>
-  <p>Beschreibung: Der Drucker druckt nicht mehr</p>
-</div>
-<div class="ticket">
-  <h2>Ticket #002: Passwort zurücksetzen</h2>
-  <p>Status: In Bearbeitung</p>
-  <p>Priorität: Mittel</p>
-  <p>Beschreibung: Benutzer hat sein Passwort vergessen</p>
-</div>
-<div class="ticket">
-  <h2>Ticket #003: Software-Update</h2>
-  <p>Status: Geschlossen</p>
-  <p>Priorität: Niedrig</p>
-  <p>Beschreibung: Installation des neuesten Software-Updates</p>
-</div>-->
-</body>
 
 

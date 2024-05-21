@@ -66,12 +66,6 @@ export class RestService {
     });
   }
 
-  /*public loadCommentsByTicketId(ticketId: number) {
-    this.httpRequest(`http://localhost:8089/comments/ticket/${ticketId}`, 'GET', data => {
-      (<TicketComment[]>data).forEach(e => this.dataService.comments.push(new TicketComment(e.id, e.ticketId, e.userId, e.comment, e.commentDate, e.edited)));
-    });
-  }*/
-
   public async loadTicket(id: number): Promise<Ticket> {
     return await firstValueFrom(
       this.http.get<Ticket>(`http://localhost:8089/tickets/${id}`, {
@@ -105,7 +99,7 @@ export class RestService {
     this.httpRequest('http://localhost:8089/users', 'POST', data => {
     }, user);
   }
-  
+
   public createComment(comment: TicketComment) {
     this.httpRequest('http://localhost:8089/comments', 'POST', data => {
     }, comment);
@@ -135,7 +129,7 @@ export class RestService {
       headers: new HttpHeaders().set('Content-Type', 'application/json')
     }));
   }
-  
+
 
   public updateUser(user: User) {
     return firstValueFrom(this.http.put(`http://localhost:8089/users/${user.id}`, user, {

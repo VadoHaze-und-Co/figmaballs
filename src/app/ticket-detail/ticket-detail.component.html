@@ -101,15 +101,17 @@
     <hr>
     <div class="ticket-options">
       <div class="btn-group" role="group" aria-label="ticket options">
-        <button *ngIf="this.ticket?.status == 0 || this.ticket?.status == 3 || this.ticket?.status == -1; else statusOnWork" type="button" class="btn btn-success" disabled>Abschließen</button>
-        <ng-template #statusOnWork>
+        <button type="button" class="btn btn-success" *ngIf="this.ticket?.status == 0 || this.ticket?.status == 3 || this.ticket?.status == -1; else unhideClosingButton" disabled>Abschließen</button>
+        <ng-template #unhideClosingButton>
           <button type="button" class="btn btn-success" (click)="closeTicket(ticket?.id)">Abschließen</button>
         </ng-template>
-        <button *ngIf="this.ticket?.status == 3; else finishedTicket3" hidden="hidden"></button>
+        <button *ngIf="this.ticket?.status == 3 else finishedTicket3" hidden="hidden"></button>
         <ng-template #finishedTicket3>
           <button type="button" class="btn btn-warning"(click)="editTicket(ticket?.id)">Bearbeiten</button>
           <button type="button" class="btn btn-danger"(click)="deleteTicket(ticket?.id)">Löschen</button>
         </ng-template>
+
+        <button *ngIf="this.ticket?.finishDate != undefined && this.ticket?.finishDate! > (Date.now() - 86400000)" class="btn btn-info" (click)="reopenTicket(this.ticket?.id)">Wiederöffnen</button>
       </div>
     </div>
   </div>
