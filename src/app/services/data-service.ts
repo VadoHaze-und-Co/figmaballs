@@ -4,6 +4,7 @@ import {Category} from "../rest-objects/category";
 import {RestService} from "./rest-service";
 import {HttpClient, HttpClientModule} from "@angular/common/http";
 import {SideBarService} from "./side-bar-service";
+import {TicketComment} from "../rest-objects/ticket_comment";
 import {User} from "../rest-objects/user";
 
 @NgModule({
@@ -21,7 +22,8 @@ export class DataService {
   public categories: Category[] = [];
 
   public users: User[] = [];
-  public user: User = new User();
+
+  public comments: TicketComment[] = [];
 
   public restService;
   public sideBarService;
@@ -55,6 +57,14 @@ export class DataService {
 
   public getTickets() {
     return this.tickets;
+  }
+
+  public getUsers() {
+    return this.users;
+  }
+
+  public getComments() {
+    return this.comments;
   }
 
   public getTicketStatus(status: number | undefined): string {

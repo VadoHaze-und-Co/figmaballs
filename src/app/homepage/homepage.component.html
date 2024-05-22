@@ -83,7 +83,13 @@
           <td>{{ticket.title}}</td>
           <td>{{ticket.description}}</td>
           <td>{{ticket.status}}</td>
-          <td>{{ticket.priority}}</td>
+          <td>
+            <div *ngIf="this.ticket?.priority == -2"><img src="assets/svg/-2.svg"></div>
+            <div *ngIf="this.ticket?.priority == -1"><img src="assets/svg/-1.svg"></div>
+            <div *ngIf="this.ticket?.priority == 0"><img src="assets/svg/0.svg"></div>
+            <div *ngIf="this.ticket?.priority == 1"><img src="assets/svg/1.svg"></div>
+            <div *ngIf="this.ticket?.priority == 2"><img src="assets/svg/2.svg"></div>
+          </td>
         </tr>
       </ng-container>
     </tbody>
