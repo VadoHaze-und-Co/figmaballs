@@ -99,12 +99,6 @@ export class RestService {
     });
   }
 
-  public updateUser(user: User) {
-    return firstValueFrom(this.http.put(`http://localhost:8089/users/${user.id}`, user, {
-      headers: new HttpHeaders().set('Content-Type', 'application/json')
-    }));
-  }
-
   public createUser(user: User) {
     this.httpRequest('http://localhost:8089/users', 'POST', data => {
     }, user);
@@ -139,7 +133,7 @@ export class RestService {
       headers: new HttpHeaders().set('Content-Type', 'application/json')
     }));
   }
-  
+
   public updateUser(user: User) {
     return firstValueFrom(this.http.put(`http://localhost:8089/users/${user.id}`, user, {
       headers: new HttpHeaders().set('Content-Type', 'application/json')
