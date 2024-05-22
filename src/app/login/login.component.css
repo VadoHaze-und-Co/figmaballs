@@ -1,0 +1,54 @@
+.form-signin {
+  max-width: 330px;
+  padding: 1rem;
+  margin-left: auto;
+  margin-right: auto;
+  padding-top: 15%;
+
+}
+
+.form-signin .login-container {
+  border-radius: 10px;
+  background-color: #ddd;
+  border: solid 2px;
+  color: #222;
+  height: 150%;
+  width: 150%;
+  padding: 10%;
+  padding-right: 15%;
+}
+
+.form-signin div {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.form-signin div .input-field {
+  height: 80%;
+  color: white;
+}
+
+.form-signin div .label{
+  text-align: left;
+  color: rgb(176, 176, 176);
+}
+
+.form-signin .form-floating:focus-within {
+  z-index: 2;
+}
+
+.form-signin #username {
+  margin-bottom: -1px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.form-signin #password {
+  margin-bottom: 10px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.form-signin .btn-secondary {
+  margin-left: 38%;
+}

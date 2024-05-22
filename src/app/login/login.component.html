@@ -1,1 +1,18 @@
-<p>login works!</p>
+<div>
+  <form class="form-signin">
+    <div class="login-container">
+      <p class="h4"><b>Anmelden</b></p>
+      <div class="row">
+        <label for="username">Benutzername:</label>
+        <input type="text" class="input-field" id="username" name="username" [(ngModel)]="username">
+      </div>
+      <div class="row">
+        <label for="password">Passwort:</label>
+        <input type="password" class="input-field" id="password" name="password" [(ngModel)]="password">
+      </div>
+      <!--<div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>-->
+      <button class="btn btn-secondary" type="submit" (click)="login()">Einloggen</button>
+    </div>
+  </form>
+
+</div>

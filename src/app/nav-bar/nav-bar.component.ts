@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import {DeviceDetectorService} from "ngx-device-detector";
 import {NgIf} from "@angular/common";
 import {DataService} from "../services/data-service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-nav-bar',
@@ -14,7 +15,7 @@ import {DataService} from "../services/data-service";
 })
 export class NavBarComponent {
 
-  constructor(public deviceService: DeviceDetectorService, public dataService: DataService) {
+  constructor(public deviceService: DeviceDetectorService, public dataService: DataService, private router: Router) {
   }
 
   public isMobile() {
@@ -23,5 +24,14 @@ export class NavBarComponent {
 
   public h() {
     this.dataService.h();
+  }
+
+  public goToLogin() {
+    this.router.navigateByUrl('/login');
+  }
+
+  public logout() {
+    this.dataService.restService.logout();
+    this.router.navigateByUrl('/login');
   }
 }
