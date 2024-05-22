@@ -85,6 +85,10 @@ export class TicketDetailComponent {
     }
   }
 
+  setAssigment(ticketId: number, userId: number) {
+
+  }
+
   addComment(edit: boolean) {
     if (this.commentText !== undefined) {
       console.log("Comment: " + this.commentText)

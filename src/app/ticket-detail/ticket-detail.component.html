@@ -97,6 +97,10 @@
           <b>Max Mustermann</b>
         </button>
       </p>
+      <div ngbDropdownMenu aria-labelledby="dropdownStatus">
+        <ng-container *ngFor="let user of this.users"></ng-container>
+        <button ngbDropdownItem *ngIf="this.ticket?.status != 0" (click)="setAssigment(this.ticket?.id,user!.id)">Offen</button>
+      </div>
     </div>
     <hr>
     <div class="ticket-options">
