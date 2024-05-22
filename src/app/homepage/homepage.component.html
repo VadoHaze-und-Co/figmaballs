@@ -3,55 +3,65 @@
   <table id="firstTable">
     <tr>
       <td>
-        <span class="infoTextSpan" for="overdueTickets">Überfällige Tickets</span>
+        <span class="infoTextSpan" for="allTickets">Alle Tickets</span>
         <div>
-          <p class="infoText" id="overdueTickets">{{ 0 }}</p>
-        </div>
-      </td>
-      <td>
-        <span class="infoTextSpan" for="ticketsForToday">Tickets für Heute</span>
-        <div>
-          <p class="infoText" id="ticketsForToday">{{ 0 }}</p>
+          <p class="infoText" id="allTickets">{{ this.tickets.length }}</p>
         </div>
       </td>
       <td>
         <span class="infoTextSpan" for="openedTickets">Öffene Tickets</span>
         <div>
-          <p class="infoText" id="openedTickets">{{ getOpenedTickets().length }}</p>
+          <p class="infoText" id="openedTickets">{{ this.getOpenedTickets(this.tickets).length }}</p>
         </div>
       </td>
       <td>
-        <span class="infoTextSpan" for="waitingScale">Warteschlange</span>
+        <span class="infoTextSpan" for="workingTickets">Tickets in Arbeit</span>
         <div>
-          <p class="infoText" id="waitingScale">{{ dataService.getTickets().length }}</p>
+          <p class="infoText" id="workingTickets">{{ this.getWorkingTickets(this.tickets).length }}</p>
+        </div>
+      </td>
+      <td>
+        <span class="infoTextSpan" for="overdueTickets">Überfällige Tickets</span>
+        <div>
+          <p class="infoText" id="overdueTickets">{{ this.getOverdueTickets(this.tickets).length }}</p>
         </div>
       </td>
       <td>
         <span class="infoTextSpan" for="noAssigned">Nicht zugewiesen</span>
         <div>
-          <p class="infoText" id="noAssigned">{{ 0 }}</p>
+          <p class="infoText" id="noAssigned">{{ this.tickets.length }}</p>
 
         </div>
       </td>
       <td>
-        <span class="infoTextSpan" for="markedTickets">Markierte Tickets</span>
+        <span class="infoTextSpan" for="markedTickets">Abgeschlossene Tickets</span>
         <div>
-          <p class="infoText" id="markedTickets">0</p>
+          <p class="infoText" id="markedTickets">{{ this.getFinishedTickets(this.tickets).length }}</p>
         </div>
       </td>
     </tr>
   </table>
-  <table id="firstTable">
+  <table id="secondTable">
     <tr>
       <td class="bigCell">
         <p class="infoText">Alle Tickets</p>
         <div>
-          <canvas baseChart
-                  [labels]="doughnutChartLabels"
-                  [datasets]="doughnutChartDatasets"
-                  [options]="doughnutChartOptions"
-                  [legend]="true"
-                  [type]="'doughnut'" style="margin-bottom: 10px">
+          <canvas baseChart id="doughnutChart"
+                  [labels]='[
+                    this.getOpenedTickets(this.tickets).length + " Offene Tickets",
+                    this.getWorkingTickets(this.tickets).length + " Tickets in Arbeit",
+                    this.getFinishedTickets(this.tickets).length + " Abgeschlossene Tickets",
+                    this.getOverdueTickets(this.tickets).length + " Überfällige Tickets"
+                  ]'
+                  [datasets]='[{data: [
+                    this.getOpenedTickets(this.tickets).length,
+                    this.getWorkingTickets(this.tickets).length,
+                    this.getFinishedTickets(this.tickets).length,
+                    this.getOverdueTickets(this.tickets).length
+                  ]}]'
+                  [options]='doughnutChartOptions'
+                  [legend]='true'
+                  [type]='"doughnut"' style="margin-bottom: 10px">
           </canvas>
         </div>
       </td>
@@ -82,8 +92,14 @@
           <td><b>#{{ticket.id}}</b></td>
           <td>{{ticket.title}}</td>
           <td>{{ticket.description}}</td>
-          <td>{{ticket.status}}</td>
-          <td>{{ticket.priority}}</td>
+          <td>{{ this.dataService.getTicketStatus(this.ticket?.status) }}</td>
+          <td>
+            <div *ngIf="this.ticket?.priority == -2"><img src="assets/svg/-2.svg"></div>
+            <div *ngIf="this.ticket?.priority == -1"><img src="assets/svg/-1.svg"></div>
+            <div *ngIf="this.ticket?.priority == 0"><img src="assets/svg/0.svg"></div>
+            <div *ngIf="this.ticket?.priority == 1"><img src="assets/svg/1.svg"></div>
+            <div *ngIf="this.ticket?.priority == 2"><img src="assets/svg/2.svg"></div>
+          </td>
         </tr>
       </ng-container>
     </tbody>

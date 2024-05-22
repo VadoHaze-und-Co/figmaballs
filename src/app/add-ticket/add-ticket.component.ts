@@ -46,6 +46,11 @@ export class AddTicketComponent {
     for (let file of event.target.files) {
       this.files = this.files.filter(f => f.name != file.name);
       this.files.push(file);
+  /*public async fillFiles(event: any) {
+    this.files = event.target.files;
+    // event.target;
+    for (let file of this.files) {
+      console.log(file);*/
     }
     this.files = this.files.sort((a, b) => a.name.localeCompare(b.name));
   }

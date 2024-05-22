@@ -13,7 +13,7 @@ h2 {
   max-width: 1500px;
 }
 
-#firstTable, #secondTable {
+#firstTable {
   align-items: center;
   margin-left: auto;
   margin-right: auto;
@@ -22,7 +22,6 @@ h2 {
 }
 
 .ticket-list {
-  border-radius: 10px;
   border: none;
   margin-left: auto;
   margin-right: auto;

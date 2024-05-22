@@ -4,6 +4,11 @@ import {Category} from "../rest-objects/category";
 import {RestService} from "./rest-service";
 import {HttpClient, HttpClientModule} from "@angular/common/http";
 import {SideBarService} from "./side-bar-service";
+import {TicketComment} from "../rest-objects/ticket_comment";
+import {User} from "../rest-objects/user";
+import {Account} from "../rest-objects/account";
+import {AppComponent} from "../app.component";
+import {CookieService} from "ngx-cookie-service";
 
 @NgModule({
   imports: [HttpClientModule],
@@ -13,17 +18,22 @@ import {SideBarService} from "./side-bar-service";
 export class DataService {
 
   // Running data
+
   public tickets: Ticket[] = [];
   public ticket: Ticket = new Ticket();
 
   public categoriesDefault: string[] = ["Vertrieb", "Marketing", "Finanzen", "Personalwesen", "Kundendienst", "Forschung und Entwicklung", "Produktion", "Einkauf", "Qualitätskontrolle", "IT (Informationstechnologie)", "Recht", "Logistik", "Geschäftsentwicklung", "Öffentlichkeitsarbeit", "Projektmanagement", "Facility Management", "Compliance", "Risikomanagement", "Humanressourcen", "Beschaffung", "Buchhaltung", "Verwaltung", "Technischer Support", "Design und Kreativität", "Werbung", "Produktmanagement", "Lagerhaltung", "Datenschutz", "Umweltmanagement", "Schulung und Entwicklung", "Unternehmenskommunikation", "Interne Revision", "Geschäftsanalyse", "Gesundheit und Sicherheit", "Vertragsmanagement", "Informationssicherheit", "Softwareentwicklung", "Hardwareentwicklung", "Unternehmensstrategie", "Wissensmanagement", "Verkaufsförderung", "Kundenbeziehungsmanagement", "Produktionsplanung", "Lieferkettenmanagement", "Innovationsmanagement", "Kundenbindung", "Geschäftspartnerschaften", "F & E-Beratung", "Geschäftsprozessoptimierung", "Projektsteuerung und -überwachung"];
   public categories: Category[] = [];
 
+  public users: User[] = [];
+
+  public comments: TicketComment[] = [];
+
   public restService;
   public sideBarService;
 
-  constructor(public http: HttpClient) {
-    this.restService = new RestService(http, this);
+  constructor(public http: HttpClient, private cookieService: CookieService) {
+    this.restService = new RestService(http, this, cookieService);
     this.sideBarService = new SideBarService(this);
   }
 
@@ -41,6 +51,22 @@ export class DataService {
     return window.innerHeight;
   }
 
+  public getAccountId(): number {
+    if (this.cookieService.check('account.id')) {
+      return parseInt(this.cookieService.get('account.id'));
+    } else {
+      return 0;
+    }
+  }
+
+  public getAccountUserId(): number {
+    if (this.cookieService.check('account.userId')) {
+      return parseInt(this.cookieService.get('account.userId'));
+    } else {
+      return 0;
+    }
+  }
+
   public redirect(path: string) {
     window.location.href = path;
   }
@@ -51,6 +77,14 @@ export class DataService {
 
   public getTickets() {
     return this.tickets;
+  }
+
+  public getUsers() {
+    return this.users;
+  }
+
+  public getComments() {
+    return this.comments;
   }
 
   public getTicketStatus(status: number | undefined): string {
@@ -66,5 +100,25 @@ export class DataService {
       default:
         return "Offen";
     }
+  }
+
+  public priorityToString(priority: number | undefined): string {
+    switch (priority) {
+      case -2:
+        return "niedrigste Priorität";
+      case -1:
+        return "niedriger Priorität";
+      case 1:
+        return "höher Priorität";
+      case 2:
+        return "höchste Priorität";
+      default:
+        return "Normal";
+    }
+  }
+
+  public getCommentCountFromTicket(ticketId: number) {
+    this.restService.loadComments();
+    //this.comments.sort(comment => comment.ticketId == ticketId);
   }
 }

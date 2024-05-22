@@ -2,26 +2,30 @@ import { Component } from '@angular/core';
 import {BaseChartDirective} from "ng2-charts";
 import {
   ArcElement,
-  CategoryScale,
   Chart,
   ChartConfiguration,
   Colors,
   DoughnutController,
-  Legend, SubTitle, Title,
+  Legend,
   Tooltip
 } from 'chart.js';
-import {NgForOf} from "@angular/common";
+import {NgForOf, NgIf} from "@angular/common";
 import {DataService} from "../services/data-service";
 import {Ticket} from "../rest-objects/ticket";
 import {Router} from "@angular/router";
+import {NgbDropdownItem} from "@ng-bootstrap/ng-bootstrap";
+import {map, Observable} from "rxjs";
+import {tick} from "@angular/core/testing";
 
 @Component({
   selector: 'app-homepage',
   standalone: true,
-  imports: [
-    BaseChartDirective,
-    NgForOf
-  ],
+    imports: [
+        BaseChartDirective,
+        NgForOf,
+        NgIf,
+        NgbDropdownItem
+    ],
   templateUrl: './homepage.component.html',
   styleUrl: './homepage.component.css'
 })
@@ -29,12 +33,23 @@ import {Router} from "@angular/router";
 export class HomepageComponent {
 // Doughnut
   public tickets: Ticket[] = this.dataService.getTickets();
-  public todayTickets: number = this.getTodayTickets(this.dataService.getTickets()).length;
-  public doughnutChartLabels: string[] = [ "Alle Tickets", "Offene Tickets", "Überfällige Tickets", "Nicht zugewiesen", "Tickets für Heute" ];
-  public doughnutChartDatasets: ChartConfiguration<'doughnut'>['data']['datasets'] = [
-    { data: this.getDataFromBackend(), label: 'Tickets' }
-  ];
-  //selfAssessmentData.datasets[tooltipItem.datasetIndex]
+  public datasetsForChart: number[] = [1,1,1,1]
+  /*public doughnutChartLabels: string[] = [
+    this.getOpenedTickets(this.tickets).length + " Offene Tickets",
+    this.getWorkingTickets(this.tickets).length + " Tickets in Arbeit",
+    this.getFinishedTickets(this.tickets).length + " Abgeschlossene Tickets",
+    this.getOverdueTickets(this.tickets).length + " Überfällige Tickets"
+  ];*/
+
+  // Die scheiße datasets lässt nicht die Werte auslesen, muss ich mal in der html umsetzen.      - Ali
+  /*public doughnutChartDatasets: ChartConfiguration<'doughnut'>['data']['datasets'] = [
+    { data: [
+        2,
+        2,
+        2,
+        2
+      ]}
+  ];*/
   public doughnutChartOptions: ChartConfiguration<'doughnut'>['options'] = {
     responsive: true,
     plugins: {
@@ -42,14 +57,14 @@ export class HomepageComponent {
         enabled: true,
         callbacks: {
           label: function(tooltipItem) {
-            var dataPoint = this.dataPoints[tooltipItem.datasetIndex];
-            var total = dataPoint.dataset.data.reduce(function(previousValue, currentValue, currentIndex, array) {
+            let dataPoint = this.dataPoints[tooltipItem.datasetIndex];
+            let total = dataPoint.dataset.data.reduce(function (previousValue, currentValue, currentIndex, array) {
               return previousValue + currentValue;
             });
-            var currentValue = dataPoint.dataset.data[tooltipItem.dataIndex]; // Use tooltipItem.index here
-            var percentage = Math.floor(((currentValue/total) * 100)+0.5);
+            let currentValue = dataPoint.dataset.data[tooltipItem.dataIndex]; // Use tooltipItem.index here
+            let percentage = Math.floor(((currentValue / total) * 100) + 0.5);
             return percentage + "%";
-          }
+          },
         }
       },
       legend: {
@@ -67,6 +82,7 @@ export class HomepageComponent {
   constructor(public dataService: DataService, private router: Router) {
     dataService.restService.loadTickets();
     Chart.register(DoughnutController, ArcElement, Tooltip, Legend, Colors);
+    //console.log('Account id: ' + this.dataService.getAccountId());
   }
 
   public goToTicket(id: number | undefined) {
@@ -75,42 +91,24 @@ export class HomepageComponent {
     }
   }
 
-  public getDataFromBackend() : number[] {
-    var tickets = this.dataService.getTickets();
-    //return [tickets.length, 0/*tickets.sort(a => a.status = 0).length*/, 0, 0, 0];
-    return [100, 24, 12, 56, 27];
+  public getOpenedTickets(tickets: Ticket[]) {
+    let newTickets = tickets;
+    return newTickets.filter(a => a.status! == 0);
   }
 
-  public getOpenedTickets(): Ticket[] {
-    return this.dataService.getTickets().sort(t => t.status = 0);
+  public getFinishedTickets(tickets: Ticket[]) {
+    let newTickets = tickets;
+    return newTickets.filter(t => t.status! == 2);
   }
 
-  public getForgottenTickets(): Ticket[] {
-    let tickets = this.dataService.getTickets();
-    const forgottenTickets: Ticket[] = [];
-    let month = 1000 * 60 * 60 * 24 * 28;
-    for (let ticket of tickets) {
-      if (ticket.creationDate! - month < Date.now()) {
-        forgottenTickets.push(ticket);
-      }
-    }
-    return forgottenTickets;
+  public getWorkingTickets(tickets: Ticket[]) {
+    let newTickets = tickets;
+    return newTickets.filter(t => t.status! == 1);
   }
 
-  public getTodayTickets(tickets: Ticket[]): Ticket[] {
-    //var todayTickets: List<Ticket> = new List<Ticket>();
-    var todayTickets: Ticket[] = [];
-    let now = new Date(Date.now());
-    for (let ticket of tickets) {
-      let date = new Date(ticket.creationDate!);
-      if (date.getFullYear() == now.getFullYear()
-        && date.getMonth() == now.getMonth()
-        && date.getDay() == now.getDay()) {
-        todayTickets.push(ticket);
-      }
-    }
-    console.log(todayTickets.length);
-    return todayTickets;
+  public getOverdueTickets(tickets: Ticket[]) {
+    let newTickets = tickets;
+    return newTickets.filter(t => t.creationDate! < (Date.now() - 2419200)).sort();
   }
 
 }

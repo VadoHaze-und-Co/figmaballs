@@ -1,0 +1,92 @@
+<div class="grid-container">
+    <div class="grid-item" style="grid-row: span 2;">
+      <img id="image-file" (click)="triggerClick()" src="assets/2606572_5907.svg" for="input-file" class="profilPlaceholder" alt="Profilbild" style="cursor: pointer; width: 10rem; height: 10rem; border-radius: 50%; margin: 0 auto; display: block; margin-top: 20px; margin-bottom: 20px;color: rgba(80,80,0,80)">
+      <input #inputFile type="file" (change)="handleFileInput($event.target)" accept="svgimage/jpeg, image/jpg, image/png, image/svg+xml" id="input-file" style="display: none">
+      <button class="saveBtn" style="margin: 0 auto; display: block;">
+        <img src="assets/floppy-disk.png" (click)="saveUser()" alt="Button Image" style="height: 100%; width: 100%">
+      </button>
+
+    </div>
+    <div class="grid-item">
+        <label class="label" for="benutzername">Benutzername</label>
+        <input type="text" [(ngModel)]="user.userName" id="benutzername" class="input-field"></div>
+    <div class="grid-item">
+        <label class="label" for="vorname">Vorname</label>
+        <input type="text" [(ngModel)]="user.firstName" id="vorname" class="input-field"></div>
+    <div class="grid-item">
+        <label class="label" for="nachname">Nachname</label>
+        <input type="text" [(ngModel)]="user.lastName" id="nachname" class="input-field"></div>
+    <div class="grid-item">
+        <label class="label" for="anschrift">Anschrift</label>
+        <input type="text" [(ngModel)]="user.address" id="anschrift" class="input-field"></div>
+    <div class="grid-item">
+        <label class="label" for="stadt">Stadt</label>
+        <input type="text" [(ngModel)]="user.city" id="stadt" class="input-field"></div>
+    <div class="grid-item">
+        <label class="label" for="plz">Postleitzahl</label>
+        <input type="text" [(ngModel)]="user.postcode" id="plz" class="input-field"></div>
+    <div class="grid-item"></div>
+    <div class="grid-item">
+        <label class="label" for="email">Kontakt E-mail</label>
+        <input type="text" [(ngModel)]="user.emailAddress" id="email" class="input-field"></div>
+    <div class="grid-item">
+        <label class="label" for="qualifikationen">Qualifikationen</label>
+      <div class="row">
+        <div class="col">
+          <div ngbDropdown class="d-inline-block" id="qualifikationen">
+            <button class="dropbtn" id="dropdownQuali" ngbDropdownToggle>Qualifikationen</button>
+            <ul ngbDropdownMenu aria-labelledby="dropdownQuali">
+              <li *ngFor="let qualifikation of qualifikationen" style="margin-left: 5%">
+                <input type="checkbox" id="{{qualifikation}}" name="{{qualifikation}}" value="{{qualifikation}}">
+                <label for="{{qualifikation}}">{{qualifikation}}</label>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+      <!--<div class="dropdown" id="qualifikationen">
+        <button class="dropbtn">Qualifikationen</button>
+        <div class="dropdown-content drop">
+          <ul class="dropdown-menu">
+            <li *ngFor="let qualifikation of qualifikationen">
+              <input type="checkbox" id="{{qualifikation}}" name="{{qualifikation}}" value="{{qualifikation}}">
+              <label for="{{qualifikation}}">{{qualifikation}}</label>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>-->
+    <div class="grid-item">
+      <label class="label" for="isAdmin">Ist ein Admin?</label>
+      <div id="isAdmin" style="margin-top: 1%">
+        <input type="checkbox" id="adminCheckbox">
+        <label for="adminCheckbox"></label>
+      </div>
+    </div>
+  </div>
+  <table class="tabelle">
+    <thead>
+        <tr>
+            <th>Vorname</th>
+            <th>Nachname</th>
+            <th>Anschrift</th>
+            <th>Stadt</th>
+            <th>Postleitzahl</th>
+            <th>Kontakt E-mail</th>
+            <th>Qualifikationen</th>
+            <th>Ist ein Admin?</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let user of users" (click)="selectUser(user)">
+            <td class="zelle">{{user.firstName}}</td>
+            <td class="zelle">{{user.lastName}}</td>
+            <td class="zelle">{{user.address}}</td>
+            <td class="zelle">{{user.city}}</td>
+            <td class="zelle">{{user.postcode}}</td>
+            <td class="zelle">{{user.emailAddress}}</td>
+            <td class="zelle">{{user.admin ? 'Ja' : 'Nein'}}</td>
+        </tr>
+    </tbody>
+</table>
