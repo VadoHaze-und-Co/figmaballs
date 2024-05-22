@@ -9,6 +9,14 @@
   border: none;
 }
 
+.createBtn{
+  background-color: transparent;
+  height: 5rem;
+  width: 5rem;
+  box-shadow: transparent;
+  border: none;
+}
+
 .dropdown {
   position: relative;
   display: inline-block;
