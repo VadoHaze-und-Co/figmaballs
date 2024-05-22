@@ -55,7 +55,7 @@ export class RestService {
 
   public loadUsers() {
     this.httpRequest('http://localhost:8089/users', 'GET', data => {
-      (<User[]>data).forEach(e => this.dataService.users.push(new User(e.id, e.userName, e.firstName, e.lastName, e.emailAddress, e.address, e.postcode, e.city, e.profilpicture, e.qualifikation, e.admin)));
+      (<User[]>data).forEach(e => this.dataService.users.push(new User(e.id, e.userName, e.firstName, e.lastName, e.emailAddress, e.address, e.postcode, e.city, e.profilPicture, e.qualifikation, e.admin)));
     });
   }
 
@@ -102,7 +102,7 @@ export class RestService {
 
   public getUsers() {
     this.httpRequest('http://localhost:8089/users', 'GET', data => {
-      (<User[]>data).forEach(e => this.dataService.users.push(new User(e.id,e.userName, e.firstName, e.lastName, e.emailAddress, e.address, e.postcode, e.city,e.profilpicture,e.qualifikation, e.admin)));
+      (<User[]>data).forEach(e => this.dataService.users.push(new User(e.id,e.userName, e.firstName, e.lastName, e.emailAddress, e.address, e.postcode, e.city,e.profilPicture,e.qualifikation, e.admin)));
     });
   }
 

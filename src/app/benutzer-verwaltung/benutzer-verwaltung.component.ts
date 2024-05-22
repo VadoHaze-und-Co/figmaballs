@@ -62,7 +62,7 @@ export class BenutzerVerwaltungComponent {
     reader.onload = (event: any) => {
       // @ts-ignore
       document.getElementById('image-file').src = event.target.result;
-      this.user.profilpicture = event.target.result;
+      this.user.profilPicture! = event.target.result;
     }
     // @ts-ignore
     reader.readAsDataURL(file);
@@ -91,7 +91,7 @@ export class BenutzerVerwaltungComponent {
   selectUser(user: User) {
     this.user = user;
     // @ts-ignore
-    document.getElementById('image-file').src = user.profilpicture;
+    document.getElementById('image-file').src = this.user.profilPicture!;
     console.log(this.user);
   }
   onCheckboxChange(event: any, qualifikation: string) {

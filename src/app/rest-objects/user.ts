@@ -7,9 +7,9 @@ export class User {
                 public address?: string,
                 public postcode?: string,
                 public city?: string,
-                public profilpicture?: string,
+                public profilPicture?: string,
                 //public bild?: string,
-                public qualifikation?: string[],
+                public qualifikation?: number[],
                 public admin?: boolean) {
     }
 }
