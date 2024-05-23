@@ -1,0 +1,18 @@
+<table style="margin: 1%; width: 100%" class="my-table">
+  <tr style="background-color: #222222">
+    <td style="width: 20%" [style.font-weight]="sortColumn == 0 ? 'bold' : 'normal'" (click)="sort(0)">User</td>
+    <td style="width: 20%" [style.font-weight]="sortColumn == 1 ? 'bold' : 'normal'" (click)="sort(1)">Timestamp</td>
+    <td style="width: 10%" [style.font-weight]="sortColumn == 2 ? 'bold' : 'normal'" (click)="sort(2)">Object</td>
+    <td style="width: 10%" [style.font-weight]="sortColumn == 3 ? 'bold' : 'normal'" (click)="sort(3)">Action</td>
+    <td style="width: 40%" [style.font-weight]="sortColumn == 4 ? 'bold' : 'normal'" (click)="sort(4)">Message</td>
+  </tr>
+  <ng-container *ngFor="let log of logsSorted()">
+    <tr style="color: wheat" class="my-tr">
+      <td>{{log.user}}</td>
+      <td>{{log.time()}}</td>
+      <td>{{log.object}}</td>
+      <td>{{log.action}}</td>
+      <td>{{log.message}}</td>
+    </tr>
+  </ng-container>
+</table>

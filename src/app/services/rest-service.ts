@@ -9,6 +9,7 @@ import {TicketComment} from "../rest-objects/ticket_comment";
 import {User} from "../rest-objects/user";
 import {Account} from "../rest-objects/account";
 import {CookieService} from "ngx-cookie-service";
+import {Log} from "../rest-objects/log";
 
 export class RestService {
 
@@ -170,4 +171,14 @@ export class RestService {
     this.cookieService.delete('account.userId');
   }
 
+  public createLog(log: Log) {
+    this.httpRequest('http://localhost:8089/log', 'POST', data => {
+    }, log);
+  }
+
+  public getLogs(page: number, amount: number, result: Log[]) {
+    this.httpRequest(`http://localhost:8089/log/` + page + "/" + amount, 'GET', data => {
+      (<Log[]>data).forEach(e=> result.push(new Log(e.user, e.object, e.action, e.message, e.timestamp)));
+    });
+  }
 }
