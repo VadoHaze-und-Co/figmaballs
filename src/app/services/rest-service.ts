@@ -7,11 +7,13 @@ import {Append} from "../rest-objects/append";
 import {Login} from "../rest-objects/login";
 import {TicketComment} from "../rest-objects/ticket_comment";
 import {User} from "../rest-objects/user";
+import {Account} from "../rest-objects/account";
+import {CookieService} from "ngx-cookie-service";
 import {Log} from "../rest-objects/log";
 
 export class RestService {
 
-  constructor(private http: HttpClient, public dataService: DataService) {
+  constructor(private http: HttpClient, public dataService: DataService, private cookieService: CookieService) {
     let token = localStorage.getItem("token");
     if (token === null || token == "") {
       return;
@@ -23,17 +25,16 @@ export class RestService {
       .set('Content-Type', 'application/json')
       .set('Type', 'application/octet-stream')
     let option = {body: JSON.stringify(body), headers: headers};
-    console.log(method + " " + url + ": " + JSON.stringify(body));
-    let result = this.http.request(method, url, option)
+    //console.log(method + " " + url + ": " + JSON.stringify(body));
+    return this.http.request(method, url, option)
       .pipe(catchError(error => {
         return EMPTY;
       }));
-    return result;
   }
 
   private async httpRequest(url: string, method: string, func: (data: any) => void, body?: any) {
     this.httpObservable(url, method, body).subscribe(data => {
-      console.log("result: " + JSON.stringify(data));
+      //console.log("result: " + JSON.stringify(data));
       func(data);
     });
   }
@@ -54,7 +55,7 @@ export class RestService {
 
   public loadUsers() {
     this.httpRequest('http://localhost:8089/users', 'GET', data => {
-      (<User[]>data).forEach(e => this.dataService.users.push(new User(e.id, e.userName, e.firstName, e.lastName, e.emailAddress, e.address, e.postcode, e.city, e.admin, e.userGroups, e.comments)));
+      (<User[]>data).forEach(e => this.dataService.users.push(new User(e.id, e.userName, e.firstName, e.lastName, e.emailAddress, e.address, e.postcode, e.city, e.profilPicture, e.qualifikation, e.admin)));
     });
   }
 
@@ -63,12 +64,6 @@ export class RestService {
       (<TicketComment[]>data).forEach(e => this.dataService.comments.push(new TicketComment(e.id, e.ticketId, e.userId, e.comment, e.commentDate, e.edited)));
     });
   }
-
-  /*public loadCommentsByTicketId(ticketId: number) {
-    this.httpRequest(`http://localhost:8089/comments/ticket/${ticketId}`, 'GET', data => {
-      (<TicketComment[]>data).forEach(e => this.dataService.comments.push(new TicketComment(e.id, e.ticketId, e.userId, e.comment, e.commentDate, e.edited)));
-    });
-  }*/
 
   public async loadTicket(id: number): Promise<Ticket> {
     return await firstValueFrom(
@@ -97,6 +92,12 @@ export class RestService {
   public createTicket(ticket: Ticket) {
     this.httpRequest('http://localhost:8089/tickets', 'POST', data => {
     }, ticket);
+  }
+
+  public getUsers() {
+    this.httpRequest('http://localhost:8089/users', 'GET', data => {
+      (<User[]>data).forEach(e => this.dataService.users.push(new User(e.id,e.userName, e.firstName, e.lastName, e.emailAddress, e.address, e.postcode, e.city,e.profilPicture,e.qualifikation, e.admin)));
+    });
   }
 
   public createUser(user: User) {
@@ -134,7 +135,6 @@ export class RestService {
     }));
   }
 
-
   public updateUser(user: User) {
     return firstValueFrom(this.http.put(`http://localhost:8089/users/${user.id}`, user, {
       headers: new HttpHeaders().set('Content-Type', 'application/json')
@@ -151,13 +151,24 @@ export class RestService {
   }
 
   public deleteComment(comment: TicketComment) {
-    this.httpRequest(`http://localhost:8089/comments/${comment.id}`, "DELETE", data => {comment});
+    this.httpRequest(`http://localhost:8089/comments/${comment.id}`, "DELETE", data => {
+      comment
+     }).then(r => r);
   }
 
-  public login(login: Login): boolean {
+  // LOGIN & LOGOUT
+
+  public login(login: Login) {
     this.httpRequest('http://localhost:8089/login', 'POST', data => {
-    }, login);
-    return true;
+      let account = (<Account>data);
+      this.cookieService.set('account.id',`${account.id}`);
+      this.cookieService.set('account.userId',`${account.userId}`);
+    }, login).catch(err => this.cookieService.set('err',err));
+  }
+
+  public logout() {
+    this.cookieService.delete('account.id');
+    this.cookieService.delete('account.userId');
   }
 
   public createLog(log: Log) {

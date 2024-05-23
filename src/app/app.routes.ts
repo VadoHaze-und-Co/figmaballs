@@ -8,7 +8,7 @@ import {TicketlistComponent} from "./ticketlist/ticketlist.component";
 import {LoggingPageComponent} from "./logging-page/logging-page.component";
 
 export const routes: Routes = [
-  { path: '', redirectTo: '/login', pathMatch: 'full'},
+  { path: '', redirectTo: '/homepage', pathMatch: 'full'},
   { path: 'login', component: LoginComponent },
   { path: 'homepage', component: HomepageComponent },
   { path: 'users', component: BenutzerVerwaltungComponent},

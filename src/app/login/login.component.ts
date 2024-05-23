@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import {DataService} from "../services/data-service";
 import {Login} from "../rest-objects/login";
 import {FormsModule} from "@angular/forms";
+import {CookieService} from "ngx-cookie-service";
 
 @Component({
   selector: 'app-login',
@@ -19,7 +20,7 @@ export class LoginComponent {
   username: string = '';
   password: string = '';
 
-  constructor(public dataService: DataService, private http: HttpClient, private router: Router) {
+  constructor(public dataService: DataService, private http: HttpClient, private router: Router, private cookieService: CookieService) {
     this.errorMessage = '';
   }
 
@@ -33,23 +34,7 @@ export class LoginComponent {
       password: this.password
     };
     this.dataService.restService.login(body);
-
-
-
-    /*this.http.post(loginUrl, body).subscribe(
-      (response) => {
-        // Erfolgreiche Antwort vom Server
-        console.log('Erfolgreich eingeloggt:', response);
-        // Hier könntest du eine Weiterleitung oder andere Aktionen durchführen
-        //this.router.navigate(['/homepage']);
-      },
-      (error) => {
-        // Fehler beim Anmelden
-        console.error('Fehler beim Einloggen:', error);
-        // Hier könntest du eine Fehlermeldung für den Benutzer anzeigen
-        this.errorMessage = 'Fehler beim Einloggen: Bitte überprüfen Sie Ihre Anmeldeinformationen und versuchen Sie es erneut.';
-      }
-    );*/
+    this.router.navigateByUrl('/homepage');
   }
 
 }

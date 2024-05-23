@@ -91,7 +91,7 @@ export class TicketDetailComponent {
       const entity: TicketComment = new TicketComment();
       entity.comment = this.commentText;
       entity.ticketId = this.id;
-      entity.userId = 1;
+      entity.userId = this.dataService.getAccountUserId();
       entity.edited = false;
       entity.commentDate = Date.now();
       this.dataService.restService.createComment(entity);
@@ -121,10 +121,14 @@ export class TicketDetailComponent {
     }
   }
 
-  getUser(userId: number): User {
+  getUserFromList(userId: number): User {
     return this.users.find(u => u.id == userId)!;
   }
-  
+
+  getUserFromAccount(userId: number) {
+    this.dataService.restService.loadUser(userId).then((user: User) => {(this.user = user)});
+  }
+
   downloadFile(append: Append) {
     const blob = new Blob([append.content!], { type: 'application/octet-stream' });
     const url = window.URL.createObjectURL(blob);
@@ -193,4 +197,17 @@ export class TicketDetailComponent {
   }
 
   protected readonly User = User;
+  protected readonly Date = Date;
+
+  reopenTicket(id: number | undefined) {
+    if (id) {
+      this.getTicket(id);
+      if (this.ticket != undefined) {
+        this.ticket.status = 1;
+        this.ticket.finishDate = undefined;
+        this.dataService.restService.updateTicket(this.ticket);
+      }
+    }
+    window.location.reload();
+  }
 }
