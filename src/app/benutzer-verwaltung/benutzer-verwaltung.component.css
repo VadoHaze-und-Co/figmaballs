@@ -25,12 +25,22 @@
 .dropdown-content {
   display: none;
   position: absolute;
-  background-color: #f1f1f1;
+  background-color: rgba(80, 80, 80, 0.8);
+  overflow: auto;
+  max-height: 30em;
+  width: 20em;
   min-width: 160px;
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
   z-index: 1;
 }
+.catDpd{
+  background-color: rgb(176, 176, 176);
+  color: rgb(176, 176, 176);
+}
 .dropdown-menu.show {
+background-color: rgba(80, 80, 80, 0.8);
+  overflow: auto;
+  max-height: 30em;
   width: 20em;
 }
 
@@ -50,6 +60,17 @@
 
 .qualifikationen{
   height: 4rem;
+}
+#dropdownQuali{
+  color: rgb(176, 176, 176);
+  background-color: #404040;
+  border-radius: 10px;
+}
+.deleteBtn{
+  position: middle;
+  color: rgb(176, 176, 176);
+  background-color: #404040;
+  border-radius: 10px;
 }
 
 .grid-container {

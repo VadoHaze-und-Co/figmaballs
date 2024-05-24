@@ -31,6 +31,9 @@
   z-index: 1;
 }
 .dropdown-menu.show {
+  background-color: rgba(80, 80, 80, 0.8);
+  overflow: auto;
+  max-height: 30em;
   width: 20em;
 }
 

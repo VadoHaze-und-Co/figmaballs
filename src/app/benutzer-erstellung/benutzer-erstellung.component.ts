@@ -129,9 +129,10 @@ export class BenutzerErstellungComponent {
     if (this.user.qualifikation == undefined) {
       this.user.qualifikation = [];
     }
+    delete this.user.id;
 
     console.log(this.user);
-    //  this.dataService.restService.createUser(this.user);
+      this.dataService.restService.createUser(this.user);
     // @ts-ignore
     // this.dataService.restService.setPassword(this.user.userName, this.password);
   }

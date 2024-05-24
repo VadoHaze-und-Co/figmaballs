@@ -174,6 +174,7 @@ export class RestService {
       let account = (<Account>data);
       this.cookieService.set('account.id',`${account.id}`);
       this.cookieService.set('account.userId',`${account.userId}`);
+
     }, login).catch(err => this.cookieService.set('err',err));
   }
 

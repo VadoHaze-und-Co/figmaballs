@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { User } from '../rest-objects/user';
 import { DataService } from '../services/data-service';
 import {NgbDropdown, NgbDropdownMenu, NgbDropdownToggle} from "@ng-bootstrap/ng-bootstrap";
+import {CookieService} from "ngx-cookie-service";
 
 @Component({
   selector: 'app-benutzer-verwaltung',
@@ -23,13 +24,15 @@ export class BenutzerVerwaltungComponent {
     this.inputFile.nativeElement.click();
   }
 
-  constructor(public dataService: DataService) {
+  constructor(public dataService: DataService,private cookieService: CookieService) {
    dataService.restService.loadUsers();
    dataService.restService.loadCategories();
   }
   ngOnInit() {
+    let currentUser =this.cookieService.get('account.userId');
     //this.createUser();
 }
+
   public user: User = new User();
 
   handleFileInput(files: EventTarget | null) {
