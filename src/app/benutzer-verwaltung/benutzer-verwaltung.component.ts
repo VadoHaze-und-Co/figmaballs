@@ -53,6 +53,7 @@ export class BenutzerVerwaltungComponent {
   }
 
   selectUser(user: User) {
+    console.log(this.dataService.users)
     this.user = user;
     // @ts-ignore
     document.getElementById('image-file').src = this.user.profilPicture!;

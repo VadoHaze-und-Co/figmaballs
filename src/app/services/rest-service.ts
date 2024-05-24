@@ -10,6 +10,7 @@ import {User} from "../rest-objects/user";
 import {Account} from "../rest-objects/account";
 import {CookieService} from "ngx-cookie-service";
 import {Log} from "../rest-objects/log";
+import {Tick} from "chart.js";
 
 export class RestService {
 
@@ -18,6 +19,7 @@ export class RestService {
     if (token === null || token == "") {
       return;
     }
+    this.loadUsers()
   }
 
   private httpObservable(url: string, method: string, body?: any) {
@@ -36,6 +38,29 @@ export class RestService {
     this.httpObservable(url, method, body).subscribe(data => {
       //console.log("result: " + JSON.stringify(data));
       func(data);
+      let object = undefined;
+      if (body instanceof Ticket) {
+        object = "Ticket";
+      } else if (body instanceof User) {
+        object = "User";
+      } else if (body instanceof Account) {
+        object = "Account";
+      } else if (body instanceof TicketComment) {
+        object = "TicketComment";
+      } else if (body instanceof Category) {
+        object = "Category";
+      }
+      let action = undefined;
+      if (method.toUpperCase() == 'POST') {
+        action = "Create";
+      } else if (method.toUpperCase() == 'PATCH' || method.toUpperCase() == 'PUT') {
+        action = "Change";
+      } else if (method.toUpperCase() == 'DELETE') {
+        action = "Delete";
+      }
+      if (action != undefined && object != undefined) {
+        this.createLog(object, action, "data: " + JSON.stringify(data));
+      }
     });
   }
 
@@ -171,9 +196,19 @@ export class RestService {
     this.cookieService.delete('account.userId');
   }
 
-  public createLog(log: Log) {
+  public createNewLog(log: Log) {
     this.httpRequest('http://localhost:8089/log', 'POST', data => {
+      console.log("test: " + log);
     }, log);
+  }
+
+  public createLog(object: string, action: string, message: string) {
+    let name = this.dataService.users.filter(e => e.id! == this.dataService.getAccountUserId());
+    console.log(this.dataService.users)
+    if (name.length == 0) {
+      return;
+    }
+    this.createNewLog(new Log(name[0].userName, object, action, message));
   }
 
   public getLogs(page: number, amount: number, result: Log[]) {
