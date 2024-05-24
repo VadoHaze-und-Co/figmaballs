@@ -100,6 +100,7 @@ export class RestService {
   }
 
   public updateUser(user: User) {
+    console.log(user);
     return firstValueFrom(this.http.put(`http://localhost:8089/users/${user.id}`, user, {
       headers: new HttpHeaders().set('Content-Type', 'application/json')
     }));
@@ -108,6 +109,17 @@ export class RestService {
   public createUser(user: User) {
     this.httpRequest('http://localhost:8089/users', 'POST', data => {
     }, user);
+  }
+
+  public setPassword(benutzername: string, password: string) {
+    this.httpRequest('http://localhost:8089/login/set/password', 'POST', data => {
+    }, {benutzername: benutzername, password: password});
+  }
+
+  public deleteUser(id: number) {
+    this.dataService.users = this.dataService.users.filter(e=>e.id != id);
+    this.httpRequest(`http://localhost:8089/users/${id}`, 'DELETE', data => {
+    });
   }
 
   public createComment(comment: TicketComment) {
@@ -136,12 +148,6 @@ export class RestService {
 
   public updateTicket(ticket: Ticket) {
     return firstValueFrom(this.http.put(`http://localhost:8089/tickets/${ticket.id}`, ticket, {
-      headers: new HttpHeaders().set('Content-Type', 'application/json')
-    }));
-  }
-  
-  public updateUser(user: User) {
-    return firstValueFrom(this.http.put(`http://localhost:8089/users/${user.id}`, user, {
       headers: new HttpHeaders().set('Content-Type', 'application/json')
     }));
   }

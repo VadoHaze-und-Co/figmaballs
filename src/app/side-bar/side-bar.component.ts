@@ -19,7 +19,8 @@ export class SideBarComponent {
       {'Ticket erstellen': {path: 'ticket-create'},
         'Ticketliste': {path: 'tickets'}},
     'Benutzer':
-      {'Benutzerverwaltung': {path: 'users'}}
+      {'Benutzerverwaltung': {path: 'users'},
+      'Benutzererstellung': {path: 'user-create'}},
   };
 
   constructor(public dataService: DataService) {

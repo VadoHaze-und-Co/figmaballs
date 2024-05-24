@@ -39,10 +39,11 @@
           <div ngbDropdown class="d-inline-block" id="qualifikationen">
             <button class="dropbtn" id="dropdownQuali" ngbDropdownToggle>Qualifikationen</button>
             <ul ngbDropdownMenu aria-labelledby="dropdownQuali">
-              <li *ngFor="let qualifikation of qualifikationen" style="margin-left: 5%">
-                <input type="checkbox" id="{{qualifikation}}" name="{{qualifikation}}" value="{{qualifikation}}"
-                       (change)="onCheckboxChange($event, qualifikation)">
-                <label for="{{qualifikation}}">{{qualifikation}}</label>
+              <li *ngFor="let category of categorys" style="margin-left: 5%">
+                <input type="checkbox" id="{{category.name}}" name="{{category.name}}" value="{{category.name}}"
+                       [checked]="category.id !== undefined && user.qualifikation?.includes(category.id)"
+                       (change)="category.id !== undefined && onCheckboxChange($event, category.id)">
+                <label for="{{category.name}}">{{category.name}}</label>
               </li>
             </ul>
           </div>
@@ -64,7 +65,7 @@
       <label class="label" for="isAdmin">Ist ein Admin?</label>
       <div id="isAdmin">
         <input [ngModel]="user.admin" name="admin" type="checkbox" id="adminCheckbox">
-        <label for="adminCheckbox"></label>
+        <label for="adminCheckbox" style="position: relative"></label>
       </div>
     </div>
   </div>
@@ -79,6 +80,7 @@
             <th>Kontakt E-mail</th>
             <th>Qualifikationen</th>
             <th>Ist ein Admin?</th>
+            <th>Löschen?</th>
         </tr>
     </thead>
     <tbody>
@@ -89,8 +91,9 @@
             <td class="zelle">{{user.city}}</td>
             <td class="zelle">{{user.postcode}}</td>
             <td class="zelle">{{user.emailAddress}}</td>
-            <td class="zelle">{{user.qualifikation}}</td>
+            <td class="zelle">{{getQualificationNames(user)}}</td>
             <td class="zelle">{{user.admin ? 'Ja' : 'Nein'}}</td>
+            <td class="zelle"><button (click)="deleteUser(user)">Löschen</button></td>
         </tr>
     </tbody>
 </table>

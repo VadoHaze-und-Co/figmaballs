@@ -13,7 +13,8 @@ import {NgbDropdown, NgbDropdownMenu, NgbDropdownToggle} from "@ng-bootstrap/ng-
   styleUrl: './benutzer-verwaltung.component.css'
 })
 export class BenutzerVerwaltungComponent {
-  public users: User[] = this.dataService.getUsers()
+  public users: User[] = this.dataService.getUsers();
+  public categorys = this.dataService.getFullCategories();
   qualifikationen = ['Qualifikation 1', 'Qualifikation 2', 'Qualifikation 3'];
   @ViewChild('inputFile') inputFile: ElementRef | undefined;
   public selectedQualifikationen = [];
@@ -24,8 +25,8 @@ export class BenutzerVerwaltungComponent {
 
   constructor(public dataService: DataService) {
    dataService.restService.loadUsers();
+   dataService.restService.loadCategories();
   }
-
   ngOnInit() {
     //this.createUser();
 }
@@ -55,24 +56,45 @@ export class BenutzerVerwaltungComponent {
   selectUser(user: User) {
     this.user = user;
     // @ts-ignore
+    this.selectedQualifikationen = this.selectedQualifikationen.concat(this.user.qualifikation);
+    // @ts-ignore
     document.getElementById('image-file').src = this.user.profilPicture!;
+    console.log(this.categorys)
     console.log(this.user);
   }
-  onCheckboxChange(event: any, qualifikation: string) {
+
+  onCheckboxChange(event: any, id: number | undefined) {
+    if (id != null) {
     if (event.target.checked) {
+      console.log(id);
+        this.user.qualifikation?.push(id);
       // @ts-ignore
-      this.selectedQualifikationen.push(qualifikation);
+      this.selectedQualifikationen.push(id);
     } else {
       // @ts-ignore
-      const index = this.selectedQualifikationen.indexOf(qualifikation);
+      const index = this.selectedQualifikationen.indexOf(id);
       if (index !== -1) {
         this.selectedQualifikationen.splice(index, 1);
+        this.user.qualifikation?.splice(index, 1);
       }
     }
-    this.user.qualifikation = this.selectedQualifikationen;
+  //  this.user.qualifikation = this.selectedQualifikationen;
+      console.log(this.user);
+    }
   }
   saveUser() {
     this.dataService.restService.updateUser(this.user);
   }
 
+  getQualificationNames(user: User) {
+    return user.qualifikation?.map((value: number | undefined) => {
+      return this.categorys.find(category => category.id === value)?.name;
+    }).join(', ');
+  }
+
+  deleteUser(user: User) {
+    if (window.confirm('Wollen Sie den Benutzer wirklich löschen?')) {
+    this.dataService.restService.deleteUser(this.user.id!);
+    }
+  }
 }
