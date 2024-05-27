@@ -48,9 +48,16 @@ export class RestService {
   }
 
   public loadTickets() {
-    this.httpRequest('http://localhost:8089/tickets', 'GET', data => {
-    (<Ticket[]>data).forEach(e => this.dataService.tickets.push(new Ticket(e.id, e.title, e.description, e.status, e.priority, e.creationDate, e.finishDate, e.categories)));
-    });
+    let escalation: boolean = this.cookieService.check("auto-escalation");
+    if (escalation) {
+      this.httpRequest('http://localhost:8089/tickets/auto', 'GET', data => {
+        (<Ticket[]>data).forEach(e => this.dataService.tickets.push(new Ticket(e.id, e.title, e.description, e.status, e.priority, e.creationDate, e.finishDate, e.categories)));
+      },true);
+    } else {
+      this.httpRequest('http://localhost:8089/tickets', 'GET', data => {
+        (<Ticket[]>data).forEach(e => this.dataService.tickets.push(new Ticket(e.id, e.title, e.description, e.status, e.priority, e.creationDate, e.finishDate, e.categories)));
+      },true);
+    }
   }
 
   public loadUsers() {

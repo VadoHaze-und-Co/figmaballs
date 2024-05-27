@@ -1,6 +1,12 @@
 
 <div class="container">
   <h1>Support-Ticketliste</h1>
+  <div class="col form-check" style="margin: auto; padding-left: 3%;">
+    <input class="" type="checkbox" id="flexCheckDefault" (click)="setAutoEscalation()" [checked]="this.dataService.getAutoEscalation()">
+    <label class="form-check-label" for="flexCheckDefault">
+      autom. Eskalation
+    </label>
+  </div>
   <table class="table-bordered ticket-list">
     <thead>
     <tr>
@@ -9,7 +15,7 @@
       <th scope="row">Status</th>
       <th scope="row">Priorität</th>
       <th scope="row" style="max-width: 400px">Beschreibung</th>
-      <th scope="row">Anzahl Kommentare</th>
+      <th scope="row">Erstellungsdatum/Enddatum</th>
     </tr>
     </thead>
     <tbody>
@@ -20,7 +26,10 @@
         <td style="text-align: center;">{{ this.dataService.getTicketStatus(this.ticket?.status) }}</td>
         <td style="text-align: center;"><img src="assets/svg/{{this.ticket?.priority!}}.svg"/></td>
         <td>{{ticket.description}}</td>
-        <td></td>
+        <td *ngIf="ticket!.finishDate != 0; else noFinished">{{ ticket.creationDate | date:'dd.MM.yyyy HH:mm:ss' }} / <br>{{ ticket.finishDate | date:'dd.MM.yyyy HH:mm:ss' }}</td>
+        <ng-template #noFinished>
+          <td>{{ ticket.creationDate | date:'dd.MM.yyyy HH:mm:ss' }}</td>
+        </ng-template>
       </tr>
     </ng-container>
     </tbody>

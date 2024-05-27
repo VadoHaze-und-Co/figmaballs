@@ -67,6 +67,19 @@ export class DataService {
     }
   }
 
+  public getAutoEscalation(): boolean {
+    return this.cookieService.check('auto-escalation');
+  }
+
+  public setAutoEscalation(auto: boolean) {
+    if (auto) {
+      this.cookieService.delete('auto-escalation');
+    }
+    else {
+      this.cookieService.set('auto-escalation','true');
+    }
+  }
+
   public redirect(path: string) {
     window.location.href = path;
   }
