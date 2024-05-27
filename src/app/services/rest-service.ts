@@ -165,12 +165,13 @@ export class RestService {
 
   // LOGIN & LOGOUT
 
-  public login(login: Login) {
+  public login(login: Login){
     this.httpRequest('http://localhost:8089/login', 'POST', data => {
       let account = (<Account>data);
       this.cookieService.set('account.id',`${account.id}`);
       this.cookieService.set('account.userId',`${account.userId}`);
-    }, login).catch(err => this.cookieService.set('err',err));
+      this.cookieService.set('isPasswordCorrect',`${account.password}`);
+    }, login);
   }
 
   public logout() {

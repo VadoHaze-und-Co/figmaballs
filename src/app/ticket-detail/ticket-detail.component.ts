@@ -85,6 +85,18 @@ export class TicketDetailComponent {
     }
   }
 
+  setAssigment(ticketId: number | undefined, userId: number) {
+    if (ticketId != undefined) {
+      this.getTicket(ticketId);
+      if (this.ticket != undefined) {
+        this.ticket.assignment = userId!;
+        this.id = this.ticket.id;
+        this.dataService.restService.updateTicket(this.ticket);
+      }
+    }
+    window.location.reload();
+  }
+
   addComment(edit: boolean) {
     if (this.commentText !== undefined) {
       console.log("Comment: " + this.commentText)

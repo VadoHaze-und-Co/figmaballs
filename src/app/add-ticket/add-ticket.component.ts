@@ -72,6 +72,7 @@ export class AddTicketComponent {
     ticket.description = this.description;
     ticket.categories = this.getSelectedCategories();
     ticket.creationDate = Date.now();
+    ticket.assignment = 0;
 
     let appends: Observable<Append>[] = [];
     for (let file of this.files) {

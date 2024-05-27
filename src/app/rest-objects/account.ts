@@ -3,7 +3,8 @@ export class Account {
     public id: number,
     public userId: number,
     public lastLogin: number,
-    public sP: boolean
+    public sP: boolean,
+    public password: boolean
   ) {
 
   }
