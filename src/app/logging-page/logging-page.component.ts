@@ -27,7 +27,7 @@ export class LoggingPageComponent {
   public set page(page: number) {
     this.page_ = page;
     this.logs = [];
-    this.dataService.restService.getLogs(this.page_, 10, this.logs);
+    this.dataService.restService.getLogs(this.page_, 50, this.logs);
   }
 
   public logsSorted() {

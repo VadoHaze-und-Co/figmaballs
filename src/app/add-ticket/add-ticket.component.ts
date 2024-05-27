@@ -7,6 +7,7 @@ import {Ticket} from "../rest-objects/ticket";
 import {tick} from "@angular/core/testing";
 import {Append} from "../rest-objects/append";
 import {forkJoin, Observable} from "rxjs";
+import {Log} from "../rest-objects/log";
 
 @Component({
   selector: 'app-add-ticket',
