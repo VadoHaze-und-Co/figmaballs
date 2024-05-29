@@ -1,3 +1,8 @@
+<div style="margin-left: 20px; user-select: none; margin-top: 10px">
+  <div style="display: inline-block" (click)="rollLeft()" class="button"><</div>
+  {{page + 1}}
+  <div style="display: inline-block" (click)="rollRight()" class="button">></div>
+</div>
 <table style="margin: 1%; width: 100%" class="my-table">
   <tr style="background-color: #222222">
     <td style="width: 20%" [style.font-weight]="sortColumn == 0 ? 'bold' : 'normal'" (click)="sort(0)">User</td>
