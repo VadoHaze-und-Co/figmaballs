@@ -12,6 +12,12 @@ h2 {
   padding-right: 50px;
   max-width: 1500px;
 }
+.btn-option {
+   height: 100%;
+   border-radius: 7px;
+   border: solid 0.5px;
+   background-color: transparent;
+ }
 
 #firstTable, #secondTable {
   align-items: center;
@@ -19,6 +25,12 @@ h2 {
   margin-right: auto;
   border-collapse: separate;
   border-spacing: 20px;
+}
+
+.highlight-ticket {
+  border: solid 1px;
+  margin-top: 1%;
+  margin-bottom: 1%;
 }
 
 .ticket-list {

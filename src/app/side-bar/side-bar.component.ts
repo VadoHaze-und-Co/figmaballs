@@ -31,7 +31,7 @@ export class SideBarComponent {
       },
     'Utils':
       {
-        'Logs': {path: 'logs', admin: false}
+        'Logs': {path: 'logs', admin: true}
       }
   };
 

@@ -31,6 +31,7 @@ export class NavBarComponent {
   }
 
   public logout() {
+    this.dataService.tickets = [];
     this.dataService.restService.logout();
     this.router.navigateByUrl('/login');
   }

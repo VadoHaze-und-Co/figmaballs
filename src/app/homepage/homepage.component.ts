@@ -9,23 +9,25 @@ import {
   Legend,
   Tooltip
 } from 'chart.js';
-import {NgForOf, NgIf} from "@angular/common";
+import {DatePipe, NgForOf, NgIf} from "@angular/common";
 import {DataService} from "../services/data-service";
 import {Ticket} from "../rest-objects/ticket";
 import {Router} from "@angular/router";
-import {NgbDropdownItem} from "@ng-bootstrap/ng-bootstrap";
+import {NgbDropdownItem, NgbDropdownToggle} from "@ng-bootstrap/ng-bootstrap";
 import {map, Observable} from "rxjs";
 import {tick} from "@angular/core/testing";
 
 @Component({
   selector: 'app-homepage',
   standalone: true,
-    imports: [
-        BaseChartDirective,
-        NgForOf,
-        NgIf,
-        NgbDropdownItem
-    ],
+  imports: [
+    BaseChartDirective,
+    NgForOf,
+    NgIf,
+    NgbDropdownItem,
+    DatePipe,
+    NgbDropdownToggle
+  ],
   templateUrl: './homepage.component.html',
   styleUrl: './homepage.component.css'
 })
@@ -91,6 +93,11 @@ export class HomepageComponent {
     }
   }
 
+  public goToTicketList() {
+    this.dataService.tickets = [];
+      this.router.navigateByUrl('/tickets');
+  }
+
   public getOpenedTickets(tickets: Ticket[]) {
     let newTickets = tickets;
     return newTickets.filter(a => a.status! == 0);
@@ -111,4 +118,19 @@ export class HomepageComponent {
     return newTickets.filter(t => t.creationDate! < (Date.now() - 2419200)).sort();
   }
 
+  public getHighlightTickets(tickets: Ticket[]) {
+    let hTickets = tickets;
+    let newTickets: Ticket[] = [];
+    for (let ticket of hTickets) {
+      if (ticket.status == 0 || ticket.status == 1 || ticket.status == 2) {
+        newTickets.push(ticket);
+      }
+    }
+    //newTickets = newTickets.sort((a, b) => b.priority! - a.priority!);
+    newTickets = newTickets.sort((a, b) => a.creationDate! - b.creationDate!);
+    console.log(newTickets);
+    return newTickets;
+  }
+
+  protected readonly Date = Date;
 }

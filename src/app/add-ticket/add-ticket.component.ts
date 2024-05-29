@@ -8,6 +8,7 @@ import {tick} from "@angular/core/testing";
 import {Append} from "../rest-objects/append";
 import {forkJoin, Observable} from "rxjs";
 import {Log} from "../rest-objects/log";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-add-ticket',
@@ -27,7 +28,7 @@ export class AddTicketComponent {
   public categories: {[key: string]: boolean} = {};
   public files: File[] = [];
 
-  constructor(public dataService: DataService) {
+  constructor(public dataService: DataService, private router: Router) {
     dataService.restService.loadCategories();
   }
 
@@ -88,7 +89,7 @@ export class AddTicketComponent {
         this.dataService.restService.createTicket(ticket);
       });
     }
-
+    this.router.navigateByUrl('/tickets');
     // ticket.finishDate = new Date();
   }
 }
