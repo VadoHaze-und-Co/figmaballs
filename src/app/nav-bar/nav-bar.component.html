@@ -5,7 +5,8 @@
 <ng-template #computer>
   <div class="nav-background-computer" [style.height]="dataService.height() * 0.05 - 1 + 'px'">
     <div style="float:left;">
-      <span *ngIf="this.dataService.getAccountId() != 0" class="material-icons mat-icon clickable" [style.font-size]="dataService.height() * 0.05 + 'px'" (click)="dataService.redirect('homepage')">home</span>
+      <img src="assets/FMB-Logo.png" *ngIf="this.dataService.getAccountId() != 0" (click)="dataService.redirect('homepage')" width="45%" height="45%">
+      <!--<span  [style.font-size]="dataService.height() * 0.05 + 'px'" ></span>-->
     </div>
     <div style="float:right;">
       <span class="material-icons mat-icon clickable" *ngIf="this.dataService.getAccountId() != null else loginBtn" [style.font-size]="dataService.height() * 0.05 + 'px'" (click)="logout()">logout</span>

@@ -85,11 +85,11 @@ export class TicketDetailComponent {
     }
   }
 
-  setAssigment(ticketId: number | undefined, userId: number) {
-    if (ticketId != undefined) {
+  setAssigment(ticketId: number | undefined, userId: number | undefined) {
+    if (ticketId != undefined && userId != undefined) {
       this.getTicket(ticketId);
       if (this.ticket != undefined) {
-        this.ticket.assignment = userId!;
+        this.ticket.assignment = userId;
         this.id = this.ticket.id;
         this.dataService.restService.updateTicket(this.ticket);
       }
@@ -135,6 +135,10 @@ export class TicketDetailComponent {
 
   getUserFromList(userId: number): User {
     return this.users.find(u => u.id == userId)!;
+  }
+
+  getAssignment(userId: number | undefined): User | undefined {
+    return this.users.find(u => u.id == userId);
   }
 
   getUserFromAccount(userId: number) {
