@@ -33,7 +33,7 @@ export class LoginComponent {
       username: this.username,
       password: this.password
     };
-    this.dataService.restService.login(body);
+    let response = this.dataService.restService.login(body);
     this.router.navigateByUrl('/homepage');
   }
 

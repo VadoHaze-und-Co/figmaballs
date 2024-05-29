@@ -6,6 +6,7 @@ import {LoginComponent} from "./login/login.component";
 import {BenutzerVerwaltungComponent} from "./benutzer-verwaltung/benutzer-verwaltung.component";
 import {TicketlistComponent} from "./ticketlist/ticketlist.component";
 import {BenutzerErstellungComponent} from "./benutzer-erstellung/benutzer-erstellung.component";
+import {LoggingPageComponent} from "./logging-page/logging-page.component";
 
 export const routes: Routes = [
   { path: '', redirectTo: '/homepage', pathMatch: 'full'},
@@ -15,5 +16,6 @@ export const routes: Routes = [
   { path: 'user-create', component: BenutzerErstellungComponent},
   { path: 'tickets', component: TicketlistComponent},
   { path: 'ticket/:id', component: TicketDetailComponent},
-  { path: 'ticket-create', component: AddTicketComponent }
+  { path: 'ticket-create', component: AddTicketComponent },
+  { path: 'logs', component: LoggingPageComponent }
 ];

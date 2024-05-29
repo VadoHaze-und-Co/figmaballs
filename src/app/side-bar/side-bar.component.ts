@@ -20,11 +20,19 @@ export class SideBarComponent {
 
   public groups: {[key: string]: {[name: string]: {path: string, admin: boolean}}} = {
     'Ticket':
-      {'Ticket erstellen': {path: 'ticket-create', admin: false},
-        'Ticketliste': {path: 'tickets', admin: false}},
+      {
+        'Ticket erstellen': {path: 'ticket-create', admin: false},
+        'Ticketliste': {path: 'tickets', admin: false}
+      },
     'Benutzer':
-      {'Benutzerverwaltung': {path: 'users', admin: false},
-      'Benutzererstellung': {path: 'user-create', admin: true}},
+      {
+        'Benutzerverwaltung': {path: 'users', admin: false},
+        'Benutzererstellung': {path: 'user-create', admin: true}
+      },
+    'Utils':
+      {
+        'Logs': {path: 'logs', admin: false}
+      }
   };
 
   public allowedGroups: string[] = [];

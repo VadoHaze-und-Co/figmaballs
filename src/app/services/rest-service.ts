@@ -9,6 +9,8 @@ import {TicketComment} from "../rest-objects/ticket_comment";
 import {User} from "../rest-objects/user";
 import {Account} from "../rest-objects/account";
 import {CookieService} from "ngx-cookie-service";
+import {Log} from "../rest-objects/log";
+import {Tick} from "chart.js";
 
 export class RestService {
 
@@ -17,6 +19,7 @@ export class RestService {
     if (token === null || token == "") {
       return;
     }
+    this.loadUsers()
   }
 
   private httpObservable(url: string, method: string, body?: any) {
@@ -35,6 +38,29 @@ export class RestService {
     this.httpObservable(url, method, body).subscribe(data => {
       //console.log("result: " + JSON.stringify(data));
       func(data);
+      let object = undefined;
+      if (body instanceof Ticket) {
+        object = "Ticket";
+      } else if (body instanceof User) {
+        object = "User";
+      } else if (body instanceof Account) {
+        object = "Account";
+      } else if (body instanceof TicketComment) {
+        object = "TicketComment";
+      } else if (body instanceof Category) {
+        object = "Category";
+      }
+      let action = undefined;
+      if (method.toUpperCase() == 'POST') {
+        action = "Create";
+      } else if (method.toUpperCase() == 'PATCH' || method.toUpperCase() == 'PUT') {
+        action = "Change";
+      } else if (method.toUpperCase() == 'DELETE') {
+        action = "Delete";
+      }
+      if (action != undefined && object != undefined) {
+        this.createLog(object, action, "data: " + JSON.stringify(data));
+      }
     });
   }
 
@@ -47,9 +73,16 @@ export class RestService {
   }
 
   public loadTickets() {
-    this.httpRequest('http://localhost:8089/tickets', 'GET', data => {
-    (<Ticket[]>data).forEach(e => this.dataService.tickets.push(new Ticket(e.id, e.title, e.description, e.status, e.priority, e.creationDate, e.finishDate, e.categories)));
-    });
+    let escalation: boolean = this.cookieService.check("auto-escalation");
+    if (escalation) {
+      this.httpRequest('http://localhost:8089/tickets/auto', 'GET', data => {
+        (<Ticket[]>data).forEach(e => this.dataService.tickets.push(new Ticket(e.id, e.title, e.description, e.status, e.priority, e.creationDate, e.finishDate, e.categories)));
+      },true);
+    } else {
+      this.httpRequest('http://localhost:8089/tickets', 'GET', data => {
+        (<Ticket[]>data).forEach(e => this.dataService.tickets.push(new Ticket(e.id, e.title, e.description, e.status, e.priority, e.creationDate, e.finishDate, e.categories)));
+      },true);
+    }
   }
 
   public loadUsers() {
@@ -113,7 +146,6 @@ export class RestService {
       headers: new HttpHeaders().set('Content-Type', 'application/json')
     }));
   }
-
   public createUser(user: User) {
     this.httpRequest('http://localhost:8089/users', 'POST', data => {
     }, user);
@@ -177,13 +209,13 @@ export class RestService {
 
   // LOGIN & LOGOUT
 
-  public login(login: Login) {
+  public login(login: Login){
     this.httpRequest('http://localhost:8089/login', 'POST', data => {
       let account = (<Account>data);
       this.cookieService.set('account.id',`${account.id}`);
       this.cookieService.set('account.userId',`${account.userId}`);
-
-    }, login).catch(err => this.cookieService.set('err',err));
+      this.cookieService.set('isPasswordCorrect',`${account.password}`);
+    }, login);
   }
 
   public logout() {
@@ -191,4 +223,30 @@ export class RestService {
     this.cookieService.delete('account.userId');
   }
 
+  public createNewLog(log: Log) {
+    this.httpRequest('http://localhost:8089/log', 'POST', data => {
+      console.log("test: " + log);
+    }, log);
+  }
+
+  public createLog(object: string, action: string, message: string) {
+    let name = this.dataService.users.filter(e => e.id! == this.dataService.getAccountUserId());
+    console.log(this.dataService.users)
+    if (name.length == 0) {
+      return;
+    }
+    this.createNewLog(new Log(name[0].userName, object, action, message));
+  }
+
+  public getLogs(page: number, amount: number, result: Log[]) {
+    this.httpRequest(`http://localhost:8089/log/` + page + "/" + amount, 'GET', data => {
+      (<Log[]>data).forEach(e=> result.push(new Log(e.user, e.object, e.action, e.message, e.timestamp)));
+    });
+  }
+
+  public getLogSize(func: (size: number) => void) {
+    this.httpRequest(`http://localhost:8089/log/size`, 'GET', data => {
+      func(data);
+    });
+  }
 }

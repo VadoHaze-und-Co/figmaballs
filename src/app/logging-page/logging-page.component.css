@@ -1,0 +1,7 @@
+.my-tr {
+  background-color: #353535;
+}
+
+.my-tr:nth-child(odd) {
+  background-color: #282828;
+}

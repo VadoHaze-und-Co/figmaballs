@@ -85,13 +85,25 @@ export class TicketDetailComponent {
     }
   }
 
+  setAssigment(ticketId: number | undefined, userId: number) {
+    if (ticketId != undefined) {
+      this.getTicket(ticketId);
+      if (this.ticket != undefined) {
+        this.ticket.assignment = userId!;
+        this.id = this.ticket.id;
+        this.dataService.restService.updateTicket(this.ticket);
+      }
+    }
+    window.location.reload();
+  }
+
   addComment(edit: boolean) {
     if (this.commentText !== undefined) {
       console.log("Comment: " + this.commentText)
       const entity: TicketComment = new TicketComment();
       entity.comment = this.commentText;
       entity.ticketId = this.id;
-      entity.userId = 1;
+      entity.userId = this.dataService.getAccountUserId();
       entity.edited = false;
       entity.commentDate = Date.now();
       this.dataService.restService.createComment(entity);
@@ -121,8 +133,12 @@ export class TicketDetailComponent {
     }
   }
 
-  getUser(userId: number): User {
+  getUserFromList(userId: number): User {
     return this.users.find(u => u.id == userId)!;
+  }
+
+  getUserFromAccount(userId: number) {
+    this.dataService.restService.loadUser(userId).then((user: User) => {(this.user = user)});
   }
 
   downloadFile(append: Append) {
