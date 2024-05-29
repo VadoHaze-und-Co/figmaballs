@@ -224,4 +224,10 @@ export class RestService {
       (<Log[]>data).forEach(e=> result.push(new Log(e.user, e.object, e.action, e.message, e.timestamp)));
     });
   }
+
+  public getLogSize(func: (size: number) => void) {
+    this.httpRequest(`http://localhost:8089/log/size`, 'GET', data => {
+      func(data);
+    });
+  }
 }

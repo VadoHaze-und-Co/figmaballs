@@ -19,6 +19,7 @@ export class LoggingPageComponent {
   public page_: number = 0;
 
   public sortColumn = 1;
+  public amount = 50;
 
   constructor(public dataService: DataService) {
     this.page = 0;
@@ -27,7 +28,22 @@ export class LoggingPageComponent {
   public set page(page: number) {
     this.page_ = page;
     this.logs = [];
-    this.dataService.restService.getLogs(this.page_, 50, this.logs);
+    this.dataService.restService.getLogs(this.page_, this.amount, this.logs);
+  }
+
+  public rollLeft() {
+    if (this.page == 0) {
+      return;
+    }
+    this.page = this.page - 1;
+  }
+
+  public rollRight() {
+    this.dataService.restService.getLogSize(size => {
+      if ((this.page + 1) * this.amount < size) {
+        this.page = this.page + 1;
+      }
+    })
   }
 
   public logsSorted() {
