@@ -19,7 +19,7 @@ export class LoggingPageComponent {
   public page_: number = 0;
 
   public sortColumn = 1;
-  public amount = 3;
+  public amount = 50;
 
   constructor(public dataService: DataService) {
     this.page = 0;
