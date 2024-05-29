@@ -1,4 +1,4 @@
-import { NgForOf } from '@angular/common';
+import {NgForOf, NgIf} from '@angular/common';
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { User } from '../rest-objects/user';
@@ -9,7 +9,7 @@ import {CookieService} from "ngx-cookie-service";
 @Component({
   selector: 'app-benutzer-verwaltung',
   standalone: true,
-  imports: [FormsModule, NgForOf, NgbDropdownMenu, NgbDropdown, NgbDropdownToggle],
+  imports: [FormsModule, NgForOf, NgbDropdownMenu, NgbDropdown, NgbDropdownToggle, NgIf],
   templateUrl: './benutzer-verwaltung.component.html',
   styleUrl: './benutzer-verwaltung.component.css'
 })
@@ -29,11 +29,12 @@ export class BenutzerVerwaltungComponent {
    dataService.restService.loadCategories();
   }
   ngOnInit() {
-    let currentUser =this.cookieService.get('account.userId');
+    this.dataService.restService.loadUser(this.dataService.getAccountUserId()).then((value) => {this.user = value});
     //this.createUser();
 }
 
   public user: User = new User();
+  protected password: string = '';
 
   handleFileInput(files: EventTarget | null) {
     debugger
@@ -85,8 +86,55 @@ export class BenutzerVerwaltungComponent {
       console.log(this.user);
     }
   }
+  validateUser(user: any, password: string) {
+    const requiredFields = ['userName', 'firstName', 'lastName', 'address', 'city', 'postcode', 'emailAddress'];
+    const fieldNames = {
+      'userName': 'Benutzername',
+      'firstName': 'Vorname',
+      'lastName': 'Nachname',
+      'address': 'Anschrift',
+      'city': 'Stadt',
+      'postcode': 'Postleitzahl',
+      'emailAddress': 'E-Mail-Adresse'
+    };
+
+    for (let field of requiredFields) {
+      if (!user[field]) {
+        // @ts-ignore
+        alert(`Das Feld ${fieldNames[field]} ist leer. Bitte füllen Sie es aus.`);
+        return false;
+      }
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(user.emailAddress)) {
+      alert('Die E-Mail-Adresse ist ungültig. Bitte geben Sie eine gültige E-Mail-Adresse ein.');
+      return false;
+    }
+
+    const postcodeRegex = /^\d{5}$/;
+    if (!postcodeRegex.test(user.postcode)) {
+      alert('Die Postleitzahl muss 5 Zahlen enthalten. Bitte geben Sie eine gültige Postleitzahl ein.');
+      return false;
+    }
+    const passwordRegex = /^(?=.*[A-Z]).{4,}$/;
+    if (!passwordRegex.test(password)&& password.length > 0) {
+      alert('Das Passwort muss mindestens 4 Zeichen lang sein und mindestens einen Großbuchstaben enthalten. Bitte geben Sie ein gültiges Passwort ein.');
+      return false;
+    }
+
+    return true;
+  }
+
   saveUser() {
+    if (!this.validateUser(this.user, this.password)) {
+      return;
+    }
     this.dataService.restService.updateUser(this.user);
+      if (this.password.length > 0) {
+      // @ts-ignore
+      this.dataService.restService.setPassword(this.user.userName, this.password);
+    }
   }
 
   getQualificationNames(user: User) {

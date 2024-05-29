@@ -99,6 +99,14 @@ export class RestService {
     });
   }
 
+  public async getUsersSync() {
+    let users: User[] = [];
+    await this.httpRequest('http://localhost:8089/users', 'GET', data => {
+      (<User[]>data).forEach(e => users.push(new User(e.id,e.userName, e.firstName, e.lastName, e.emailAddress, e.address, e.postcode, e.city,e.profilPicture,e.qualifikation, e.admin)));
+    });
+    return users;
+  }
+
   public updateUser(user: User) {
     console.log(user);
     return firstValueFrom(this.http.put(`http://localhost:8089/users/${user.id}`, user, {

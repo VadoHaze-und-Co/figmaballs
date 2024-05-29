@@ -25,7 +25,10 @@
     <div class="grid-item">
         <label class="label" for="plz">Postleitzahl</label>
         <input type="text" [(ngModel)]="user.postcode" id="plz" class="input-field"></div>
-    <div class="grid-item"></div>
+    <div class="grid-item">
+        <label class="label" for="password">Passwort</label>
+        <input type="password" [(ngModel)]="password" id="password" class="input-field">
+    </div>
     <div class="grid-item">
         <label class="label" for="email">Kontakt E-mail</label>
         <input type="text" [(ngModel)]="user.emailAddress" id="email" class="input-field"></div>
@@ -66,7 +69,7 @@
       </div>
     </div>
   </div>
-  <table class="tabelle">
+  <table class="tabelle" *ngIf="user.admin">
     <thead>
         <tr>
             <th>Vorname</th>

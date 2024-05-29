@@ -37,6 +37,15 @@
   width: 20em;
 }
 
+.qualifikationen{
+  height: 4rem;
+}
+#dropdownQuali{
+  color: rgb(176, 176, 176);
+  background-color: #404040;
+  border-radius: 10px;
+}
+
 .dropdown-content ul {
   list-style-type: none;
   padding: 0;

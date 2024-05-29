@@ -29,7 +29,8 @@ export class BenutzerErstellungComponent {
     this.inputFile.nativeElement.click();
   }
 
-  constructor(public dataService: DataService) {
+
+  constructor(public dataService: DataService){
     dataService.restService.loadCategories();
   }
   ngOnInit() {
@@ -134,6 +135,6 @@ export class BenutzerErstellungComponent {
     console.log(this.user);
       this.dataService.restService.createUser(this.user);
     // @ts-ignore
-    // this.dataService.restService.setPassword(this.user.userName, this.password);
+     this.dataService.restService.setPassword(this.user.userName, this.password);
   }
 }
