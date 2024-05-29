@@ -88,6 +88,10 @@ export class DataService {
     return this.categories.map(e => e.name!).sort();
   }
 
+  public getFullCategories() {
+    return this.categories;
+  }
+
   public getTickets() {
     return this.tickets;
   }
