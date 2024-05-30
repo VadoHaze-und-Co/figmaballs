@@ -10,7 +10,6 @@ import {User} from "../rest-objects/user";
 import {Account} from "../rest-objects/account";
 import {CookieService} from "ngx-cookie-service";
 import {Log} from "../rest-objects/log";
-import {Tick} from "chart.js";
 
 export class RestService {
 
@@ -124,20 +123,6 @@ export class RestService {
   public createTicket(ticket: Ticket) {
     this.httpRequest('http://localhost:8089/tickets', 'POST', data => {
     }, ticket);
-  }
-
-  public getUsers() {
-    this.httpRequest('http://localhost:8089/users', 'GET', data => {
-      (<User[]>data).forEach(e => this.dataService.users.push(new User(e.id,e.userName, e.firstName, e.lastName, e.emailAddress, e.address, e.postcode, e.city,e.profilPicture,e.qualifikation, e.admin)));
-    });
-  }
-
-  public async getUsersSync() {
-    let users: User[] = [];
-    await this.httpRequest('http://localhost:8089/users', 'GET', data => {
-      (<User[]>data).forEach(e => users.push(new User(e.id,e.userName, e.firstName, e.lastName, e.emailAddress, e.address, e.postcode, e.city,e.profilPicture,e.qualifikation, e.admin)));
-    });
-    return users;
   }
 
   public updateUser(user: User) {

@@ -18,6 +18,8 @@ import {group} from "@angular/animations";
 })
 export class SideBarComponent {
 
+  private users: User[] = this.dataService.getUsers();
+
   public groups: {[key: string]: {[name: string]: {path: string, admin: boolean}}} = {
     'Ticket':
       {
@@ -46,8 +48,8 @@ export class SideBarComponent {
   }
 
   public async load(map: {[key: string]: any}) {
-    let users = await this.dataService.restService.getUsersSync();
-    let user = users.filter(e => e.id == this.dataService.getAccountId())[0];
+    this.dataService.restService.loadUsers();
+    let user = this.users.filter(e => e.id == this.dataService.getAccountId())[0];
     for (let group in map) {
       if (!map[group].admin || (map[group].admin && user.admin)) {
         this.allowedGroups.push(group);
